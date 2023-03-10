@@ -1,58 +1,79 @@
 .output-wrapper {
-    padding: 2rem;
-    background-color: rgba(255, 255, 255, 0.65);
-    box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-    margin: 2rem 0;
-    border-radius: 0.5rem;
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    h2 {
-        // align-self: flex-end;
-        // padding: 0 2rem;
-    }
-    .output {
-        padding: 0.5rem;
-        background-color: white;
-        box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-        align-items: center;
-        height: 90px;
-        border-radius: 100vw;
-        justify-content: space-between;
-        transition: all 500ms ease;
-        justify-content: center;
-        width: var(--pageWidth);
-        max-width: var(--pageWidth);
-        justify-content: space-between;
-        transition: all 500ms ease;
-        &:before {
-            content: "[";
-            font-size: 2.5rem;
-            padding: 1rem;
-            margin: 0.5rem 0.5rem;
-        }
-        &:after {
-            content: "]";
-            font-size: 2.5rem;
-            padding: 1rem;
-            margin: 0.5rem 0.5rem;
-        }
-        .output-item {
-            flex: 1;
-            height: 100%;
-            font-size: 2.5rem;
-            padding: 1rem;
-            cursor: pointer;
-            margin: 0.5rem 0.5rem;
-            display: grid;
-            place-content: center;
-            transform-origin: center;
-            overflow: hidden;
-            border-radius: 0.25rem;
+    transition: all 500ms ease-in;
+    justify-content: center;
 
-            &:hover {
-                transform: scale(1.15);
-                // background: white;
+    .output-lens {
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.65);
+        box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+        // transform: translateY(calc(-100% - 2rem));
+        transition: all 500ms ease-in;
+        .output-header {
+            font-size: 1.25rem;
+        }
+        .output {
+            padding: 0.5rem;
+            background-color: white;
+            box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+            align-items: center;
+            height: 90px;
+            border-radius: 100vw;
+            justify-content: center;
+            transition: all 500ms ease;
+            justify-content: center;
+            // width: var(--pageWidth);
+            // max-width: var(--pageWidth);
+            transition: all 500ms ease;
+            position: relative;
+            overflow: hidden;
+            &:before {
+                position: absolute;
+                left: 0;
+                content: "[";
+                opacity: var(--brackets);
+                font-size: 2.5rem;
+                padding: 1rem;
+                margin: 0.5rem 0.5rem;
+            }
+            &:after {
+                position: absolute;
+                right: 0;
+                content: "]";
+                opacity: var(--brackets);
+                font-size: 2.5rem;
+                padding: 1rem;
+                margin: 0.5rem 0.5rem;
+            }
+
+            .output-item {
+                flex: 1;
+                height: 100%;
+                font-size: 2.5rem;
+                padding: 1rem;
+                cursor: pointer;
+                margin: 0.5rem 0.5rem;
+                display: grid;
+                place-content: center;
+                transform-origin: center;
+                overflow: hidden;
+                border-radius: 0.25rem;
+
+                &:hover {
+                    transform: scale(1.15);
+                    // background: white;
+                }
+            }
+            .output-clone {
+                opacity: 0;
+                position: absolute;
             }
         }
     }
@@ -60,21 +81,34 @@
 
 @keyframes addOutputItem {
     0% {
+        opacity: 0;
         flex: 0;
         font-size: 0;
-        margin: 0;
+        padding: 0;
+        transform: translateX(var(--output-offset));
     }
-
     50% {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     75% {
-        font-size: 1.75rem;
+        font-size: 2.25rem;
     }
     100% {
+        opacity: 1;
         flex: 1;
-        // opacity: 1;
         font-size: 2.5rem;
-        margin: 0 0.5rem;
+        transform: translateX(0);
+        padding: 1rem;
+    }
+}
+
+@keyframes outputClone {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(var(--clone-offset));
     }
 }

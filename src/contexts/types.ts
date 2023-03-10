@@ -2,9 +2,13 @@ import { Emoji } from "../utils/getEmoji";
 
 export type Action =
     | { type: "Initialise" }
+    | { type: "Change Theme"; theme: "Fruit" | "Veggies" }
     | { type: "Set Method"; method: MethodName }
+    | { type: "Replace Item"; index: number; replacement: Emoji }
+    | { type: "Method Done" }
     | { type: "Items Added" }
     | { type: "Items Removed" }
+    | { type: "Items Replaced" }
     | {
           type: "Select Items";
           start?: number | null;
@@ -27,10 +31,18 @@ export type Action =
           items: Emoji[];
       }
     | { type: "Reverse" }
-    | { type: "Fill" };
+    | { type: "Fill"; item: Emoji }
+    | { type: "Slice" }
+    | { type: "CopyWithin" }
+    | { type: "Splice"; item1?: Emoji; item2?: Emoji }
+    | { type: "Includes"; item: Emoji }
+    | { type: "At" }
+    | { type: "IndexOf"; item: Emoji }
+    | { type: "LastIndexOf"; item: Emoji };
 
 export interface BasketState {
     loading: boolean;
+    theme: "Fruit" | "Veggies";
     method: MethodName;
     basket: Emoji[];
     selection: {
@@ -42,8 +54,11 @@ export interface BasketState {
     };
     selectedItems: number[];
     targetedItems: number[];
+    spliceItems: Emoji[];
+    spliceTrigger: boolean;
     itemsToAdd: number[];
     itemsToRemove: number[];
+    itemsToReplace: { index: number; replacement: Emoji }[];
     allBaskets: Emoji[][];
     output: number | Emoji | Emoji[] | undefined;
 }

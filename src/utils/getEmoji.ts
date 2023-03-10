@@ -1,7 +1,7 @@
-type EmojiGetter = (amount: number, theme?: "fruit" | "veggies") => Emoji[];
-type SingleEmojiGetter = (theme?: "fruit" | "veggies") => Emoji;
+type EmojiGetter = (amount: number, theme?: "Fruit" | "Veggies") => Emoji[];
+type SingleEmojiGetter = (theme?: "Fruit" | "Veggies") => Emoji;
 
-export const randomEmojis: EmojiGetter = (amount, theme = "fruit") => {
+export const randomEmojis: EmojiGetter = (amount, theme = "Fruit") => {
     const emojis = [];
     for (const emoji of new Array(amount)) {
         let chosenTheme: Emoji[] = themes[theme];
@@ -12,7 +12,7 @@ export const randomEmojis: EmojiGetter = (amount, theme = "fruit") => {
     return emojis;
 };
 
-export const randomEmoji: SingleEmojiGetter = (theme = "fruit") => {
+export const randomEmoji: SingleEmojiGetter = (theme = "Fruit") => {
     let emoji = { title: "", emoji: "" };
     let chosenTheme: Emoji[] = themes[theme];
     let r = Math.floor(Math.random() * chosenTheme.length);
@@ -29,8 +29,8 @@ export class Emoji {
     }
 }
 
-const themes: { fruit: Emoji[]; veggies: Emoji[] } = {
-    fruit: [
+const themes: { Fruit: Emoji[]; Veggies: Emoji[] } = {
+    Fruit: [
         {
             title: "Grapes",
             emoji: "🍇",
@@ -100,7 +100,7 @@ const themes: { fruit: Emoji[]; veggies: Emoji[] } = {
             emoji: "🥥",
         },
     ],
-    veggies: [
+    Veggies: [
         {
             title: "Eggplant",
             emoji: "🍆",

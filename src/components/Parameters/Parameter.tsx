@@ -6,6 +6,7 @@ interface Props {
     index: number;
     name: string;
     type: "Emoji Picker" | "Number" | "Hidden";
+    defaultValue?: number;
     hide?: boolean;
     required?: boolean;
     min?: number;
@@ -17,10 +18,12 @@ interface Props {
     ) => void;
     updateActive: (index: number, open: boolean) => void;
     activeParameters: boolean[];
+    theme: "Fruit" | "Veggies";
 }
 
 const Parameter: React.FC<Props> = ({
     currentMethod,
+    defaultValue,
     index,
     name,
     type,
@@ -31,6 +34,7 @@ const Parameter: React.FC<Props> = ({
     updateValue,
     updateActive,
     activeParameters,
+    theme,
 }): JSX.Element => {
     const [open, setOpen] = useState<boolean>(!hide);
     const [value, setValue] = useState<Emoji | number | null>(null);
@@ -46,9 +50,6 @@ const Parameter: React.FC<Props> = ({
             return;
         }
 
-        if (index === 1) {
-            console.log(1, hide);
-        }
         if (required || !hide) {
             setOpen(true);
             return;
@@ -58,50 +59,48 @@ const Parameter: React.FC<Props> = ({
             setOpen(false);
             setValue(null);
         }
-    }, [hide, required, type]);
+    }, [hide, required, type, name]);
 
-    useEffect(() => {
-        //Set values when close/open
-        if (open) {
-            if (type === "Emoji Picker") {
-                if (typeof value === "number" || value === null) {
-                    const newValue = randomEmoji();
-                    setValue(newValue);
+    useEffect(
+        () => {
+            //Set values when close/open
+            if (open) {
+                if (type === "Emoji Picker") {
+                    if (typeof value === "number" || value === null) {
+                        const newValue = randomEmoji(theme);
+                        setValue(newValue);
+                    }
+                } else if (type === "Number") {
+                    setValue(0);
                 }
-            } else if (type === "Number") {
+            } else if (!open) {
                 setValue(null);
             }
-        } else if (!open) {
-            setValue(null);
-        }
 
-        if (index !== 0) {
-            if (!activeParameters[index - 1]) {
-                console.log(
-                    index,
-                    "CLOSING because",
-                    activeParameters[index - 1],
-                    "is closed"
-                );
-                setOpen(false);
-                setForceClose(true);
-            } else {
-                if (!hide) {
-                    setOpen(true);
+            if (index !== 0) {
+                if (!activeParameters[index - 1]) {
+                    setOpen(false);
+                    setForceClose(true);
+                } else {
+                    if (!hide) {
+                        setOpen(true);
+                    }
+                    setForceClose(false);
                 }
+            } else {
                 setForceClose(false);
             }
-        } else {
-            setForceClose(false);
-        }
 
-        updateActive(index, open);
-    }, [open, activeParameters[index - 1]]);
+            updateActive(index, open);
+        },
+        [open, activeParameters[index - 1]],
+        type
+    );
 
     useEffect(() => {
         //Send values to appropriate places
         updateValue(index, name, value);
-    }, [value]);
+    }, [value, currentMethod]);
 
     return (
         <div
@@ -190,7 +189,7 @@ const Parameter: React.FC<Props> = ({
 
                     <p
                         className="parameter-emoji"
-                        onClick={() => setValue(randomEmoji())}
+                        onClick={() => setValue(randomEmoji(theme))}
                     >
                         {value &&
                             typeof value !== "number" &&

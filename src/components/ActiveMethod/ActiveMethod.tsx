@@ -15,6 +15,7 @@ import {
 } from "react-icons/go";
 
 import "./activemethod.scss";
+import Basket from "../Basket/Basket";
 
 interface Props {}
 
@@ -137,6 +138,8 @@ const ActiveMethods: React.FC<Props> = () => {
                 {
                     name: "start",
                     type: "Number",
+                    required: true,
+                    defaultValue: 0,
                     hide: false,
                     min: 0 - state.basket.length,
                     max: state.basket.length - 1,
@@ -144,9 +147,8 @@ const ActiveMethods: React.FC<Props> = () => {
                 {
                     name: "deleteCount",
                     type: "Number",
-                    hide: false,
+                    hide: true,
                     min: 0,
-                    max: state.basket.length - 1,
                 },
                 { name: "item1", hide: true, type: "Emoji Picker" },
                 {
@@ -280,7 +282,6 @@ const ActiveMethods: React.FC<Props> = () => {
                     method.title === "Fill" ||
                     method.title === "Slice" ||
                     method.title === "Includes" ||
-                    method.title === "LastIndexOf" ||
                     method.title === "IndexOf"
                 ) {
                     dispatch({
@@ -298,6 +299,24 @@ const ActiveMethods: React.FC<Props> = () => {
                         end: state.basket.length,
                         target: 0,
                         amount: null,
+                        index: null,
+                    });
+                } else if (method.title === "Splice") {
+                    dispatch({
+                        type: "Select Items",
+                        start: 0,
+                        end: null,
+                        target: null,
+                        amount: null,
+                        index: null,
+                    });
+                } else if (method.title === "LastIndexOf") {
+                    dispatch({
+                        type: "Select Items",
+                        start: 0,
+                        end: null,
+                        target: null,
+                        amount: state.basket.length,
                         index: null,
                     });
                 } else {
@@ -320,8 +339,8 @@ const ActiveMethods: React.FC<Props> = () => {
 
     return (
         <section className="active-method">
-            {/* <section className="dropdown-methods">
-                <div>
+            {/* <section className="dropdown-methods"> */}
+            {/* <div>
                     {methods.map(({ title }) => (
                         <button>{title}</button>
                     ))}
@@ -385,7 +404,12 @@ const ActiveMethods: React.FC<Props> = () => {
                     }
                 >
                     <span className="method-icon" />
-                    <h2 className="method-name">
+                    <h2
+                        className="method-name"
+                        style={
+                            state.loading ? { opacity: 0.25 } : { opacity: 1 }
+                        }
+                    >
                         basket.
                         {currentMethod.title.substring(0, 1).toLowerCase()}
                         {currentMethod.title.slice(1)}(
@@ -415,7 +439,26 @@ const ActiveMethods: React.FC<Props> = () => {
                             }
                         }}
                     >
-                        <IconRun size="32px" />
+                        <div
+                            style={
+                                state.loading
+                                    ? { opacity: "0" }
+                                    : { opacity: "1" }
+                            }
+                        >
+                            <IconRun size="32px" />
+                        </div>
+                        {/* <span
+                            style={
+                                state.loading
+                                    ? {
+                                          opacity: "1",
+                                          animation:
+                                              "runMethod 500ms ease alternate infinite",
+                                      }
+                                    : { opacity: "0" }
+                            }
+                        /> */}
                     </button>
                 </div>
             </div>

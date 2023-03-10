@@ -23,12 +23,16 @@ const audioPops = [
     audioPop06,
 ];
 
-interface Props {}
+interface Props {
+    duration: number;
+}
 
-const Basket: React.FC<Props> = () => {
+const Basket: React.FC<Props> = ({ duration }) => {
     const { state, dispatch } = useContext(BasketContext);
     const basketRef = useRef<HTMLUListElement | null>(null);
-    const [duration, setDuration] = useState<number>(250);
+
+    //Animation speeds 100, 250, 500
+    //Turtle, Normal, Rabbit
     const [animationOffset, setAnimationOffset] = useState<string>("0");
     const [allBaskets, setAllBaskets] = useState<Emoji[][]>([
         [...state.basket],
@@ -40,19 +44,43 @@ const Basket: React.FC<Props> = () => {
         if (state === "Zero") {
             item.style.animation = "";
             item.style.fontSize = "0";
-            item.style.padding = "0";
+            // item.style.padding = "0";
             item.style.flex = "0";
             item.style.opacity = "0";
+            item.style.margin = "0";
         } else if (state === "Normalize") {
             item.style.animation = "";
             item.style.fontSize = "2.5rem";
-            item.style.padding = "1rem";
+            // item.style.padding = "1rem";
             item.style.flex = "1";
             item.style.opacity = "1";
         }
     }
 
-    function playSound() {
+    function normalizeAll(animation?: boolean) {
+        if (!basketRef.current) {
+            return;
+        }
+        const children = basketRef.current.children.length;
+        [...new Array(children)].forEach((_, index) => {
+            if (basketRef.current) {
+                const child = basketRef.current.children[index] as HTMLElement;
+                if (!animation) {
+                    itemState(child, "Normalize");
+                } else {
+                    setAnimationOffset("0");
+                    child.style.animation = `addItem ${duration}ms ease-out`;
+                    child.addEventListener("animationend", end);
+                    function end() {
+                        itemState(child, "Normalize");
+                        child.removeEventListener("animationend", end);
+                    }
+                }
+            }
+        });
+    }
+
+    function playPopSound() {
         const pop = new Audio(
             audioPops[Math.floor(Math.random() * audioPops.length)]
         );
@@ -61,158 +89,257 @@ const Basket: React.FC<Props> = () => {
     }
 
     useEffect(() => {
-        if (!state.itemsToAdd || !basketRef.current || !state.loading) {
+        //Sees when items need to be added to the basket. And animates them appropriately.
+        if (
+            !state.itemsToAdd ||
+            !basketRef.current ||
+            !state.loading ||
+            state.itemsToRemove.length !== 0
+        ) {
             return;
         }
-        setAnimationOffset("0");
+        if (state.method === "Splice" && !state.spliceTrigger) {
+            return;
+        }
 
-        let accumulator = 0;
+        const noItems = state.itemsToAdd.length === state.basket.length;
 
-        if (state.method === "Push") {
-            setAnimationOffset("2rem");
+        // Normalize original items
+
+        if (
+            (!noItems && state.method === "Splice") ||
+            state.method === "Unshift"
+        ) {
+            let count = 0;
             for (const index of state.itemsToAdd) {
-                console.log(index);
-                const child = basketRef.current.children[index] as HTMLElement;
-                child.addEventListener("animationend", end);
-                child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
-                accumulator += duration;
-
-                function end() {
-                    itemState(child, "Normalize");
-                    playSound();
-                    if (
-                        index === state.itemsToAdd[state.itemsToAdd.length - 1]
-                    ) {
-                        dispatch({ type: "Items Added" });
-                    }
-                    child.removeEventListener("animationend", end);
+                if (index === basketRef.current.children.length - 1 - count) {
+                    continue;
                 }
-            }
-        } else if (state.method === "Unshift") {
-            setAnimationOffset("-2rem");
-
-            // Normalize original items
-            for (const index of state.itemsToAdd) {
                 const child = basketRef.current.children[
-                    basketRef.current.children.length - 1 - index
+                    basketRef.current.children.length - 1 - count
                 ] as HTMLElement;
                 itemState(child, "Normalize");
-            }
-
-            //Zero and animate new items
-            for (const index of state.itemsToAdd) {
-                const child = basketRef.current.children[index] as HTMLElement;
-                itemState(child, "Zero");
-                child.classList.add("basket-item-add");
-                child.addEventListener("animationend", end);
-                child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
-                accumulator += duration;
-                function end() {
-                    itemState(child, "Normalize");
-                    playSound();
-                    if (
-                        index === state.itemsToAdd[state.itemsToAdd.length - 1]
-                    ) {
-                        dispatch({ type: "Items Added" });
-                    }
-                    child.removeEventListener("animationend", end);
-                }
+                count++;
             }
         }
-    }, [state.itemsToAdd]);
+
+        function animationOffset() {
+            if (state.method === "Push") {
+                setAnimationOffset("1rem");
+            } else if (state.method === "Unshift") {
+                setAnimationOffset("-1rem");
+            }
+        }
+        setAnimationOffset("0");
+        let accumulator = 0;
+
+        for (const index of state.itemsToAdd) {
+            const child = basketRef.current.children[index] as HTMLElement;
+            if (!child) {
+                return;
+            }
+            child.style.flex = "0";
+            itemState(child, "Zero");
+
+            if (accumulator === 0) {
+                if (noItems) {
+                    console.log("NO ITEMS");
+                    setAnimationOffset("0");
+                    setTimeout(() => {
+                        animationOffset();
+                    }, duration);
+                } else {
+                    animationOffset();
+                }
+            }
+
+            child.addEventListener("animationend", end);
+            if (state.method !== "Splice") {
+                child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
+                accumulator += duration;
+            } else {
+                child.style.animation = `spliceItemAdd ${duration * 2}ms ease`;
+            }
+
+            function end() {
+                itemState(child, "Normalize");
+                playPopSound();
+                if (index === state.itemsToAdd[state.itemsToAdd.length - 1]) {
+                    dispatch({ type: "Items Added" });
+                }
+                child.removeEventListener("animationend", end);
+            }
+        }
+    }, [state.itemsToAdd, state.spliceTrigger]);
 
     useEffect(() => {
+        if (!state.itemsToReplace || !basketRef.current || !state.loading) {
+            return;
+        }
+        let accumulator = 0;
+        let fillDuration = duration / 2;
+        let count = 0;
+        for (const { index, replacement } of state.itemsToReplace) {
+            setTimeout(() => {
+                dispatch({ type: "Replace Item", index, replacement });
+                playPopSound();
+                count++;
+                if (count === state.itemsToReplace.length) {
+                    dispatch({ type: "Items Replaced" });
+                }
+            }, accumulator);
+            accumulator += fillDuration;
+        }
+    }, [state.itemsToReplace]);
+
+    useEffect(() => {
+        //Sees when items need to be removed from array, and animates them appropriately.
         if (!state.itemsToRemove || !basketRef.current || !state.loading) {
             return;
         }
         let accumulator = 0;
+        let count = 0;
         for (const index of state.itemsToRemove) {
             const child = basketRef.current.children[index] as HTMLElement;
+            if (!child) {
+                return;
+            }
+            itemState(child, "Normalize");
             child.addEventListener("animationend", end);
-            itemState(child, "Zero");
-            child.style.animation = `removeItem ${duration}ms ease-out ${accumulator}ms`;
 
-            accumulator += duration;
+            if (state.method === "Splice") {
+                child.style.animation = `spliceItemRemove ${
+                    duration * 2
+                }ms ease`;
+            } else {
+                child.style.animation = `removeItem ${duration}ms ease-out ${accumulator}ms`;
+            }
+
+            // accumulator += duration;
             function end() {
-                playSound();
-
-                if (accumulator === state.itemsToRemove.length * duration) {
+                itemState(child, "Zero");
+                playPopSound();
+                count++;
+                if (count === state.itemsToRemove.length) {
                     dispatch({ type: "Items Removed" });
                 }
+
                 child.removeEventListener("animationend", end);
             }
         }
     }, [state.itemsToRemove]);
 
     useEffect(() => {
-        if (!basketRef.current) {
-            return;
+        console.log("LOADING:", state.loading);
+        if (!state.loading && state.itemsToReplace.length === 0) {
+            const baskets = [...allBaskets];
+            baskets[currentIndex] = [...state.basket];
+            setAllBaskets(baskets);
+            normalizeAll();
         }
-        if (!state.loading) {
-            const children = basketRef.current.children.length;
-            [...new Array(children)].forEach((_, index) => {
-                if (basketRef.current) {
-                    const child = basketRef.current.children[
-                        index
-                    ] as HTMLElement;
-                    itemState(child, "Normalize");
-                }
-            });
+
+        if (
+            state.loading &&
+            (state.method === "Includes" ||
+                state.method === "At" ||
+                state.method === "IndexOf" ||
+                state.method === "LastIndexOf")
+        ) {
+            dispatch({ type: "Method Done" });
         }
     }, [state.loading]);
 
     useEffect(() => {
-        if (!basketRef.current) {
-            return;
+        if (!state.loading) {
+            normalizeAll(true);
         }
-        if (state.itemsToAdd.length === 0) {
-            setAnimationOffset("0");
-        }
-
-        const children = basketRef.current.children.length;
-        [...new Array(children)].forEach((_, index) => {
-            if (basketRef.current) {
-                const child = basketRef.current.children[index] as HTMLElement;
-                child.style.animation = `addItem ${duration}ms ease-out`;
-                child.addEventListener("animationend", end);
-                function end() {
-                    itemState(child, "Normalize");
-                    child.removeEventListener("animationend", end);
-                }
-            }
-        });
     }, [currentIndex]);
 
     return (
         <section className="basket-wrapper">
             <div className="basket-header">
-                <h2>const basket =</h2>
+                <p>const basket =</p>
                 <div className="basket-picker">
                     {allBaskets.map((basket, index) => (
                         <button
                             style={
                                 currentIndex === index
                                     ? {
-                                          backgroundColor: "var(--blue)",
+                                          //   backgroundColor: "var(--blue)",
                                           color: "white",
                                           fontWeight: 600,
+                                          //   outline: "2px solid var(--blue)",
                                       }
-                                    : {}
+                                    : { background: "none" }
                             }
-                            onClick={() => {
-                                dispatch({
-                                    type: "Change Basket",
-                                    newBasket: allBaskets[index],
-                                });
-                                setCurrentIndex(index);
-                            }}
+                            onClick={
+                                !state.loading
+                                    ? () => {
+                                          if (!basketRef.current) {
+                                              return;
+                                          }
+                                          const children =
+                                              basketRef.current.children.length;
+                                          [...new Array(children)].forEach(
+                                              (_, index) => {
+                                                  if (basketRef.current) {
+                                                      const child = basketRef
+                                                          .current.children[
+                                                          index
+                                                      ] as HTMLElement;
+                                                      setAnimationOffset("0");
+                                                      child.style.animation = `removeItem ${duration}ms ease-out`;
+                                                      child.addEventListener(
+                                                          "animationend",
+                                                          end
+                                                      );
+                                                      function end() {
+                                                          if (
+                                                              !basketRef.current
+                                                          ) {
+                                                              return;
+                                                          }
+                                                          if (
+                                                              child ===
+                                                              basketRef.current
+                                                                  .children[
+                                                                  basketRef
+                                                                      .current
+                                                                      .children
+                                                                      .length -
+                                                                      1
+                                                              ]
+                                                          ) {
+                                                              dispatch({
+                                                                  type: "Change Basket",
+                                                                  newBasket:
+                                                                      allBaskets[
+                                                                          index
+                                                                      ],
+                                                              });
+                                                              setCurrentIndex(
+                                                                  index
+                                                              );
+                                                          }
+                                                          child.removeEventListener(
+                                                              "animationend",
+                                                              end
+                                                          );
+                                                      }
+                                                  }
+                                              }
+                                          );
+                                      }
+                                    : undefined
+                            }
                         >
-                            {basket.length}
+                            🧺
                         </button>
                     ))}
                     <button
+                        style={{ padding: "0" }}
                         onClick={
-                            allBaskets.length < 11
+                            !state.loading && allBaskets.length < 11
                                 ? () => {
                                       setAllBaskets((prev) => [...prev, []]);
                                       dispatch({
@@ -229,19 +356,27 @@ const Basket: React.FC<Props> = () => {
                 </div>
             </div>
             <ul className="basket" ref={basketRef}>
+                {state.basket.length === 0 && <li></li>}
                 {state.basket.map((item, index) => (
                     <li className="basket-item">
                         {item.emoji}
 
-                        {state.selectedItems.includes(index) && (
-                            <span className="basket-item-selected" />
-                        )}
-                        {state.targetedItems.includes(index) && (
+                        {!state.loading && (
                             <>
-                                <span className="basket-item-selected basket-item-selected-red" />{" "}
-                                <div className="basket-item-target">
-                                    <IconTarget color="red" size="6rem" />
-                                </div>
+                                {state.selectedItems.includes(index) && (
+                                    <span className="basket-item-selected" />
+                                )}
+                                {state.targetedItems.includes(index) && (
+                                    <>
+                                        <span className="basket-item-selected basket-item-selected-red" />{" "}
+                                        <div className="basket-item-target">
+                                            <IconTarget
+                                                color="red"
+                                                size="6rem"
+                                            />
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </li>

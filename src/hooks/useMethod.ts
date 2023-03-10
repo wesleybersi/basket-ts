@@ -13,6 +13,7 @@ const useMethod: MethodHook = (method, parameterValues) => {
 
     useEffect(() => {
         if (!method || !trigger || state.loading) {
+            setTrigger(false);
             return;
         }
 
@@ -31,22 +32,78 @@ const useMethod: MethodHook = (method, parameterValues) => {
 
         switch (method) {
             case "Pop":
+                if (state.basket.length === 0) {
+                    break;
+                }
                 dispatch({ type: method });
                 break;
             case "Shift":
+                if (state.basket.length === 0) {
+                    break;
+                }
                 dispatch({ type: method });
                 break;
             case "Push":
+                if (state.basket.length + emojis.length > 20) {
+                    alert("Max limit: 20");
+                    break;
+                }
                 dispatch({
                     type: method,
                     items: [...emojis],
                 });
                 break;
             case "Unshift":
+                if (state.basket.length + emojis.length > 20) {
+                    alert("Max limit: 20");
+                    break;
+                }
                 dispatch({ type: method, items: [...emojis] });
                 break;
+
             case "Reverse":
+                if (state.basket.length === 0) {
+                    break;
+                }
                 dispatch({ type: method });
+                break;
+            case "Fill":
+                dispatch({
+                    type: method,
+                    item: emojis[0],
+                });
+                break;
+            case "Splice":
+                if (state.basket.length + emojis.length > 20) {
+                    alert("Max limit: 20");
+                    break;
+                }
+                dispatch({
+                    type: method,
+                    item1: emojis[0] ?? undefined,
+                    item2: emojis[1] ?? undefined,
+                });
+                break;
+            case "Slice":
+            case "At":
+            case "CopyWithin":
+                dispatch({
+                    type: method,
+                });
+                break;
+            case "Includes":
+                dispatch({
+                    type: method,
+                    item: emojis[0],
+                });
+                break;
+
+            case "IndexOf":
+            case "LastIndexOf":
+                dispatch({
+                    type: method,
+                    item: emojis[0],
+                });
                 break;
             default:
                 return;

@@ -13,8 +13,9 @@ export const BasketContext = createContext<IBasketContext>(
 
 const initialState: BasketState = {
     loading: false,
+    theme: "Fruit",
     method: "Push",
-    basket: randomEmojis(4),
+    basket: [],
     selection: {
         start: null,
         end: null,
@@ -24,23 +25,49 @@ const initialState: BasketState = {
     },
     selectedItems: [],
     targetedItems: [],
+    spliceItems: [],
+    spliceTrigger: false,
     itemsToAdd: [],
     itemsToRemove: [],
+    itemsToReplace: [],
     allBaskets: [],
     output: [],
 };
 
 const gridReducer = (state: BasketState, action: Action): BasketState => {
     const basket = state.basket;
+    const emojis = basket.map((item) => item.emoji);
     switch (action.type) {
         case "Initialise":
             return { ...state, allBaskets: [basket] };
+        case "Change Theme":
+            return { ...state, theme: action.theme };
         case "Set Method":
-            return { ...state, method: action.method };
+            //Initial selections etc...
+
+            return { ...state, method: action.method, output: undefined };
+        case "Method Done":
+            return { ...state, loading: false };
         case "Change Basket":
+            const updateSelection = state.selectedItems.filter(
+                (_, index) => index < action.newBasket.length
+            );
+            const updateTargets = state.targetedItems.filter(
+                (_, index) => index < action.newBasket.length
+            );
             return {
                 ...state,
                 basket: action.newBasket,
+                output: undefined,
+                selectedItems: updateSelection,
+                targetedItems: updateTargets,
+                selection: {
+                    start: null,
+                    end: null,
+                    index: null,
+                    amount: null,
+                    target: null,
+                },
             };
         case "Select Items":
             const children = basket.length;
@@ -120,20 +147,19 @@ const gridReducer = (state: BasketState, action: Action): BasketState => {
                                     if (i >= start && i < start + amount) {
                                         targetedItems.push(i);
                                     }
+                                } else {
+                                    if (i >= 0 && i <= amount) {
+                                        selectedItems.push(i);
+                                    }
                                 }
                             }
                         } else if (end !== null) {
-                            if (i >= start && i <= end) {
+                            if (i >= start && i < end) {
                                 selectedItems.push(i);
                             }
                         }
                     }
 
-                    if (state.method === "LastIndexOf" && amount !== null) {
-                        if (i >= 0 && i < 0 + amount) {
-                            selectedItems.push(i);
-                        }
-                    }
                     if (end !== null && start === null) {
                         start = null;
                         end = null;
@@ -155,20 +181,49 @@ const gridReducer = (state: BasketState, action: Action): BasketState => {
                 selectedItems,
                 targetedItems,
             };
+        case "Replace Item":
+            const newBasket = [...basket];
+            newBasket[action.index] = action.replacement;
+            return {
+                ...state,
+                basket: newBasket,
+            };
         case "Items Added":
             return {
                 ...state,
                 loading: false,
                 itemsToAdd: [],
+                spliceItems: [],
+                spliceTrigger: false,
             };
-        case "Items Removed":
+        case "Items Replaced":
             return {
                 ...state,
                 loading: false,
-                basket: basket.filter(
-                    (_, index) => !state.itemsToRemove.includes(index)
-                ),
+                itemsToReplace: [],
+            };
+        case "Items Removed":
+            const spliceAdd =
+                state.method === "Splice" && state.itemsToAdd.length > 0;
+
+            let updatedBasket = basket.filter(
+                (_, index) => !state.itemsToRemove.includes(index)
+            );
+
+            if (spliceAdd) {
+                updatedBasket.splice(
+                    state.itemsToAdd[0],
+                    0,
+                    ...state.spliceItems
+                );
+            }
+
+            return {
+                ...state,
+                basket: updatedBasket,
+                loading: spliceAdd ? true : false,
                 itemsToRemove: [],
+                spliceTrigger: spliceAdd ? true : false,
             };
         case "Pop":
             return {
@@ -216,12 +271,138 @@ const gridReducer = (state: BasketState, action: Action): BasketState => {
             const reversed = [...basket].reverse();
             return {
                 ...state,
-                basket: reversed,
-                output: [...basket].reverse(),
+                loading: true,
+                itemsToReplace: reversed.map((item, index) => {
+                    return { index, replacement: item };
+                }),
+                output: reversed,
             };
         case "Fill":
+            const itemsToReplace: { index: number; replacement: Emoji }[] =
+                state.selectedItems.map((index) => {
+                    return { index, replacement: action.item };
+                });
             return {
                 ...state,
+                loading: itemsToReplace.length > 0 ? true : false,
+                itemsToReplace,
+                output: [...basket].fill(
+                    action.item,
+                    state.selection.start ?? undefined,
+                    state.selection.end ?? undefined
+                ),
+            };
+        case "Slice":
+            return {
+                ...state,
+                loading: true,
+                output: [...basket].slice(
+                    state.selection.start ?? undefined,
+                    state.selection.end ?? undefined
+                ),
+            };
+        case "CopyWithin":
+            const pasteTarget = state.selection.target ?? 0;
+            const copiedItems = state.basket.filter(
+                (_, index) =>
+                    state.selectedItems.includes(index) &&
+                    index < state.basket.length + pasteTarget
+            );
+            const replacements = copiedItems.map((item, index) => {
+                return { index: index + pasteTarget, replacement: item };
+            });
+            console.log(replacements);
+            return {
+                ...state,
+                itemsToReplace: replacements,
+                loading: true,
+            };
+        case "Splice":
+            const itemsToAdd = [];
+            const spliceItems = [];
+            let output: Emoji[] = [];
+            const spliceStart = state.selection.start ?? 0;
+            const spliceAmount = state.selection.amount ?? 0;
+
+            output = [...basket].splice(spliceStart);
+
+            if (state.selection.amount) {
+                output = [...basket].splice(spliceStart, spliceAmount);
+            }
+
+            if (action.item1) {
+                output = [...basket].splice(
+                    spliceStart,
+                    spliceAmount,
+                    action.item1
+                );
+                spliceItems.push(action.item1);
+                itemsToAdd.push(spliceStart);
+                if (action.item2) {
+                    output = [...basket].splice(
+                        spliceStart,
+                        spliceAmount,
+                        action.item1,
+                        action.item2
+                    );
+                    itemsToAdd.push(spliceStart + 1);
+                    spliceItems.push(action.item2);
+                }
+            }
+            console.log(output);
+
+            return {
+                ...state,
+                itemsToRemove: state.targetedItems,
+                itemsToAdd,
+                spliceItems,
+                loading: true,
+                output,
+            };
+        case "Includes":
+            const filtered = basket.filter(
+                ({ title, emoji }, index) =>
+                    emoji === action.item.emoji &&
+                    state.selectedItems.includes(index)
+            );
+
+            let isIncluded = filtered.length > 0;
+            let includesOutput: Emoji = isIncluded
+                ? new Emoji("True", "✅")
+                : new Emoji("False", "❌");
+
+            console.log(isIncluded);
+
+            return {
+                ...state,
+                loading: true,
+                output: includesOutput,
+            };
+        case "At":
+            if (state.selection.index) {
+                return {
+                    ...state,
+                    loading: true,
+                    output: basket[state.selection.index],
+                };
+            } else {
+                return state;
+            }
+        case "IndexOf":
+            const from = state.selection.start ?? 0;
+
+            return {
+                ...state,
+                loading: true,
+                output: emojis.indexOf(action.item.emoji, from),
+            };
+        case "LastIndexOf":
+            const fromIndex = state.selection.amount ?? basket.length - 1;
+
+            return {
+                ...state,
+                loading: true,
+                output: emojis.lastIndexOf(action.item.emoji, fromIndex),
             };
         default:
             return state;

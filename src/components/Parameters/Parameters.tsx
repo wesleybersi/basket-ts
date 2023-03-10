@@ -7,6 +7,7 @@ import { Emoji } from "../../utils/getEmoji";
 export interface IParameter {
     name: string;
     type: "Emoji Picker" | "Number";
+    defaultValue?: number;
     required?: boolean;
     hide?: boolean;
     min?: number;
@@ -50,13 +51,8 @@ const Parameters: React.FC<Props> = ({
         name: string,
         value: Emoji | number | null
     ) {
-        if (index === 0) {
-            console.log(value);
-        }
-
-        const newValues = [...parameterValues];
-        newValues[index] = value;
-        setParameterValues(newValues);
+        parameterValues[index] = value;
+        setParameterValues([...parameterValues]);
 
         if (typeof value === "number" || value === null) {
             if (name === "index") {
@@ -78,6 +74,26 @@ const Parameters: React.FC<Props> = ({
         }
     }
 
+    useEffect(() => {
+        // console.log(parameterValues);
+    }, [parameterValues]);
+
+    useEffect(() => {
+        parameterValues.forEach((value, index) => {
+            let name = "";
+            if (index === 0) {
+                name = parameter1?.name ?? "";
+            } else if (index === 1) {
+                name = parameter2?.name ?? "";
+            } else if (index === 2) {
+                name = parameter3?.name ?? "";
+            } else if (index === 3) {
+                name = parameter4?.name ?? "";
+            }
+            updateValue(index, name, value);
+        });
+    }, [state.basket.length]);
+
     function updateActive(index: number, open: boolean) {
         if (index === 0) {
             setActive1(open);
@@ -93,9 +109,9 @@ const Parameters: React.FC<Props> = ({
         }
     }
 
-    useEffect(() => {
-        console.log(activeParameters);
-    }, [JSON.stringify(activeParameters)]);
+    // useEffect(() => {
+    //     console.log(activeParameters);
+    // }, [JSON.stringify(activeParameters)]);
 
     useEffect(() => {
         setActiveParameters([active1, active2, active3, active4]);
@@ -110,6 +126,7 @@ const Parameters: React.FC<Props> = ({
                         index={index}
                         name={param ? param.name : ""}
                         type={param ? param.type : "Hidden"}
+                        defaultValue={param?.defaultValue}
                         hide={param?.hide}
                         required={param?.required}
                         min={param?.min}
@@ -117,6 +134,7 @@ const Parameters: React.FC<Props> = ({
                         updateValue={updateValue}
                         updateActive={updateActive}
                         activeParameters={activeParameters}
+                        theme={state.theme}
                     />
                 )
             )}

@@ -8,9 +8,13 @@
     box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
     padding: 2rem;
     border-radius: 0.5rem;
+    max-width: calc(var(--pageWidth) + 4rem);
     .basket-header {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
+        font-size: 1.25rem;
+
         // padding: 0 2rem;
 
         .basket-picker {
@@ -19,23 +23,24 @@
             gap: 0.5rem;
             button {
                 border: none;
-                box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-                background-color: white;
+                // box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+                // background-color: white;
                 border-radius: 50%;
-                width: 1.5rem;
+                width: 2.5rem;
                 aspect-ratio: 1;
-                font-size: 1rem;
+                font-size: 2rem;
                 position: relative;
                 padding: 0;
                 display: grid;
                 place-content: center;
+                padding-top: 4px;
             }
         }
     }
 
     .basket {
         --animation-offset: 0;
-        padding: 0.5rem;
+        padding: 0 2rem;
         // border: 2px solid var(--light);
         background-color: white;
         box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
@@ -44,25 +49,22 @@
         border-radius: 100vw;
         width: var(--pageWidth);
         max-width: var(--pageWidth);
-        justify-content: space-between;
+        justify-content: center;
         transition: all 500ms ease;
-        // overflow: hidden;
+        overflow: hidden;
         position: relative;
-        .basket-arrow {
-            display: none;
-            position: absolute;
-            bottom: -80%;
-            right: 3rem;
-            color: rgb(238, 80, 80);
-            filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.15));
-        }
         &:before {
+            position: absolute;
+            left: 0;
             content: "[";
             font-size: 2.5rem;
             padding: 0.5rem;
             margin: 0.5rem 0.5rem;
         }
         &:after {
+            flex: 1;
+            position: absolute;
+            right: 0;
             content: "]";
             font-size: 2.5rem;
             padding: 0.5rem;
@@ -73,9 +75,10 @@
             flex: 0;
             height: 100%;
             font-size: 0;
-            padding: 0;
+            // padding: 0;
             cursor: pointer;
             // margin: 0.5rem 0.5rem;
+
             display: grid;
             place-content: center;
             transform-origin: center;
@@ -84,7 +87,8 @@
             position: relative;
             z-index: 1;
             .basket-item-selected {
-                box-shadow: 0 0 8px 2px #82dfdf44;
+                display: none;
+                // box-shadow: 0 0 8px 2px #82dfdf44;
                 transition: 200ms ease all;
                 z-index: -1;
                 position: absolute;
@@ -93,7 +97,7 @@
                 transform: translate(-50%, -50%);
                 height: 80%;
                 border-radius: 0.25rem;
-                background-color: #82dfdf55;
+                background-color: #74d3e355;
                 content: "";
                 width: calc(80%);
                 // opacity: 0.25;
@@ -104,6 +108,7 @@
                 box-shadow: 0 0 8px 2px #df828244;
             }
             .basket-item-target {
+                display: none;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -115,7 +120,7 @@
 
             &:hover {
                 transform: scale(1.15);
-                // background: white;
+                // transform: rotateY(180deg);
             }
         }
     }
@@ -134,7 +139,6 @@
         opacity: 0;
         flex: 0;
         font-size: 0;
-        padding: 0;
         transform: translateX(var(--animation-offset));
     }
     50% {
@@ -148,23 +152,73 @@
         flex: 1;
         font-size: 2.5rem;
         transform: translateX(0);
-        padding: 1rem;
+    }
+}
+
+@keyframes replaceItem {
+    from {
+        transform: rotateY(0deg) scaleX(-1);
+    }
+    to {
+        transform: rotateY(180deg) scaleX(-1);
     }
 }
 
 @keyframes removeItem {
     0% {
-        padding: 1rem;
         font-size: 2.5rem;
         flex: 1;
         opacity: 1;
         max-width: 100%;
     }
     100% {
-        padding: 0;
         font-size: 0rem;
         flex: 0;
         opacity: 0;
         max-width: 0;
+    }
+}
+
+@keyframes spliceItemRemove {
+    0% {
+        font-size: 2.5rem;
+        flex: 1;
+        opacity: 1;
+        max-width: 100%;
+    }
+    50% {
+        font-size: 0rem;
+        flex: 1;
+        opacity: 1;
+        max-width: 100%;
+    }
+    100% {
+        font-size: 0rem;
+        flex: 0;
+        max-width: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes spliceItemAdd {
+    0% {
+        // padding: 0;
+        font-size: 0rem;
+        flex: 0;
+        max-width: 0;
+        opacity: 0;
+    }
+
+    50% {
+        font-size: 0rem;
+        flex: 1;
+        opacity: 1;
+        max-width: 100%;
+    }
+    100% {
+        font-size: 2.5rem;
+        flex: 1;
+        opacity: 1;
+        max-width: 100%;
     }
 }

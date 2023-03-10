@@ -5,7 +5,7 @@ function Aside() {
     const { state, dispatch } = useContext(BasketContext);
     return (
         <aside>
-            <h2>Methods</h2>
+            {/* <h2>Methods</h2> */}
             <div className="method-grid">
                 <div
                     className="method-selector"
@@ -38,10 +38,6 @@ function Aside() {
                     }
                 >
                     <p>unshift</p>
-                </div>
-                <div className="emoji-picker">
-                    <h2>Source</h2>
-                    <p>Random Fruit</p>
                 </div>
             </div>
         </aside>
