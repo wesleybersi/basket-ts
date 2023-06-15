@@ -21,6 +21,11 @@ function App() {
   const [settingsEnabled, setSettingsEnabled] = useState<boolean>(false);
   const [theme, setTheme] = useState<"Fruit" | "Veggies">("Fruit");
 
+  // basket.every((fruit) => fruit.color === "green");
+  // basket.some((fruit) => fruit.color === "green");
+  // basket.some((fruit) => fruit.color === "green");
+  // Basket.find((fruit) => fruit === green)
+
   return (
     <div className="App">
       <header>

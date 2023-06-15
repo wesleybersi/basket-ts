@@ -16,7 +16,7 @@ import {
 } from "react-icons/bs";
 import { RxCopy as IconCopy } from "react-icons/rx";
 import { MdOutlineJoinLeft as IconConcat } from "react-icons/md";
-
+import { TbZoomReplace as IconWith } from "react-icons/tb";
 import {
   TbZoomCheck as IconIncludes,
   TbNumbers as IconIndexOf,
@@ -99,11 +99,7 @@ const ActiveMethods: React.FC<Props> = () => {
       ],
     },
     { title: "Shift", icon: IconShift, parameters: [] },
-    {
-      title: "Reverse",
-      icon: IconReverse,
-      parameters: [],
-    },
+
     {
       title: "Fill",
       icon: IconFill,
@@ -122,6 +118,79 @@ const ActiveMethods: React.FC<Props> = () => {
           hide: true,
           min: 0 - state.basket.length,
           max: state.basket.length - 1,
+        },
+      ],
+    },
+
+    {
+      title: "Splice",
+      icon: IconSplice,
+      parameters: [
+        {
+          name: "start",
+          type: "Number",
+          required: true,
+          defaultValue: 0,
+          hide: false,
+          min: 0 - state.basket.length,
+          max: state.basket.length - 1,
+        },
+        {
+          name: "deleteCount",
+          type: "Number",
+          hide: true,
+          min: 0,
+        },
+        { name: "item1", hide: true, type: "Emoji Picker" },
+        {
+          name: "item2",
+          type: "Emoji Picker",
+          hide: true,
+        },
+      ],
+    },
+
+    {
+      title: "Slice",
+      icon: IconSlice,
+      parameters: [
+        {
+          name: "start",
+          type: "Number",
+          hide: true,
+          min: 0 - state.basket.length,
+          max: state.basket.length - 1,
+        },
+        {
+          name: "end",
+          type: "Number",
+          hide: true,
+          min: 0 - state.basket.length,
+          max: state.basket.length - 1,
+        },
+      ],
+    },
+    {
+      title: "Reverse",
+      icon: IconReverse,
+      parameters: [],
+    },
+    {
+      title: "With",
+      icon: IconWith,
+      parameters: [
+        {
+          name: "index",
+          required: true,
+          type: "Number",
+          min: 0 - state.basket.length,
+          max: state.basket.length - 1,
+        },
+        {
+          name: "value",
+          required: true,
+          type: "Emoji Picker",
+          hide: false,
         },
       ],
     },
@@ -152,33 +221,7 @@ const ActiveMethods: React.FC<Props> = () => {
         },
       ],
     },
-    {
-      title: "Splice",
-      icon: IconSplice,
-      parameters: [
-        {
-          name: "start",
-          type: "Number",
-          required: true,
-          defaultValue: 0,
-          hide: false,
-          min: 0 - state.basket.length,
-          max: state.basket.length - 1,
-        },
-        {
-          name: "deleteCount",
-          type: "Number",
-          hide: true,
-          min: 0,
-        },
-        { name: "item1", hide: true, type: "Emoji Picker" },
-        {
-          name: "item2",
-          type: "Emoji Picker",
-          hide: true,
-        },
-      ],
-    },
+
     {
       title: "Concat",
       icon: IconConcat,
@@ -187,26 +230,6 @@ const ActiveMethods: React.FC<Props> = () => {
           name: "index",
           type: "Number",
           hide: false,
-          min: 0 - state.basket.length,
-          max: state.basket.length - 1,
-        },
-      ],
-    },
-    {
-      title: "Slice",
-      icon: IconSlice,
-      parameters: [
-        {
-          name: "start",
-          type: "Number",
-          hide: true,
-          min: 0 - state.basket.length,
-          max: state.basket.length - 1,
-        },
-        {
-          name: "end",
-          type: "Number",
-          hide: true,
           min: 0 - state.basket.length,
           max: state.basket.length - 1,
         },
@@ -346,6 +369,15 @@ const ActiveMethods: React.FC<Props> = () => {
             amount: state.basket.length,
             index: null,
           });
+        } else if (method.title === "With") {
+          dispatch({
+            type: "Select Items",
+            start: null,
+            end: null,
+            target: null,
+            amount: null,
+            index: 0,
+          });
         } else {
           {
             dispatch({
@@ -416,19 +448,7 @@ const ActiveMethods: React.FC<Props> = () => {
           parameterValues={parameterValues}
           setParameterValues={setParameterValues}
         />
-
-        <div
-          className="method"
-          //   style={
-          //     currentMethod.parameters.length > 0
-          //       ? {
-          //           borderTopLeftRadius: "0",
-          //           borderTopRightRadius: "0",
-          //         }
-          //       : {}
-          //   }
-        >
-          {/* <span className="method-icon" /> */}
+        <div className="method">
           <h2
             className="method-name"
             style={state.loading ? { opacity: 0.25 } : { opacity: 1 }}
@@ -458,7 +478,7 @@ const ActiveMethods: React.FC<Props> = () => {
               }
             }}
           >
-            <div style={state.loading ? { opacity: "0.25" } : { opacity: "1" }}>
+            <div style={state.loading ? { opacity: "0.5" } : { opacity: "1" }}>
               {currentMethod.icon ? (
                 <currentMethod.icon size="42px" />
               ) : (
@@ -466,16 +486,15 @@ const ActiveMethods: React.FC<Props> = () => {
               )}
             </div>
             {/* <span
-                            style={
-                                state.loading
-                                    ? {
-                                          opacity: "1",
-                                          animation:
-                                              "runMethod 500ms ease alternate infinite",
-                                      }
-                                    : { opacity: "0" }
-                            }
-                        /> */}
+              style={
+                state.loading
+                  ? {
+                      opacity: "1",
+                      animation: "runMethod 1000ms linear infinite",
+                    }
+                  : { opacity: "0" }
+              }
+            /> */}
           </button>
         </div>
       </div>

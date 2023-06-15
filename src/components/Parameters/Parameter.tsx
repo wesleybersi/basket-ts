@@ -62,41 +62,37 @@ const Parameter: React.FC<Props> = ({
     }
   }, [hide, required, type, name]);
 
-  useEffect(
-    () => {
-      //Set values when close/open
-      if (open) {
-        if (type === "Emoji Picker") {
-          if (typeof value === "number" || value === null) {
-            const newValue = randomEmoji(theme);
-            setValue(newValue);
-          }
-        } else if (type === "Number") {
-          setValue(0);
+  useEffect(() => {
+    //Set values when close/open
+    if (open) {
+      if (type === "Emoji Picker") {
+        if (typeof value === "number" || value === null) {
+          const newValue = randomEmoji(theme);
+          setValue(newValue);
         }
-      } else if (!open) {
-        setValue(null);
+      } else if (type === "Number") {
+        setValue(0);
       }
+    } else if (!open) {
+      setValue(null);
+    }
 
-      if (index !== 0) {
-        if (!activeParameters[index - 1]) {
-          setOpen(false);
-          setForceClose(true);
-        } else {
-          if (!hide) {
-            setOpen(true);
-          }
-          setForceClose(false);
-        }
+    if (index !== 0) {
+      if (!activeParameters[index - 1]) {
+        setOpen(false);
+        setForceClose(true);
       } else {
+        if (!hide) {
+          setOpen(true);
+        }
         setForceClose(false);
       }
+    } else {
+      setForceClose(false);
+    }
 
-      updateActive(index, open);
-    },
-    [open, activeParameters[index - 1]],
-    type
-  );
+    updateActive(index, open);
+  }, [open, activeParameters[index - 1], type]);
 
   useEffect(() => {
     //Send values to appropriate places

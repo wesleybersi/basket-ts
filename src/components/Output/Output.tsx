@@ -59,7 +59,8 @@ const Output: React.FC<Props> = ({ duration }) => {
     if (
       state.method === "Splice" ||
       state.method === "Concat" ||
-      state.method === "Slice"
+      state.method === "Slice" ||
+      state.method === "With"
     ) {
       setType("Array");
       setOffset("0");

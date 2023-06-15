@@ -15,6 +15,7 @@ import {
 } from "react-icons/tb";
 
 import { IoIosSwap as IconReverse } from "react-icons/io";
+import { TbZoomReplace as IconWith } from "react-icons/tb";
 
 import { TbSlice as IconSlice } from "react-icons/tb";
 export const methods = [
@@ -28,29 +29,37 @@ export const methods = [
     icon: IconUnshift,
   },
   { title: "Shift", icon: IconShift },
+
+  {
+    title: "Fill",
+    icon: IconFill,
+  },
+
+  {
+    title: "Splice",
+    icon: IconSplice,
+  },
+
+  {
+    title: "Slice",
+    icon: IconSlice,
+  },
   {
     title: "Reverse",
     icon: IconReverse,
   },
+
   {
-    title: "Fill",
-    icon: IconFill,
+    title: "With",
+    icon: IconWith,
   },
   {
     title: "CopyWithin",
     icon: IconCopy,
   },
   {
-    title: "Splice",
-    icon: IconSplice,
-  },
-  {
     title: "Concat",
     icon: IconConcat,
-  },
-  {
-    title: "Slice",
-    icon: IconSlice,
   },
   {
     title: "Includes",

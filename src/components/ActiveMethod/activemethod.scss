@@ -9,7 +9,7 @@
   //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
 
   @media (max-width: 768px) {
-    border-radius: 0.5rem;
+    // border-radius: 0.5rem;
     padding: 0 1rem;
   }
   .dropdown-methods {
@@ -28,7 +28,7 @@
       max-height: 6rem;
       padding: 2rem;
 
-      border-radius: 0.25rem;
+      // border-radius: 0.25rem;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       overflow: hidden;
@@ -54,7 +54,7 @@
     position: absolute;
 
     top: 50%;
-    border-radius: 50%;
+    // border-radius: 50%;
     background-color: white;
     color: var(--black);
 
@@ -94,7 +94,7 @@
       //   border-top-right-radius: 100vw;
       //   border-bottom-right-radius: 100vw;
       //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-      border-radius: 1rem;
+      // border-radius: 1rem;
       transition: all 250ms ease;
       z-index: 2;
       display: flex;
