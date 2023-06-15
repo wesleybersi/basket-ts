@@ -1,114 +1,143 @@
 .output-wrapper {
-    overflow: hidden;
+  overflow: hidden;
+  display: flex;
+  transition: all 250ms ease-in;
+  justify-content: center;
+  margin-top: 2rem;
+  .output-lens {
     display: flex;
-    transition: all 500ms ease-in;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
-    .output-lens {
-        border-radius: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        margin: 2rem 0;
-        padding: 2rem;
-        background-color: rgba(255, 255, 255, 0.65);
-        box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-        // transform: translateY(calc(-100% - 2rem));
-        transition: all 500ms ease-in;
-        .output-header {
-            font-size: 1.25rem;
-        }
-        .output {
-            padding: 0.5rem;
-            background-color: white;
-            box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-            align-items: center;
-            height: 90px;
-            border-radius: 100vw;
-            justify-content: center;
-            transition: all 500ms ease;
-            justify-content: center;
-            // width: var(--pageWidth);
-            // max-width: var(--pageWidth);
-            transition: all 500ms ease;
-            position: relative;
-            overflow: hidden;
-            &:before {
-                position: absolute;
-                left: 0;
-                content: "[";
-                opacity: var(--brackets);
-                font-size: 2.5rem;
-                padding: 1rem;
-                margin: 0.5rem 0.5rem;
-            }
-            &:after {
-                position: absolute;
-                right: 0;
-                content: "]";
-                opacity: var(--brackets);
-                font-size: 2.5rem;
-                padding: 1rem;
-                margin: 0.5rem 0.5rem;
-            }
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.75);
+    // box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+    // transform: translateY(calc(-100% - 2rem));
+    border-radius: 1rem;
+    transition: all 250ms ease-in;
 
-            .output-item {
-                flex: 1;
-                height: 100%;
-                font-size: 2.5rem;
-                padding: 1rem;
-                cursor: pointer;
-                margin: 0.5rem 0.5rem;
-                display: grid;
-                place-content: center;
-                transform-origin: center;
-                overflow: hidden;
-                border-radius: 0.25rem;
+    position: relative;
+    overflow: hidden;
 
-                &:hover {
-                    transform: scale(1.15);
-                    // background: white;
-                }
-            }
-            .output-clone {
-                opacity: 0;
-                position: absolute;
-            }
-        }
+    @media (max-width: 768px) {
+      padding: 1rem;
     }
+    &:before {
+      content: "";
+      display: grid;
+      place-content: center;
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: var(--blue);
+      width: 100%;
+      height: 2rem;
+      display: none;
+    }
+    .output-header {
+      font-size: 1.25rem;
+    }
+    .output {
+      padding: 0.5rem;
+      background-color: white;
+      //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.075);
+      align-items: center;
+      height: 96px;
+
+      border: 1px solid #22222244;
+      //   border-radius: 100vw !important;
+      justify-content: center;
+      transition: all 250ms ease;
+      justify-content: center;
+      // width: var(--pageWidth);
+      // max-width: var(--pageWidth);
+      transition: all 250ms ease;
+      position: relative;
+      overflow: hidden;
+
+      @media (max-width: 768px) {
+        max-height: 5rem;
+      }
+      &:before {
+        position: absolute;
+        left: 0;
+        content: "[";
+        opacity: var(--brackets);
+        font-size: 2.5rem;
+        padding: 1rem;
+        margin: 0.5rem 0.5rem;
+      }
+      &:after {
+        position: absolute;
+        right: 0;
+        content: "]";
+        opacity: var(--brackets);
+        font-size: 2.5rem;
+        padding: 1rem;
+        margin: 0.5rem 0.5rem;
+      }
+
+      .output-item {
+        flex: 1;
+        height: 100%;
+        font-size: var(--itemFont);
+        padding: 1rem;
+        cursor: pointer;
+        margin: 0.5rem 0.5rem;
+        display: grid;
+        place-content: center;
+        transform-origin: center;
+        overflow: hidden;
+        border-radius: 0.25rem;
+
+        &:hover {
+          transform: scale(1.15);
+          // background: white;
+        }
+      }
+      .output-clone {
+        opacity: 0;
+        position: absolute;
+      }
+    }
+  }
 }
 
 @keyframes addOutputItem {
-    0% {
-        opacity: 0;
-        flex: 0;
-        font-size: 0;
-        padding: 0;
-        transform: translateX(var(--output-offset));
-    }
-    50% {
-        font-size: 3rem;
-    }
-    75% {
-        font-size: 2.25rem;
-    }
-    100% {
-        opacity: 1;
-        flex: 1;
-        font-size: 2.5rem;
-        transform: translateX(0);
-        padding: 1rem;
-    }
+  0% {
+    opacity: 0;
+    flex: 0;
+    font-size: 0;
+    padding: 0;
+    transform: translateX(var(--output-offset));
+  }
+  50% {
+    font-size: 3rem;
+  }
+  75% {
+    font-size: 2.25rem;
+  }
+  100% {
+    opacity: 1;
+    flex: 1;
+    font-size: 2.5rem;
+    transform: translateX(0);
+    padding: 1rem;
+  }
 }
 
 @keyframes outputClone {
-    from {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(var(--clone-offset));
-    }
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(var(--clone-offset));
+  }
 }

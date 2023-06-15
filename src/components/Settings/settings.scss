@@ -1,0 +1,39 @@
+.darken {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #222222cc;
+  z-index: 100;
+  .settings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46rem;
+    height: 30rem;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    h2 {
+      padding-bottom: 1rem;
+    }
+    .option {
+      display: flex;
+      justify-content: space-between;
+      div {
+        display: flex;
+        gap: 0.5rem;
+
+        button {
+          aspect-ratio: 1;
+          border: none;
+        }
+      }
+    }
+  }
+}
