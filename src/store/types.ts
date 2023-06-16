@@ -1,8 +1,8 @@
 export interface Store {
   settings: {
     isOpen: boolean;
-    animationDuration: number;
     theme: "Fruit" | "Veggies";
+    animationDuration: number;
   };
   set: (
     partial:

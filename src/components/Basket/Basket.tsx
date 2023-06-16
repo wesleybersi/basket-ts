@@ -37,7 +37,7 @@ const Basket: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
 
-  function itemState(item: HTMLElement, state: "Zero" | "Normalize") {
+  function itemStyling(item: HTMLElement, state: "Zero" | "Normalize") {
     if (state === "Zero") {
       item.style.animation = "";
       item.style.fontSize = "0";
@@ -61,13 +61,13 @@ const Basket: React.FC = () => {
       if (basketRef.current) {
         const child = basketRef.current.children[index] as HTMLElement;
         if (!animation) {
-          itemState(child, "Normalize");
+          itemStyling(child, "Normalize");
         } else {
           setAnimationOffset("0");
           child.style.animation = `addItem ${duration}ms ease`;
           child.addEventListener("animationend", end);
           function end() {
-            itemState(child, "Normalize");
+            itemStyling(child, "Normalize");
             child.removeEventListener("animationend", end);
           }
         }
@@ -110,7 +110,7 @@ const Basket: React.FC = () => {
         const child = basketRef.current.children[
           basketRef.current.children.length - 1 - count
         ] as HTMLElement;
-        itemState(child, "Normalize");
+        itemStyling(child, "Normalize");
         count++;
       }
     }
@@ -131,7 +131,7 @@ const Basket: React.FC = () => {
         return;
       }
       child.style.flex = "0";
-      itemState(child, "Zero");
+      itemStyling(child, "Zero");
 
       if (accumulator === 0) {
         if (noItems) {
@@ -154,7 +154,7 @@ const Basket: React.FC = () => {
       }
 
       function end() {
-        itemState(child, "Normalize");
+        itemStyling(child, "Normalize");
         playPopSound();
         if (index === state.itemsToAdd[state.itemsToAdd.length - 1]) {
           dispatch({ type: "Items Added" });
@@ -196,7 +196,7 @@ const Basket: React.FC = () => {
       if (!child) {
         return;
       }
-      itemState(child, "Normalize");
+      itemStyling(child, "Normalize");
       child.addEventListener("animationend", end);
 
       if (state.method === "Splice") {
@@ -207,7 +207,7 @@ const Basket: React.FC = () => {
 
       // accumulator += duration;
       function end() {
-        itemState(child, "Zero");
+        itemStyling(child, "Zero");
         playPopSound();
         count++;
         if (count === state.itemsToRemove.length) {
