@@ -1,14 +1,13 @@
 import { useContext, memo, useState, useRef, useEffect } from "react";
 import { BasketContext } from "../../contexts/BasketContext";
-import { Emoji } from "../../utils/getEmoji";
+import { Emoji } from "../../utils/emoji/emojis";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import "./output.scss";
+import { useStore } from "../../store/store";
 
-interface Props {
-  duration: number;
-}
-
-const Output: React.FC<Props> = ({ duration }) => {
+const Output: React.FC = () => {
+  const { settings } = useStore();
+  const { animationDuration: duration } = settings;
   const outputRef = useRef<HTMLUListElement | null>(null);
   const { state, dispatch } = useContext(BasketContext);
   const [clone, setClone] = useState<Emoji | null>(null);

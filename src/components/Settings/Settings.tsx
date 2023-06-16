@@ -1,77 +1,95 @@
 import React, { useContext } from "react";
 import { BasketContext } from "../../contexts/BasketContext";
 import "./settings.scss";
+import { GrClose as IconClose } from "react-icons/gr";
+import { useStore } from "../../store/store";
+import themes from "../../utils/emoji/themes";
 
-interface Props {
-  animationSpeed: number;
-  setAnimationSpeed: React.Dispatch<React.SetStateAction<number>>;
-  setSettingsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  themes: { title: "Fruit" | "Veggies"; icon: string }[];
+interface ThemeOption {
+  name: "Fruit" | "Veggies";
+  icon: string;
 }
 
-const Settings: React.FC<Props> = ({
-  animationSpeed,
-  setAnimationSpeed,
-  setSettingsEnabled,
-  themes,
-}): JSX.Element => {
+const Settings: React.FC = (): JSX.Element => {
+  const { set, settings } = useStore();
+  const { animationDuration } = settings;
   const { state, dispatch } = useContext(BasketContext);
+
+  const themeOptions: ThemeOption[] = [];
+  for (const [string, emojis] of themes) {
+    themeOptions.push({ name: string, icon: emojis[0].emoji });
+  }
+
   return (
     <div className="darken">
       <div className="settings">
+        <div
+          className="close-settings"
+          onClick={() => set({ settings: { ...settings, isOpen: false } })}
+        >
+          <IconClose size="32px" />
+        </div>
         <h2>Settings</h2>
         <div className="option options-animation-speed">
           <p>Animation:</p>
           <div>
             <button
               style={
-                animationSpeed === 0
+                animationDuration === 0
                   ? {
                       backgroundColor: "var(--light)",
                       border: "4px solid lightblue",
                     }
                   : {}
               }
-              onClick={() => setAnimationSpeed(0)}
+              onClick={() =>
+                set({ settings: { ...settings, animationDuration: 0 } })
+              }
             >
               ❌
             </button>
             <button
               style={
-                animationSpeed === 500
+                animationDuration === 500
                   ? {
                       backgroundColor: "var(--light)",
                       border: "4px solid lightblue",
                     }
                   : {}
               }
-              onClick={() => setAnimationSpeed(500)}
+              onClick={() =>
+                set({ settings: { ...settings, animationDuration: 500 } })
+              }
             >
               🐢
             </button>
             <button
               style={
-                animationSpeed === 250
+                animationDuration === 250
                   ? {
                       backgroundColor: "var(--light)",
                       border: "4px solid lightblue",
                     }
                   : {}
               }
-              onClick={() => setAnimationSpeed(250)}
+              onClick={() =>
+                set({ settings: { ...settings, animationDuration: 250 } })
+              }
             >
               🐇
             </button>
             <button
               style={
-                animationSpeed === 125
+                animationDuration === 125
                   ? {
                       backgroundColor: "var(--light)",
                       border: "4px solid lightblue",
                     }
                   : {}
               }
-              onClick={() => setAnimationSpeed(100)}
+              onClick={() =>
+                set({ settings: { ...settings, animationDuration: 125 } })
+              }
             >
               🐆
             </button>
@@ -80,22 +98,17 @@ const Settings: React.FC<Props> = ({
         <div className="option options-theme">
           <p>Theme:</p>
           <div>
-            {themes.map(({ title, icon }) => (
+            {themeOptions.map(({ name, icon }) => (
               <button
                 style={
-                  state.theme === title
+                  settings.theme === name
                     ? {
                         backgroundColor: "var(--light)",
                         border: "4px solid lightblue",
                       }
                     : {}
                 }
-                onClick={() =>
-                  dispatch({
-                    type: "Change Theme",
-                    theme: title,
-                  })
-                }
+                onClick={() => set({ settings: { ...settings, theme: name } })}
               >
                 {icon}
               </button>

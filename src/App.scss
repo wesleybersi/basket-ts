@@ -26,7 +26,7 @@
   &:before {
     // background: linear-gradient(-45deg, #c3e7e8, #e5d0ea, #f7e6cf);
     // background: linear-gradient(45deg, #e3acb2, #e2e8f9, #e4eef8);
-    background: #eeeeeeaa;
+    background: #eeeeee;
 
     content: "";
     position: fixed;
@@ -50,7 +50,7 @@
     color: #222 !important;
     box-shadow: 0 0 128px rgba(0, 0, 0, 0.075);
     display: flex;
-    height: 6rem;
+    height: 4rem;
     z-index: 1000;
     align-items: center;
     display: none;
@@ -118,7 +118,7 @@
       top: 0;
       left: 0;
       width: inherit;
-      height: 6rem;
+      height: 4rem;
       background: var(--blue);
       display: flex;
       align-items: center;
@@ -145,7 +145,7 @@
       // display: none;
     }
     .method-grid {
-      padding-top: 1rem;
+      // padding-top: 1rem;
 
       display: flex;
       flex-direction: column;

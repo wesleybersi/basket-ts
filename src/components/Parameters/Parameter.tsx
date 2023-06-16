@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Emoji, randomEmoji } from "../../utils/getEmoji";
+import { randomEmoji } from "../../utils/emoji/random-emoji";
+import { Emoji } from "../../utils/emoji/emojis";
+import { useStore } from "../../store/store";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 
 interface Props {
@@ -19,7 +21,6 @@ interface Props {
   ) => void;
   updateActive: (index: number, open: boolean) => void;
   activeParameters: boolean[];
-  theme: "Fruit" | "Veggies";
 }
 
 const Parameter: React.FC<Props> = ({
@@ -35,8 +36,8 @@ const Parameter: React.FC<Props> = ({
   updateValue,
   updateActive,
   activeParameters,
-  theme,
 }): JSX.Element => {
+  const { settings } = useStore();
   const [open, setOpen] = useState<boolean>(!hide);
   const [value, setValue] = useState<Emoji | number | null>(null);
   const [hoverTitle, setHoverTitle] = useState<boolean>(false);
@@ -67,7 +68,7 @@ const Parameter: React.FC<Props> = ({
     if (open) {
       if (type === "Emoji Picker") {
         if (typeof value === "number" || value === null) {
-          const newValue = randomEmoji(theme);
+          const newValue = randomEmoji(settings.theme);
           setValue(newValue);
         }
       } else if (type === "Number") {
@@ -104,7 +105,22 @@ const Parameter: React.FC<Props> = ({
       className="parameter"
       style={
         open && type !== "Hidden"
-          ? {}
+          ? {
+              // border: type === "Number" ? "dashed 6px var(--selection)" : "",
+              // borderRight:
+              //   type === "Number" && index === 1 && activeParameters[2]
+              //     ? "none"
+              //     : type === "Number"
+              //     ? "dashed 6px var(--selection)"
+              //     : "",
+              // borderLeft:
+              //   type === "Number" && index === 2 && activeParameters[1]
+              //     ? "none"
+              //     : type === "Number"
+              //     ? "dashed 6px var(--selection)"
+              //     : "",
+              background: type === "Number" ? "var(--selection)" : "",
+            }
           : {
               padding: "0.5rem 0",
               transform:
@@ -125,12 +141,13 @@ const Parameter: React.FC<Props> = ({
     >
       {type === "Number" && (
         <>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "none" }}>
             <p
               className="parameter-name"
               style={{
                 textDecoration:
                   hoverTitle && open && !required ? "line-through" : "",
+                marginTop: open ? "-2.5rem" : "0",
               }}
               onMouseEnter={() => setHoverTitle(true)}
               onMouseLeave={() => setHoverTitle(false)}
@@ -142,6 +159,7 @@ const Parameter: React.FC<Props> = ({
           </div>
           <div className="parameter-number">
             <input
+              style={{ pointerEvents: open ? "all" : "none" }}
               type="number"
               min={min}
               max={max}
@@ -159,19 +177,22 @@ const Parameter: React.FC<Props> = ({
               style={{
                 textDecoration:
                   hoverTitle && open && !required ? "line-through" : "",
+                marginTop: open ? "-2.5rem" : "-.1rem",
               }}
               onMouseEnter={() => setHoverTitle(true)}
               onMouseLeave={() => setHoverTitle(false)}
               onClick={!required ? () => setOpen((prev) => !prev) : undefined}
             >
-              {open && !forceClose ? name : <IconAdd size="24px" />}
-              {required && <span style={{ color: "red" }}>*</span>}
+              {!open ? <IconAdd size="24px" /> : <></>}
+              {/* TODO Temp */}
+              {/* {open && !forceClose ? name : <IconAdd size="24px" />} */}
+              {/* {required && <span style={{ color: "red" }}>*</span>} */}
             </p>
           </div>
 
           <p
             className="parameter-emoji"
-            onClick={() => setValue(randomEmoji(theme))}
+            onClick={() => setValue(randomEmoji(settings.theme))}
           >
             {value && typeof value !== "number" && value.emoji.toString()}
           </p>

@@ -1,6 +1,6 @@
 import { BasketContext } from "../contexts/BasketContext";
 import { useState, useContext, useEffect } from "react";
-import { Emoji } from "../utils/getEmoji";
+import { Emoji } from "../utils/emoji/random-emoji";
 
 type MethodHook = (
   method: string | undefined,

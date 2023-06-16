@@ -1,7 +1,8 @@
 import { useContext, memo, useState, useRef, useEffect, Children } from "react";
 import { BasketContext } from "../../contexts/BasketContext";
 import useCSSProperty from "../../hooks/useCSSProperty";
-import { randomEmoji, randomEmojis, Emoji } from "../../utils/getEmoji";
+import { Emoji } from "../../utils/emoji/emojis";
+import { useStore } from "../../store/store";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 
 import { IoMdClose as IconTarget } from "react-icons/io";
@@ -23,11 +24,9 @@ const audioPops = [
   audioPop06,
 ];
 
-interface Props {
-  duration: number;
-}
-
-const Basket: React.FC<Props> = ({ duration }) => {
+const Basket: React.FC = () => {
+  const { settings } = useStore();
+  const { animationDuration: duration } = settings;
   const { state, dispatch } = useContext(BasketContext);
   const basketRef = useRef<HTMLUListElement | null>(null);
 

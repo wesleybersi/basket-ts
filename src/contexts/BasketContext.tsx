@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { randomEmojis, Emoji } from "../utils/getEmoji";
+import { Emoji } from "../utils/emoji/emojis";
 import { Action, BasketState } from "./types";
 
 interface IBasketContext {
@@ -13,7 +13,6 @@ export const BasketContext = createContext<IBasketContext>(
 
 const initialState: BasketState = {
   loading: false,
-  theme: "Fruit",
   method: "Push",
   basket: [],
   selection: {
@@ -40,8 +39,6 @@ const gridReducer = (state: BasketState, action: Action): BasketState => {
   switch (action.type) {
     case "Initialise":
       return { ...state, allBaskets: [basket] };
-    case "Change Theme":
-      return { ...state, theme: action.theme };
     case "Set Method":
       //Initial selections etc...
 
@@ -357,8 +354,6 @@ const gridReducer = (state: BasketState, action: Action): BasketState => {
       let includesOutput: Emoji = isIncluded
         ? new Emoji("True", "✅")
         : new Emoji("False", "❌");
-
-      console.log(isIncluded);
 
       return {
         ...state,

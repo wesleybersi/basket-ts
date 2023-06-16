@@ -1,4 +1,4 @@
-import { Emoji } from "../utils/getEmoji";
+import { Emoji } from "../utils/emoji/emojis";
 
 export type Action =
   | { type: "Initialise" }
@@ -43,7 +43,6 @@ export type Action =
 
 export interface BasketState {
   loading: boolean;
-  theme: "Fruit" | "Veggies";
   method: MethodName;
   basket: Emoji[];
   selection: {

@@ -2,7 +2,8 @@ import Parameter from "./Parameter";
 import "./parameters.scss";
 import { useContext, useEffect, useState } from "react";
 import { BasketContext } from "../../contexts/BasketContext";
-import { Emoji } from "../../utils/getEmoji";
+import { Emoji } from "../../utils/emoji/emojis";
+import { useStore } from "../../store/store";
 
 export interface IParameter {
   name: string;
@@ -33,6 +34,7 @@ const Parameters: React.FC<Props> = ({
   parameterValues,
   setParameterValues,
 }) => {
+  const { settings } = useStore();
   const [active1, setActive1] = useState<boolean>(false);
   const [active2, setActive2] = useState<boolean>(false);
   const [active3, setActive3] = useState<boolean>(false);
@@ -73,10 +75,6 @@ const Parameters: React.FC<Props> = ({
       }
     }
   }
-
-  useEffect(() => {
-    // console.log(parameterValues);
-  }, [parameterValues]);
 
   useEffect(() => {
     parameterValues.forEach((value, index) => {
@@ -134,7 +132,6 @@ const Parameters: React.FC<Props> = ({
             updateValue={updateValue}
             updateActive={updateActive}
             activeParameters={activeParameters}
-            theme={state.theme}
           />
         )
       )}

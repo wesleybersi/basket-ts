@@ -4,8 +4,9 @@
   align-items: center;
   position: relative;
   margin: auto;
-  //   padding: 2rem 2rem;
-  //   background: rgba(255, 255, 255, 0.75);
+
+  // padding: 2rem 2rem;
+  // background: rgba(255, 255, 255, 0.75);
   //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
 
   @media (max-width: 768px) {
@@ -49,6 +50,7 @@
       }
     }
   }
+
   .method-left,
   .method-right {
     position: absolute;
@@ -74,10 +76,10 @@
     }
   }
   .method-left {
-    left: 2rem;
+    left: 0rem;
   }
   .method-right {
-    right: 2rem;
+    right: 0rem;
   }
   .method-wrapper {
     display: flex;

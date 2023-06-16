@@ -7,24 +7,13 @@ import ActiveMethod from "./components/ActiveMethod/ActiveMethod";
 import Output from "./components/Output/Output";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
+import { useStore } from "./store/store";
 
-import { BasketContext } from "./contexts/BasketContext";
 import Settings from "./components/Settings/Settings";
 
-const themes: { title: "Fruit" | "Veggies"; icon: string }[] = [
-  { title: "Fruit", icon: "🍎" },
-  { title: "Veggies", icon: "🥬" },
-];
-
 function App() {
-  const [animationSpeed, setAnimationSpeed] = useState<number>(250);
-  const [settingsEnabled, setSettingsEnabled] = useState<boolean>(false);
+  const { set, settings } = useStore();
   const [theme, setTheme] = useState<"Fruit" | "Veggies">("Fruit");
-
-  // basket.every((fruit) => fruit.color === "green");
-  // basket.some((fruit) => fruit.color === "green");
-  // basket.some((fruit) => fruit.color === "green");
-  // Basket.find((fruit) => fruit === green)
 
   return (
     <div className="App">
@@ -38,24 +27,22 @@ function App() {
             <li>Donate</li>
             <li>About us</li>
           </ul>
-          <div onClick={() => setSettingsEnabled(!settingsEnabled)}>
+          <div
+            onClick={() =>
+              set({ settings: { ...settings, isOpen: !settings.isOpen } })
+            }
+          >
             <IconSettings size="40px" />
           </div>
         </section>
       </header>
+
       <Aside />
-      {settingsEnabled && (
-        <Settings
-          animationSpeed={animationSpeed}
-          setAnimationSpeed={setAnimationSpeed}
-          setSettingsEnabled={setSettingsEnabled}
-          themes={themes}
-        />
-      )}
+      {settings.isOpen && <Settings />}
       <main>
-        <Basket duration={animationSpeed} />
+        <Basket />
         <ActiveMethod />
-        <Output duration={animationSpeed} />
+        <Output />
       </main>
     </div>
   );

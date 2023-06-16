@@ -5,7 +5,7 @@ import Parameters, { IParameter } from "../Parameters/Parameters";
 import { IoMdPlay as IconRun } from "react-icons/io";
 import useMethod from "../../hooks/useMethod";
 import { IconType } from "react-icons";
-import { Emoji } from "../../utils/getEmoji";
+import { Emoji } from "../../utils/emoji/emojis";
 import {
   BsBoxArrowInLeft as IconPush,
   BsBoxArrowRight as IconPop,

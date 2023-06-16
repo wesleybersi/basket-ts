@@ -3,8 +3,11 @@ import { BasketContext } from "../../contexts/BasketContext";
 import { methods } from "../../store/methods";
 import { MethodName } from "../../contexts/types";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
+import { GrSettingsOption as IconSettings } from "react-icons/gr";
+import { useStore } from "../../store/store";
 
-function Aside() {
+const Aside: React.FC = () => {
+  const { set, settings } = useStore();
   const { state, dispatch } = useContext(BasketContext);
   const [type, setType] = useState<"Hidden" | "Compact" | "Full">("Full");
   return (
@@ -55,6 +58,13 @@ function Aside() {
             )}
           </div>
         ))}
+        <div
+          onClick={() =>
+            set({ settings: { ...settings, isOpen: !settings.isOpen } })
+          }
+        >
+          <IconSettings size="40px" />
+        </div>
         <span
           className="aside-type"
           onClick={() => {
@@ -65,6 +75,6 @@ function Aside() {
       </div>
     </aside>
   );
-}
+};
 
 export default Aside;
