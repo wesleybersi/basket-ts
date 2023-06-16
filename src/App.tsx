@@ -12,7 +12,7 @@ import { useStore } from "./store/store";
 import Settings from "./components/Settings/Settings";
 
 function App() {
-  const { set, settings } = useStore();
+  const { set, loading, settings, method } = useStore();
   const [theme, setTheme] = useState<"Fruit" | "Veggies">("Fruit");
 
   return (
@@ -24,6 +24,8 @@ function App() {
         </section>
         <section className="header-right">
           <ul>
+            <li>{method.title}</li>
+            <li>Loading: {loading.toString()}</li>
             <li>Donate</li>
             <li>About us</li>
           </ul>

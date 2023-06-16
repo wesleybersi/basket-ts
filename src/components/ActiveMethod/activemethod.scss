@@ -4,62 +4,16 @@
   align-items: center;
   position: relative;
   margin: auto;
-
-  // padding: 2rem 2rem;
-  // background: rgba(255, 255, 255, 0.75);
-  //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-
   @media (max-width: 768px) {
-    // border-radius: 0.5rem;
     padding: 0 1rem;
-  }
-  .dropdown-methods {
-    position: absolute;
-    bottom: -8rem;
-    width: 100%;
-    height: 8rem;
-    overflow: hidden;
-    div {
-      justify-content: center;
-
-      background-color: rgba(255, 255, 255, 0.65);
-      box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-      transition: all 500ms ease;
-      display: flex;
-      max-height: 6rem;
-      padding: 2rem;
-
-      // border-radius: 0.25rem;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      overflow: hidden;
-      position: relative;
-      &:before {
-        position: absolute;
-        bottom: -2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        content: "";
-        background-color: white;
-        width: 4rem;
-        height: 2rem;
-        border-radius: 100vw;
-      }
-      &:hover {
-        transform: translateY(-100%);
-      }
-    }
   }
 
   .method-left,
   .method-right {
     position: absolute;
-
     top: 50%;
-    // border-radius: 50%;
     background-color: white;
     color: var(--black);
-
     border: none;
     transform: translateY(-50%);
     width: 3rem;
@@ -86,17 +40,11 @@
     flex-direction: column;
     width: 100%;
     max-width: 45rem;
-
     height: 12.5rem;
     justify-content: center;
-
     .method {
       flex: 1;
       max-height: 50%;
-      //   border-top-right-radius: 100vw;
-      //   border-bottom-right-radius: 100vw;
-      //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-      // border-radius: 1rem;
       transition: all 250ms ease;
       z-index: 2;
       display: flex;
@@ -104,7 +52,6 @@
       color: var(--black);
       padding: 1rem;
       justify-content: center;
-
       align-items: center;
       overflow: hidden;
       position: relative;
@@ -137,18 +84,10 @@
         height: 100%;
         aspect-ratio: 1;
         background-color: var(--blue);
-
-        // background: transparent;
-
-        // color: var(--blue);
         color: #222;
-        // border: 3px solid var(--blue);
-
         font-weight: 500;
-
         display: grid;
         place-content: center;
-
         &:hover {
           color: white;
         }
@@ -159,25 +98,7 @@
           transform: translate(-50%, -50%);
           transition: all 50ms ease;
         }
-        span {
-          transition: all 50ms ease;
-          width: 100%;
-          height: 100%;
-          padding: 1rem;
-          border-radius: 50%;
-          border: 4px solid white;
-          border-top: 4px solid transparent;
-        }
       }
     }
-  }
-}
-
-@keyframes runMethod {
-  0% {
-    rotate: 0;
-  }
-  100% {
-    rotate: 360deg;
   }
 }

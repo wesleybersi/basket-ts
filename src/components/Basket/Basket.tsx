@@ -2,8 +2,9 @@ import { useContext, memo, useState, useRef, useEffect, Children } from "react";
 import { BasketContext } from "../../contexts/BasketContext";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import { Emoji } from "../../utils/emoji/emojis";
-import { useStore } from "../../store/store";
+
 import { RiAddFill as IconAdd } from "react-icons/ri";
+import { useStore } from "../../store/store";
 
 import { IoMdClose as IconTarget } from "react-icons/io";
 import "./basket.scss";
@@ -25,13 +26,20 @@ const audioPops = [
 ];
 
 const Basket: React.FC = () => {
-  const { settings } = useStore();
+  const {
+    set,
+    settings,
+    loading,
+    basket,
+    method,
+    itemsToAdd,
+    itemsToRemove,
+    itemsToReplace,
+  } = useStore();
   const { animationDuration: duration } = settings;
   const { state, dispatch } = useContext(BasketContext);
   const basketRef = useRef<HTMLUListElement | null>(null);
 
-  //Animation speeds 100, 250, 500
-  //Turtle, Normal, Rabbit
   const [animationOffset, setAnimationOffset] = useState<string>("0");
   const [allBaskets, setAllBaskets] = useState<Emoji[][]>([[...state.basket]]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -84,26 +92,78 @@ const Basket: React.FC = () => {
   }
 
   useEffect(() => {
+    if (itemsToReplace.length === 0 || !basketRef.current || !loading) {
+      return;
+    }
+    let accumulator = 0;
+    let replaceDuration = duration / 2;
+    let count = 0;
+    for (const { index, replacement } of itemsToReplace) {
+      setTimeout(() => {
+        //ANCHOR Replace item every iteration
+        set((state) => {
+          const updatedBasket = [...state.basket];
+          updatedBasket[index] = replacement;
+          return {
+            basket: updatedBasket,
+          };
+        });
+        playPopSound();
+        count++;
+        if (count === itemsToReplace.length) {
+          //ANCHOR Items replaced
+          set({ loading: false, itemsToReplace: [] });
+        }
+      }, accumulator);
+      accumulator += replaceDuration;
+    }
+  }, [itemsToReplace]);
+
+  useEffect(() => {
+    if (!state.loading && itemsToReplace.length === 0) {
+      const baskets = [...allBaskets];
+      baskets[currentIndex] = [...state.basket];
+      setAllBaskets(baskets);
+      normalizeAll();
+    }
+
+    if (
+      state.loading &&
+      (method.title === "includes" ||
+        method.title === "at" ||
+        method.title === "indexOf" ||
+        method.title === "lastIndexOf")
+    ) {
+      set({ loading: false });
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      normalizeAll(true);
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
     //Sees when items need to be added to the basket. And animates them appropriately.
     if (
-      !state.itemsToAdd ||
+      itemsToAdd.length === 0 ||
       !basketRef.current ||
-      !state.loading ||
-      state.itemsToRemove.length !== 0
+      !loading ||
+      itemsToRemove.length !== 0
     ) {
       return;
     }
-    if (state.method === "Splice" && !state.spliceTrigger) {
+    if (method.title === "splice" && !state.spliceTrigger) {
       return;
     }
 
-    const noItems = state.itemsToAdd.length === state.basket.length;
+    const noItems = itemsToAdd.length === basket.length;
 
     // Normalize original items
-
-    if ((!noItems && state.method === "Splice") || state.method === "Unshift") {
+    if ((!noItems && method.title === "splice") || method.title === "unshift") {
       let count = 0;
-      for (const index of state.itemsToAdd) {
+      for (const index of itemsToAdd) {
         if (index === basketRef.current.children.length - 1 - count) {
           continue;
         }
@@ -116,16 +176,16 @@ const Basket: React.FC = () => {
     }
 
     function animationOffset() {
-      if (state.method === "Push") {
+      if (method.title === "push") {
         setAnimationOffset("1rem");
-      } else if (state.method === "Unshift") {
+      } else if (method.title === "unshift") {
         setAnimationOffset("-1rem");
       }
     }
     setAnimationOffset("0");
     let accumulator = 0;
 
-    for (const index of state.itemsToAdd) {
+    for (const index of itemsToAdd) {
       const child = basketRef.current.children[index] as HTMLElement;
       if (!child) {
         return;
@@ -146,7 +206,7 @@ const Basket: React.FC = () => {
       }
 
       child.addEventListener("animationend", end);
-      if (state.method !== "Splice") {
+      if (method.title !== "splice") {
         child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
         accumulator += duration;
       } else {
@@ -156,94 +216,52 @@ const Basket: React.FC = () => {
       function end() {
         itemStyling(child, "Normalize");
         playPopSound();
-        if (index === state.itemsToAdd[state.itemsToAdd.length - 1]) {
-          dispatch({ type: "Items Added" });
+        if (index === itemsToAdd[itemsToAdd.length - 1]) {
+          //ANCHOR Items added
+          set({ loading: false, itemsToAdd: [] });
         }
         child.removeEventListener("animationend", end);
       }
     }
-  }, [state.itemsToAdd, state.spliceTrigger]);
-
-  useEffect(() => {
-    if (!state.itemsToReplace || !basketRef.current || !state.loading) {
-      return;
-    }
-    let accumulator = 0;
-    let fillDuration = duration / 2;
-    let count = 0;
-    for (const { index, replacement } of state.itemsToReplace) {
-      setTimeout(() => {
-        dispatch({ type: "Replace Item", index, replacement });
-        playPopSound();
-        count++;
-        if (count === state.itemsToReplace.length) {
-          dispatch({ type: "Items Replaced" });
-        }
-      }, accumulator);
-      accumulator += fillDuration;
-    }
-  }, [state.itemsToReplace]);
+  }, [itemsToAdd]);
 
   useEffect(() => {
     //Sees when items need to be removed from array, and animates them appropriately.
-    if (!state.itemsToRemove || !basketRef.current || !state.loading) {
+    if (!basketRef.current || !loading || itemsToRemove.length === 0) {
       return;
     }
+    console.log(itemsToRemove);
+
     let accumulator = 0;
     let count = 0;
-    for (const index of state.itemsToRemove) {
+    for (const index of itemsToRemove) {
       const child = basketRef.current.children[index] as HTMLElement;
-      if (!child) {
-        return;
-      }
       itemStyling(child, "Normalize");
       child.addEventListener("animationend", end);
+      child.style.animation = `removeItem ${duration}ms ease ${accumulator}ms`;
 
-      if (state.method === "Splice") {
-        child.style.animation = `spliceItemRemove ${duration * 2}ms ease`;
-      } else {
-        child.style.animation = `removeItem ${duration}ms ease ${accumulator}ms`;
-      }
-
-      // accumulator += duration;
       function end() {
         itemStyling(child, "Zero");
         playPopSound();
         count++;
-        if (count === state.itemsToRemove.length) {
-          dispatch({ type: "Items Removed" });
+        if (count === itemsToRemove.length) {
+          //ANCHOR Items removed
+          set((state) => {
+            const updatedBasket = state.basket.filter(
+              (_, index) => !state.itemsToRemove.includes(index)
+            );
+            return {
+              ...state,
+              basket: updatedBasket,
+              loading: false,
+              itemsToRemove: [],
+            };
+          });
         }
-
         child.removeEventListener("animationend", end);
       }
     }
-  }, [state.itemsToRemove]);
-
-  useEffect(() => {
-    console.log("LOADING:", state.loading);
-    if (!state.loading && state.itemsToReplace.length === 0) {
-      const baskets = [...allBaskets];
-      baskets[currentIndex] = [...state.basket];
-      setAllBaskets(baskets);
-      normalizeAll();
-    }
-
-    if (
-      state.loading &&
-      (state.method === "Includes" ||
-        state.method === "At" ||
-        state.method === "IndexOf" ||
-        state.method === "LastIndexOf")
-    ) {
-      dispatch({ type: "Method Done" });
-    }
-  }, [state.loading]);
-
-  useEffect(() => {
-    if (!state.loading) {
-      normalizeAll(true);
-    }
-  }, [currentIndex]);
+  }, [itemsToRemove]);
 
   return (
     <section className="basket-wrapper">
@@ -327,8 +345,8 @@ const Basket: React.FC = () => {
         </div>
       </div>
       <ul className="basket" ref={basketRef}>
-        {state.basket.length === 0 && <li></li>}
-        {state.basket.map((item, index) => (
+        {basket.length === 0 && <li></li>}
+        {basket.map((item, index) => (
           <li className="basket-item">
             {item.emoji}
 

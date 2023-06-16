@@ -5,15 +5,12 @@ import { useStore } from "../../store/store";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 
 interface Props {
-  currentMethod: string;
   index: number;
   name: string;
-  type: "Emoji Picker" | "Number" | "Hidden";
+  type: "Emoji" | "Number" | "Hidden";
   defaultValue?: number;
   hide?: boolean;
   required?: boolean;
-  min?: number;
-  max?: number;
   updateValue: (
     index: number,
     name: string,
@@ -24,20 +21,17 @@ interface Props {
 }
 
 const Parameter: React.FC<Props> = ({
-  currentMethod,
   defaultValue,
   index,
   name,
   type,
   hide = false,
   required = false,
-  min,
-  max,
   updateValue,
   updateActive,
   activeParameters,
 }): JSX.Element => {
-  const { settings } = useStore();
+  const { settings, method } = useStore();
   const [open, setOpen] = useState<boolean>(!hide);
   const [value, setValue] = useState<Emoji | number | null>(null);
   const [hoverTitle, setHoverTitle] = useState<boolean>(false);
@@ -66,7 +60,7 @@ const Parameter: React.FC<Props> = ({
   useEffect(() => {
     //Set values when close/open
     if (open) {
-      if (type === "Emoji Picker") {
+      if (type === "Emoji") {
         if (typeof value === "number" || value === null) {
           const newValue = randomEmoji(settings.theme);
           setValue(newValue);
@@ -98,7 +92,7 @@ const Parameter: React.FC<Props> = ({
   useEffect(() => {
     //Send values to appropriate places
     updateValue(index, name, value);
-  }, [value, currentMethod]);
+  }, [value, method.title]);
 
   return (
     <div
@@ -106,19 +100,6 @@ const Parameter: React.FC<Props> = ({
       style={
         open && type !== "Hidden"
           ? {
-              // border: type === "Number" ? "dashed 6px var(--selection)" : "",
-              // borderRight:
-              //   type === "Number" && index === 1 && activeParameters[2]
-              //     ? "none"
-              //     : type === "Number"
-              //     ? "dashed 6px var(--selection)"
-              //     : "",
-              // borderLeft:
-              //   type === "Number" && index === 2 && activeParameters[1]
-              //     ? "none"
-              //     : type === "Number"
-              //     ? "dashed 6px var(--selection)"
-              //     : "",
               background: type === "Number" ? "var(--selection)" : "",
             }
           : {
@@ -161,15 +142,13 @@ const Parameter: React.FC<Props> = ({
             <input
               style={{ pointerEvents: open ? "all" : "none" }}
               type="number"
-              min={min}
-              max={max}
               onChange={(event) => setValue(Number(event.target.value))}
               value={value || value === 0 ? value.toString() : ""}
             />
           </div>
         </>
       )}
-      {type === "Emoji Picker" && (
+      {type === "Emoji" && (
         <>
           <div style={{ display: "flex" }}>
             <p

@@ -6,7 +6,7 @@ import "./output.scss";
 import { useStore } from "../../store/store";
 
 const Output: React.FC = () => {
-  const { settings } = useStore();
+  const { settings, output } = useStore();
   const { animationDuration: duration } = settings;
   const outputRef = useRef<HTMLUListElement | null>(null);
   const { state, dispatch } = useContext(BasketContext);
