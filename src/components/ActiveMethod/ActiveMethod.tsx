@@ -23,6 +23,26 @@ const ActiveMethods: React.FC<Props> = () => {
         setIndex(allMethods.findIndex((method) => title === method.title));
       }
     }
+    const updatedParameters = [...parameterValues];
+    method.parameters.forEach((param, index) => {
+      if (param.required || !param.hide) {
+        if (
+          param.type === "Number" &&
+          typeof parameterValues[index] !== "number"
+        ) {
+          updatedParameters[index] = null;
+        }
+        if (
+          param.type === "Emoji" &&
+          typeof parameterValues[index] === "number"
+        ) {
+          updatedParameters[index] = null;
+        }
+      } else {
+        updatedParameters[index] = null;
+      }
+    });
+    set({ parameterValues: updatedParameters });
   }, [method]);
 
   return (

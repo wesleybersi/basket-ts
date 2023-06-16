@@ -26,12 +26,7 @@ export interface Store {
     at: () => void;
     with: () => void;
   };
-  parameterValues: [
-    Emoji | number | null,
-    Emoji | number | null,
-    Emoji | number | null,
-    Emoji | number | null
-  ];
+  parameterValues: (Emoji | number | null)[];
   settings: {
     isOpen: boolean;
     theme: "Fruit" | "Veggies";
