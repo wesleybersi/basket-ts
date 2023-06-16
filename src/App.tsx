@@ -3,7 +3,7 @@ import "./App.scss";
 
 import Aside from "./components/Aside/Aside";
 import Basket from "./components/Basket/Basket";
-import ActiveMethod from "./components/ActiveMethod/ActiveMethod";
+import Input from "./components/Input/Input";
 import Output from "./components/Output/Output";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
@@ -43,7 +43,7 @@ function App() {
       {settings.isOpen && <Settings />}
       <main>
         <Basket />
-        <ActiveMethod />
+        <Input />
         <Output />
       </main>
     </div>

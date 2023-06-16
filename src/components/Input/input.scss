@@ -8,34 +8,7 @@
     padding: 0 1rem;
   }
 
-  .method-left,
-  .method-right {
-    position: absolute;
-    top: 50%;
-    background-color: white;
-    color: var(--black);
-    border: none;
-    transform: translateY(-50%);
-    width: 3rem;
-    aspect-ratio: 1;
-    display: grid;
-    place-content: center;
-    transition: 125ms ease all;
-    @media (max-width: 768px) {
-      display: none;
-    }
-    &:hover {
-      background-color: var(--blue);
-      color: white;
-    }
-  }
-  .method-left {
-    left: 0rem;
-  }
-  .method-right {
-    right: 0rem;
-  }
-  .method-wrapper {
+  .input-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -45,6 +18,7 @@
     .method {
       flex: 1;
       max-height: 50%;
+      max-height: 96px;
       transition: all 250ms ease;
       z-index: 2;
       display: flex;
@@ -100,5 +74,9 @@
         }
       }
     }
+  }
+  .parameters {
+    display: flex;
+    gap: 1rem;
   }
 }

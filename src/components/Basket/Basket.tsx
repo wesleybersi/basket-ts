@@ -37,11 +37,10 @@ const Basket: React.FC = () => {
     itemsToReplace,
   } = useStore();
   const { animationDuration: duration } = settings;
-  const { state, dispatch } = useContext(BasketContext);
-  const basketRef = useRef<HTMLUListElement | null>(null);
 
+  const basketRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
-  const [allBaskets, setAllBaskets] = useState<Emoji[][]>([[...state.basket]]);
+  const [allBaskets, setAllBaskets] = useState<Emoji[][]>([[...basket]]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
 
@@ -120,15 +119,15 @@ const Basket: React.FC = () => {
   }, [itemsToReplace]);
 
   useEffect(() => {
-    if (!state.loading && itemsToReplace.length === 0) {
+    if (!loading && itemsToReplace.length === 0) {
       const baskets = [...allBaskets];
-      baskets[currentIndex] = [...state.basket];
+      baskets[currentIndex] = [...basket];
       setAllBaskets(baskets);
       normalizeAll();
     }
 
     if (
-      state.loading &&
+      loading &&
       (method.title === "includes" ||
         method.title === "at" ||
         method.title === "indexOf" ||
@@ -152,9 +151,6 @@ const Basket: React.FC = () => {
       !loading ||
       itemsToRemove.length !== 0
     ) {
-      return;
-    }
-    if (method.title === "splice" && !state.spliceTrigger) {
       return;
     }
 
@@ -284,7 +280,7 @@ const Basket: React.FC = () => {
                     }
               }
               onClick={
-                !state.loading
+                !loading
                   ? () => {
                       if (!basketRef.current) {
                         return;
@@ -308,10 +304,10 @@ const Basket: React.FC = () => {
                                 basketRef.current.children.length - 1
                               ]
                             ) {
-                              dispatch({
-                                type: "Change Basket",
-                                newBasket: allBaskets[index],
-                              });
+                              // dispatch({
+                              //   type: "Change Basket",
+                              //   newBasket: allBaskets[index],
+                              // });
                               setCurrentIndex(index);
                             }
                             child.removeEventListener("animationend", end);
@@ -328,13 +324,13 @@ const Basket: React.FC = () => {
           <button
             style={{ background: "#22222211", color: "#555" }}
             onClick={
-              !state.loading && allBaskets.length < 11
+              !loading && allBaskets.length < 11
                 ? () => {
                     setAllBaskets((prev) => [...prev, []]);
-                    dispatch({
-                      type: "Change Basket",
-                      newBasket: [],
-                    });
+                    // dispatch({
+                    //   type: "Change Basket",
+                    //   newBasket: [],
+                    // });
                     setCurrentIndex(allBaskets.length);
                   }
                 : undefined
@@ -350,9 +346,9 @@ const Basket: React.FC = () => {
           <li className="basket-item">
             {item.emoji}
 
-            {!state.loading && (
+            {!loading && (
               <>
-                {state.selectedItems.includes(index) && (
+                {/* {state.selectedItems.includes(index) && (
                   <span className="basket-item-selected" />
                 )}
                 {state.targetedItems.includes(index) && (
@@ -362,7 +358,7 @@ const Basket: React.FC = () => {
                       <IconTarget color="red" size="6rem" />
                     </div>
                   </>
-                )}
+                )} */}
               </>
             )}
           </li>

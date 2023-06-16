@@ -1,4 +1,4 @@
-import { IParameter } from "./../components/Parameters/Parameters";
+import { ParameterState } from "./types";
 import { IconType } from "react-icons";
 
 import {
@@ -22,8 +22,15 @@ import { TbSlice as IconSlice } from "react-icons/tb";
 export interface IMethod {
   title: MethodName;
   icon: IconType;
-  parameters: IParameter[];
+  parameters: [
+    ParameterState | null,
+    ParameterState | null,
+    ParameterState | null,
+    ParameterState | null
+  ];
 }
+
+export type NumType = "Index" | "Start" | "End" | "Target" | "Delete";
 
 export type MethodName =
   | "pop"
@@ -50,67 +57,75 @@ export const allMethods: IMethod[] = [
       {
         name: "element0",
         required: true,
+        active: false,
         type: "Emoji",
       },
       {
         name: "element1",
         type: "Emoji",
+        active: false,
         hide: true,
       },
       {
         name: "element2",
         type: "Emoji",
+        active: false,
         hide: true,
       },
       {
         name: "element3",
         type: "Emoji",
+        active: false,
         hide: true,
       },
     ],
   },
-  { title: "pop", icon: IconPop, parameters: [] },
+  { title: "pop", icon: IconPop, parameters: [null, null, null, null] },
   {
     title: "unshift",
 
     icon: IconUnshift,
     parameters: [
-      { name: "element0", required: true, type: "Emoji" },
+      { name: "element0", required: true, active: false, type: "Emoji" },
       {
         name: "element1",
         type: "Emoji",
+        active: false,
         hide: true,
       },
       {
         name: "element2",
         type: "Emoji",
+        active: false,
         hide: true,
       },
       {
         name: "element3",
         type: "Emoji",
+        active: false,
         hide: true,
       },
     ],
   },
-  { title: "shift", icon: IconShift, parameters: [] },
+  { title: "shift", icon: IconShift, parameters: [null, null, null, null] },
   {
     title: "fill",
     icon: IconFill,
     parameters: [
-      { name: "element0", required: true, type: "Emoji" },
+      { name: "element0", required: true, active: false, type: "Emoji" },
       {
         name: "start",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
       {
         name: "end",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
     ],
   },
 
@@ -122,19 +137,20 @@ export const allMethods: IMethod[] = [
         name: "start",
         type: "Number",
         required: true,
-        default: 0,
+        active: false,
         hide: false,
       },
       {
         name: "deleteCount",
         type: "Number",
         hide: true,
-        default: 1,
+        active: false,
       },
-      { name: "item1", hide: true, type: "Emoji" },
+      { name: "item1", hide: true, active: false, type: "Emoji" },
       {
         name: "item2",
         type: "Emoji",
+        active: false,
         hide: true,
       },
     ],
@@ -148,20 +164,22 @@ export const allMethods: IMethod[] = [
         name: "start",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
       {
         name: "end",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
+      null,
     ],
   },
   {
     title: "reverse",
     icon: IconReverse,
-    parameters: [],
+    parameters: [null, null, null, null],
   },
   {
     title: "with",
@@ -171,14 +189,17 @@ export const allMethods: IMethod[] = [
         name: "index",
         required: true,
         type: "Number",
-        default: 0,
+        active: false,
       },
       {
         name: "value",
         required: true,
         type: "Emoji",
         hide: false,
+        active: false,
       },
+      null,
+      null,
     ],
   },
   {
@@ -189,20 +210,21 @@ export const allMethods: IMethod[] = [
         name: "target",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
       {
         name: "start",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
       {
         name: "end",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
     ],
   },
 
@@ -214,21 +236,26 @@ export const allMethods: IMethod[] = [
         name: "index",
         type: "Number",
         hide: false,
-        default: 0,
+        active: false,
       },
+      null,
+      null,
+      null,
     ],
   },
   {
     title: "includes",
     icon: IconIncludes,
     parameters: [
-      { name: "searchElement", required: true, type: "Emoji" },
+      { name: "searchElement", required: true, active: false, type: "Emoji" },
       {
         name: "fromIndex",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
+      null,
     ],
   },
   {
@@ -239,14 +266,17 @@ export const allMethods: IMethod[] = [
         name: "searchElement",
         required: true,
         type: "Emoji",
+        active: false,
         hide: false,
       },
       {
         name: "fromIndex",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
+      null,
     ],
   },
   {
@@ -258,14 +288,16 @@ export const allMethods: IMethod[] = [
         required: true,
         type: "Emoji",
         hide: false,
-        default: 0,
+        active: false,
       },
       {
         name: "fromIndex",
         type: "Number",
         hide: true,
-        default: 0,
+        active: false,
       },
+      null,
+      null,
     ],
   },
 
@@ -277,8 +309,11 @@ export const allMethods: IMethod[] = [
         name: "index",
         required: true,
         type: "Number",
-        default: 0,
+        active: false,
       },
+      null,
+      null,
+      null,
     ],
   },
 ];

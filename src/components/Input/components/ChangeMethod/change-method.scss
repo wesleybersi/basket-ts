@@ -1,0 +1,28 @@
+.change-method-left {
+  left: 0rem;
+}
+.change-method-right {
+  right: 0rem;
+}
+
+.change-method-left,
+.change-method-right {
+  position: absolute;
+  top: 50%;
+  background-color: white;
+  color: var(--black);
+  border: none;
+  transform: translateY(-50%);
+  width: 3rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+  &:hover {
+    background-color: var(--blue);
+    color: white;
+  }
+}

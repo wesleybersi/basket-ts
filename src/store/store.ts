@@ -34,8 +34,8 @@ export const useStore = create<Store>((set, get) => ({
     push: () =>
       set((state) => {
         const items = [];
-        for (const item of state.parameterValues) {
-          if (item instanceof Emoji) items.push(item);
+        for (const parameter of state.parameters) {
+          if (parameter?.value instanceof Emoji) items.push(parameter.value);
         }
         return {
           loading: true,
@@ -47,8 +47,8 @@ export const useStore = create<Store>((set, get) => ({
     unshift: () =>
       set((state) => {
         const items = [];
-        for (const item of state.parameterValues) {
-          if (item instanceof Emoji) items.push(item);
+        for (const parameter of state.parameters) {
+          if (parameter?.value instanceof Emoji) items.push(parameter.value);
         }
         return {
           loading: true,
@@ -106,7 +106,7 @@ export const useStore = create<Store>((set, get) => ({
         return {};
       }),
   },
-  parameterValues: [null, null, null, null],
+  parameters: allMethods[0].parameters,
   settings: { isOpen: false, theme: "Fruit", animationDuration: 250 },
   set,
 }));

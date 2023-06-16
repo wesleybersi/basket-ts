@@ -26,7 +26,7 @@ export interface Store {
     at: () => void;
     with: () => void;
   };
-  parameterValues: (Emoji | number | null)[];
+  parameters: Parameters;
   settings: {
     isOpen: boolean;
     theme: "Fruit" | "Veggies";
@@ -40,3 +40,19 @@ export interface Store {
     replace?: boolean | undefined
   ) => void;
 }
+
+export interface ParameterState {
+  name: string;
+  type: "Emoji" | "Number";
+  active?: boolean;
+  value?: Emoji | number;
+  required?: boolean;
+  hide?: boolean;
+}
+
+export type Parameters = [
+  ParameterState | null,
+  ParameterState | null,
+  ParameterState | null,
+  ParameterState | null
+];
