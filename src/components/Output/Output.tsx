@@ -1,5 +1,5 @@
 import { useContext, memo, useState, useRef, useEffect } from "react";
-import { BasketContext } from "../../contexts/BasketContext";
+
 import { Emoji } from "../../utils/emoji/emojis";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import "./output.scss";

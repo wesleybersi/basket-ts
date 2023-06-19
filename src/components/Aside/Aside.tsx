@@ -1,9 +1,6 @@
 import { useContext, memo, useState, useRef, useEffect } from "react";
-import { BasketContext } from "../../contexts/BasketContext";
 import { allMethods } from "../../store/methods";
-import { MethodName } from "../../contexts/types";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
-import { GrSettingsOption as IconSettings } from "react-icons/gr";
 import { useStore } from "../../store/store";
 import {
   BsChevronDoubleRight as IconChevronRight,
