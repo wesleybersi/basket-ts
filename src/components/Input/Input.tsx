@@ -4,13 +4,23 @@ import { allMethods } from "../../store/methods";
 import { useStore } from "../../store/store";
 import Method from "./components/Method/Method";
 import ChangeMethod from "./components/ChangeMethod/ChangeMethod";
+import { Emoji } from "../../utils/emoji/emojis";
 
 import "./input.scss";
 
 interface Props {}
 
 const Input: React.FC<Props> = () => {
-  const { set, method } = useStore();
+  const {
+    set,
+    method,
+    triggerSplice,
+    selection,
+    parameters,
+    basket,
+    updateParameterState,
+    selectedIndexes,
+  } = useStore();
   const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -18,9 +28,61 @@ const Input: React.FC<Props> = () => {
       if (title === method.title) {
         setIndex(allMethods.findIndex((method) => title === method.title));
       }
+      for (const [index, param] of method.parameters) {
+        if (!param) continue;
+        param.value = undefined;
+        param.active = undefined;
+      }
+      set({
+        parameters: method.parameters,
+        output: undefined,
+        selection: {
+          show: false,
+          start: undefined,
+          end: undefined,
+          index: undefined,
+          target: undefined,
+          amount: undefined,
+          highlight: undefined,
+        },
+        selectedIndexes: [],
+      });
     }
-    set({ parameters: method.parameters });
   }, [method.title]);
+
+  useEffect(() => {
+    if (triggerSplice) {
+      // for (const [index, parameter] of parameters) {
+      //   if (!parameter) continue;
+      //   updateParameterState(
+      //     index,
+      //     parameter.value,
+      //     parameter.active ? true : false
+      //   );
+      // }
+
+      const updatedBasket = [...basket];
+      const items = [];
+      const value1 = parameters.get(2)?.value;
+      const value2 = parameters.get(3)?.value;
+      const index = selectedIndexes[0] ?? 0;
+      let itemsToAdd: number[] = [];
+      if (value1 instanceof Emoji) items.push(value1);
+      if (value2 instanceof Emoji) items.push(value2);
+      if (items.length === 1) itemsToAdd = [index];
+      if (items.length === 2) itemsToAdd = [index, index + 1];
+
+      updatedBasket.splice(index, 0, ...items);
+
+      set({
+        loading: true,
+        basket: updatedBasket,
+        itemsToAdd,
+      });
+    } else {
+      set({ selection: { ...selection, show: true } });
+    }
+  }, [triggerSplice]);
 
   return (
     <section className="active-method">

@@ -1,29 +1,13 @@
-import { useContext, memo, useState, useRef, useEffect, Children } from "react";
-import { BasketContext } from "../../contexts/BasketContext";
+import { memo, useState, useRef, useEffect } from "react";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import { Emoji } from "../../utils/emoji/emojis";
+import Picker from "./components/Picker/Picker";
+import Selection from "./components/Selection/Selection";
+import { playPopSound } from "../../utils/audio/pop-sound";
 
-import { RiAddFill as IconAdd } from "react-icons/ri";
 import { useStore } from "../../store/store";
 
-import { IoMdClose as IconTarget } from "react-icons/io";
 import "./basket.scss";
-
-import audioPop01 from "../../assets/audio/pop_01.wav";
-import audioPop02 from "../../assets/audio/pop_02.wav";
-import audioPop03 from "../../assets/audio/pop_03.wav";
-import audioPop04 from "../../assets/audio/pop_04.wav";
-import audioPop05 from "../../assets/audio/pop_05.wav";
-import audioPop06 from "../../assets/audio/pop_06.wav";
-
-const audioPops = [
-  audioPop01,
-  audioPop02,
-  audioPop03,
-  audioPop04,
-  audioPop05,
-  audioPop06,
-];
 
 const Basket: React.FC = () => {
   const {
@@ -35,8 +19,13 @@ const Basket: React.FC = () => {
     itemsToAdd,
     itemsToRemove,
     itemsToReplace,
+    itemsToProcess,
+    selectedIndexes,
+    processedIndexes,
+    selection,
+    parameters,
   } = useStore();
-  const { animationDuration: duration } = settings;
+  const { animationDuration: duration, soundEnabled } = settings;
 
   const basketRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
@@ -82,21 +71,20 @@ const Basket: React.FC = () => {
     });
   }
 
-  function playPopSound() {
-    const pop = new Audio(
-      audioPops[Math.floor(Math.random() * audioPops.length)]
-    );
-    pop.volume = 0.25;
-    pop.play();
-  }
-
   useEffect(() => {
     if (itemsToReplace.length === 0 || !basketRef.current || !loading) {
+      console.log(loading);
+      console.log(itemsToReplace);
       return;
     }
     let accumulator = 0;
-    let replaceDuration = duration / 2;
+    let replaceDuration =
+      method.title === "reverse" || method.title === "fill"
+        ? duration / 2
+        : duration;
     let count = 0;
+
+    const processed = new Set<number>();
     for (const { index, replacement } of itemsToReplace) {
       setTimeout(() => {
         //ANCHOR Replace item every iteration
@@ -107,16 +95,50 @@ const Basket: React.FC = () => {
             basket: updatedBasket,
           };
         });
-        playPopSound();
+        if (settings.soundEnabled) playPopSound();
+
+        processed.add(selectedIndexes[count]);
+        set({ processedIndexes: processed });
+
         count++;
         if (count === itemsToReplace.length) {
           //ANCHOR Items replaced
-          set({ loading: false, itemsToReplace: [] });
+          setTimeout(() => {
+            set({
+              loading: false,
+              itemsToReplace: [],
+              processedIndexes: new Set(),
+            });
+          }, replaceDuration);
         }
       }, accumulator);
       accumulator += replaceDuration;
     }
   }, [itemsToReplace]);
+
+  useEffect(() => {
+    if (!loading || itemsToProcess.length === 0) return;
+
+    let accumulator = 0;
+    const processed = new Set<number>();
+    for (const index of itemsToProcess) {
+      setTimeout(() => {
+        processed.add(index);
+        set({ processedIndexes: processed });
+        if (index === itemsToProcess.length - 1) {
+          setTimeout(() => {
+            processed.clear();
+            set({ itemsToProcess: [], processedIndexes: processed });
+          }, duration * 2);
+        }
+      }, accumulator);
+      accumulator += duration;
+    }
+  }, [itemsToProcess]);
+
+  useEffect(() => {
+    console.log(processedIndexes);
+  }, [processedIndexes]);
 
   useEffect(() => {
     if (!loading && itemsToReplace.length === 0) {
@@ -140,6 +162,9 @@ const Basket: React.FC = () => {
   useEffect(() => {
     if (!loading) {
       normalizeAll(true);
+
+      const indexes = selectedIndexes.filter((index) => index < basket.length);
+      set({ selectedIndexes: indexes });
     }
   }, [currentIndex]);
 
@@ -191,7 +216,6 @@ const Basket: React.FC = () => {
 
       if (accumulator === 0) {
         if (noItems) {
-          console.log("NO ITEMS");
           setAnimationOffset("0");
           setTimeout(() => {
             animationOffset();
@@ -202,19 +226,20 @@ const Basket: React.FC = () => {
       }
 
       child.addEventListener("animationend", end);
-      if (method.title !== "splice") {
-        child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
-        accumulator += duration;
-      } else {
-        child.style.animation = `spliceItemAdd ${duration * 2}ms ease`;
-      }
+
+      child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
+      accumulator += duration;
 
       function end() {
         itemStyling(child, "Normalize");
-        playPopSound();
+        if (settings.soundEnabled) playPopSound();
         if (index === itemsToAdd[itemsToAdd.length - 1]) {
           //ANCHOR Items added
-          set({ loading: false, itemsToAdd: [] });
+          set({
+            loading: false,
+            itemsToAdd: [],
+            triggerSplice: false,
+          });
         }
         child.removeEventListener("animationend", end);
       }
@@ -226,19 +251,20 @@ const Basket: React.FC = () => {
     if (!basketRef.current || !loading || itemsToRemove.length === 0) {
       return;
     }
-    console.log(itemsToRemove);
 
     let accumulator = 0;
     let count = 0;
+
     for (const index of itemsToRemove) {
       const child = basketRef.current.children[index] as HTMLElement;
+      if (!child) continue;
       itemStyling(child, "Normalize");
       child.addEventListener("animationend", end);
       child.style.animation = `removeItem ${duration}ms ease ${accumulator}ms`;
 
       function end() {
         itemStyling(child, "Zero");
-        playPopSound();
+        if (settings.soundEnabled) playPopSound();
         count++;
         if (count === itemsToRemove.length) {
           //ANCHOR Items removed
@@ -246,16 +272,25 @@ const Basket: React.FC = () => {
             const updatedBasket = state.basket.filter(
               (_, index) => !state.itemsToRemove.includes(index)
             );
+
+            const spliceAdd = parameters.get(2)?.value ? true : false;
+
             return {
               ...state,
               basket: updatedBasket,
               loading: false,
               itemsToRemove: [],
+              triggerSplice: spliceAdd,
+              selection: {
+                ...selection,
+                show: !spliceAdd,
+              },
             };
           });
         }
         child.removeEventListener("animationend", end);
       }
+      accumulator += duration;
     }
   }, [itemsToRemove]);
 
@@ -263,104 +298,30 @@ const Basket: React.FC = () => {
     <section className="basket-wrapper">
       <div className="basket-header">
         <p>const basket =</p>
-        <div className="basket-picker">
-          {allBaskets.map((basket, index) => (
-            <button
-              style={
-                currentIndex === index
-                  ? {
-                      backgroundColor:
-                        basket.length === 20 ? "var(--red)" : "var(--blue)",
-                      color: "#222",
-                      fontWeight: 600,
-                    }
-                  : {
-                      background: "#22222211",
-                      color: "#555",
-                    }
-              }
-              onClick={
-                !loading
-                  ? () => {
-                      if (!basketRef.current) {
-                        return;
-                      }
-                      const children = basketRef.current.children.length;
-                      [...new Array(children)].forEach((_, index) => {
-                        if (basketRef.current) {
-                          const child = basketRef.current.children[
-                            index
-                          ] as HTMLElement;
-                          setAnimationOffset("0");
-                          child.style.animation = `removeItem ${duration}ms ease`;
-                          child.addEventListener("animationend", end);
-                          function end() {
-                            if (!basketRef.current) {
-                              return;
-                            }
-                            if (
-                              child ===
-                              basketRef.current.children[
-                                basketRef.current.children.length - 1
-                              ]
-                            ) {
-                              // dispatch({
-                              //   type: "Change Basket",
-                              //   newBasket: allBaskets[index],
-                              // });
-                              setCurrentIndex(index);
-                            }
-                            child.removeEventListener("animationend", end);
-                          }
-                        }
-                      });
-                    }
-                  : undefined
-              }
-            >
-              <p>{basket.length}</p>
-            </button>
-          ))}
-          <button
-            style={{ background: "#22222211", color: "#555" }}
-            onClick={
-              !loading && allBaskets.length < 11
-                ? () => {
-                    setAllBaskets((prev) => [...prev, []]);
-                    // dispatch({
-                    //   type: "Change Basket",
-                    //   newBasket: [],
-                    // });
-                    setCurrentIndex(allBaskets.length);
-                  }
-                : undefined
-            }
-          >
-            <IconAdd size="24px" />
-          </button>
-        </div>
+        <Picker />
       </div>
       <ul className="basket" ref={basketRef}>
         {basket.length === 0 && <li></li>}
         {basket.map((item, index) => (
           <li className="basket-item">
-            {item.emoji}
-
-            {!loading && (
-              <>
-                {/* {state.selectedItems.includes(index) && (
-                  <span className="basket-item-selected" />
-                )}
-                {state.targetedItems.includes(index) && (
-                  <>
-                    <span className="basket-item-selected basket-item-selected-red" />{" "}
-                    <div className="basket-item-target">
-                      <IconTarget color="red" size="6rem" />
-                    </div>
-                  </>
-                )} */}
-              </>
+            {item.emoji}{" "}
+            {selection.show &&
+              selectedIndexes.includes(index) &&
+              !processedIndexes.has(index) && (
+                <Selection
+                  type={
+                    selection.amount !== undefined &&
+                    selection.amount > 0 &&
+                    method.title !== "lastIndexOf"
+                      ? "red"
+                      : "blue"
+                  }
+                />
+              )}
+            {selection.target !== undefined && selection.target === index && (
+              <Selection type="target" />
             )}
+            {selection.highlight === index && <Selection type="highlight" />}
           </li>
         ))}
       </ul>

@@ -6,7 +6,7 @@ import { useStore } from "../../store/store";
 import themes from "../../utils/emoji/themes";
 
 interface ThemeOption {
-  name: "Fruit" | "Veggies";
+  name: "Fruit" | "Veggies" | "All";
   icon: string;
 }
 
@@ -114,6 +114,17 @@ const Settings: React.FC = (): JSX.Element => {
               </button>
             ))}
           </div>
+        </div>
+        <div className="option options-sound">
+          <p>Enable sound:</p>
+          <button
+            style={{ backgroundColor: settings.soundEnabled ? "green" : "red" }}
+            onClick={() =>
+              set({
+                settings: { ...settings, soundEnabled: !settings.soundEnabled },
+              })
+            }
+          ></button>
         </div>
       </div>
     </div>

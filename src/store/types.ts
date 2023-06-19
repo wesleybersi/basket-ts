@@ -1,14 +1,18 @@
 import { Emoji } from "../utils/emoji/emojis";
-import { IMethod } from "./methods";
+import { IMethod, MethodName } from "./methods";
+import { ParameterState } from "./methods";
 
 export interface Store {
   loading: boolean;
   method: IMethod;
   basket: Emoji[];
-  output: number | Emoji | Emoji[] | undefined;
+  output: number | string | Emoji | Emoji[] | undefined;
   itemsToRemove: number[];
   itemsToAdd: number[];
+  itemsToProcess: number[];
   itemsToReplace: { index: number; replacement: Emoji }[];
+  processedIndexes: Set<number>;
+  triggerSplice: boolean;
   methods: {
     push: () => void;
     pop: () => void;
@@ -26,11 +30,29 @@ export interface Store {
     at: () => void;
     with: () => void;
   };
-  parameters: Parameters;
+  parameters: Map<number, ParameterState | null>;
+  updateAllParameters: () => void;
+  updateParameterState: (
+    index: number,
+    value: Emoji | number | string | undefined,
+    active: boolean
+  ) => void;
+  selectedIndexes: number[];
+  targetedIndexes: number[];
+  selection: {
+    show: boolean;
+    start: number | undefined;
+    end: number | undefined;
+    index: number | undefined;
+    amount: number | undefined;
+    target: number | undefined;
+    highlight: number | undefined;
+  };
   settings: {
     isOpen: boolean;
-    theme: "Fruit" | "Veggies";
+    theme: "Fruit" | "Veggies" | "All";
     animationDuration: number;
+    soundEnabled: boolean;
   };
   set: (
     partial:
@@ -39,15 +61,6 @@ export interface Store {
       | ((state: Store) => Store | Partial<Store>),
     replace?: boolean | undefined
   ) => void;
-}
-
-export interface ParameterState {
-  name: string;
-  type: "Emoji" | "Number";
-  active?: boolean;
-  value?: Emoji | number;
-  required?: boolean;
-  hide?: boolean;
 }
 
 export type Parameters = [

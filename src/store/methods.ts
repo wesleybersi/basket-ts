@@ -1,5 +1,5 @@
-import { ParameterState } from "./types";
 import { IconType } from "react-icons";
+import { Emoji } from "../utils/emoji/emojis";
 
 import {
   BsBoxArrowInLeft as IconPush,
@@ -22,12 +22,8 @@ import { TbSlice as IconSlice } from "react-icons/tb";
 export interface IMethod {
   title: MethodName;
   icon: IconType;
-  parameters: [
-    ParameterState | null,
-    ParameterState | null,
-    ParameterState | null,
-    ParameterState | null
-  ];
+  hasSelection: boolean;
+  parameters: Map<number, ParameterState | null>;
 }
 
 export type NumType = "Index" | "Start" | "End" | "Target" | "Delete";
@@ -48,272 +44,482 @@ export type MethodName =
   | "lastIndexOf"
   | "at"
   | "with";
+// | "join"
+// | "filter";
+
+export interface ParameterState {
+  name: string;
+  type: "Emoji" | "Number" | "String" | "Callback";
+  active?: boolean;
+  value?: Emoji | number | string;
+  required?: boolean;
+  hide?: boolean;
+  color?: string;
+}
 
 export const allMethods: IMethod[] = [
   {
     title: "push",
     icon: IconPush,
-    parameters: [
-      {
-        name: "element0",
-        required: true,
-        active: false,
-        type: "Emoji",
-      },
-      {
-        name: "element1",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-      {
-        name: "element2",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-      {
-        name: "element3",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-    ],
+    hasSelection: false,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "element0",
+          type: "Emoji",
+          required: true,
+          active: false,
+        },
+      ],
+      [
+        1,
+        {
+          name: "element1",
+          type: "Emoji",
+          hide: true,
+          active: false,
+        },
+      ],
+      [
+        2,
+        {
+          name: "element2",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+      [
+        3,
+        {
+          name: "element3",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+    ]),
   },
-  { title: "pop", icon: IconPop, parameters: [null, null, null, null] },
+  {
+    title: "pop",
+    icon: IconPop,
+    hasSelection: false,
+    parameters: new Map([
+      [0, null],
+      [1, null],
+      [2, null],
+      [3, null],
+    ]),
+  },
   {
     title: "unshift",
-
+    hasSelection: false,
     icon: IconUnshift,
-    parameters: [
-      { name: "element0", required: true, active: false, type: "Emoji" },
-      {
-        name: "element1",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-      {
-        name: "element2",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-      {
-        name: "element3",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-    ],
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "element0",
+
+          required: true,
+          active: false,
+          type: "Emoji",
+        },
+      ],
+      [
+        1,
+        {
+          name: "element1",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+      [
+        2,
+        {
+          name: "element2",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+      [
+        3,
+        {
+          name: "element3",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+    ]),
   },
-  { title: "shift", icon: IconShift, parameters: [null, null, null, null] },
+  {
+    title: "shift",
+    icon: IconShift,
+    hasSelection: false,
+    parameters: new Map([
+      [0, null],
+      [1, null],
+      [2, null],
+      [3, null],
+    ]),
+  },
+  {
+    title: "reverse",
+    icon: IconReverse,
+    hasSelection: true,
+    parameters: new Map([
+      [0, null],
+      [1, null],
+      [2, null],
+      [3, null],
+    ]),
+  },
   {
     title: "fill",
     icon: IconFill,
-    parameters: [
-      { name: "element0", required: true, active: false, type: "Emoji" },
-      {
-        name: "start",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      {
-        name: "end",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [0, { name: "element0", required: true, active: false, type: "Emoji" }],
+      [
+        1,
+        {
+          name: "start",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [
+        2,
+        {
+          name: "end",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [3, null],
+    ]),
   },
 
   {
     title: "splice",
     icon: IconSplice,
-    parameters: [
-      {
-        name: "start",
-        type: "Number",
-        required: true,
-        active: false,
-        hide: false,
-      },
-      {
-        name: "deleteCount",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      { name: "item1", hide: true, active: false, type: "Emoji" },
-      {
-        name: "item2",
-        type: "Emoji",
-        active: false,
-        hide: true,
-      },
-    ],
-  },
-
-  {
-    title: "slice",
-    icon: IconSlice,
-    parameters: [
-      {
-        name: "start",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      {
-        name: "end",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-      null,
-    ],
-  },
-  {
-    title: "reverse",
-    icon: IconReverse,
-    parameters: [null, null, null, null],
-  },
-  {
-    title: "with",
-    icon: IconWith,
-    parameters: [
-      {
-        name: "index",
-        required: true,
-        type: "Number",
-        active: false,
-      },
-      {
-        name: "value",
-        required: true,
-        type: "Emoji",
-        hide: false,
-        active: false,
-      },
-      null,
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "start",
+          type: "Number",
+          required: true,
+          active: false,
+          hide: false,
+          color: "var(--selection)",
+        },
+      ],
+      [
+        1,
+        {
+          name: "deleteCount",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--deleteCount)",
+        },
+      ],
+      [2, { name: "item1", hide: true, active: false, type: "Emoji" }],
+      [
+        3,
+        {
+          name: "item2",
+          type: "Emoji",
+          active: false,
+          hide: true,
+        },
+      ],
+    ]),
   },
   {
     title: "copyWithin",
     icon: IconCopy,
-    parameters: [
-      {
-        name: "target",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      {
-        name: "start",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      {
-        name: "end",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "target",
+          type: "Number",
+          required: true,
+          active: false,
+          color: "var(--highlight)",
+        },
+      ],
+      [
+        1,
+        {
+          name: "start",
+          type: "Number",
+
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [
+        2,
+        {
+          name: "end",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [3, null],
+    ]),
+  },
+  {
+    title: "slice",
+    icon: IconSlice,
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "start",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [
+        1,
+        {
+          name: "end",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [3, null],
+      [4, null],
+    ]),
+  },
+
+  {
+    title: "with",
+    icon: IconWith,
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "index",
+          required: true,
+          type: "Number",
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [
+        1,
+        {
+          name: "value",
+          required: true,
+          type: "Emoji",
+          active: false,
+        },
+      ],
+      [2, null],
+      [3, null],
+    ]),
   },
 
   {
     title: "concat",
     icon: IconConcat,
-    parameters: [
-      {
-        name: "index",
-        type: "Number",
-        hide: false,
-        active: false,
-      },
-      null,
-      null,
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "index",
+          type: "Number",
+          hide: false,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [1, null],
+      [2, null],
+      [3, null],
+    ]),
   },
   {
     title: "includes",
     icon: IconIncludes,
-    parameters: [
-      { name: "searchElement", required: true, active: false, type: "Emoji" },
-      {
-        name: "fromIndex",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        { name: "searchElement", required: true, active: false, type: "Emoji" },
+      ],
+      [
+        1,
+        {
+          name: "fromIndex",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [2, null],
+      [3, null],
+    ]),
   },
   {
     title: "indexOf",
     icon: IconIndexOf,
-    parameters: [
-      {
-        name: "searchElement",
-        required: true,
-        type: "Emoji",
-        active: false,
-        hide: false,
-      },
-      {
-        name: "fromIndex",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "searchElement",
+          required: true,
+          type: "Emoji",
+          active: false,
+          hide: false,
+        },
+      ],
+      [
+        1,
+        {
+          name: "fromIndex",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [2, null],
+      [3, null],
+    ]),
   },
   {
     title: "lastIndexOf",
     icon: IconIndexOf,
-    parameters: [
-      {
-        name: "searchElement",
-        required: true,
-        type: "Emoji",
-        hide: false,
-        active: false,
-      },
-      {
-        name: "fromIndex",
-        type: "Number",
-        hide: true,
-        active: false,
-      },
-      null,
-      null,
-    ],
+    hasSelection: true,
+    parameters: new Map([
+      [
+        0,
+        {
+          name: "searchElement",
+          required: true,
+          type: "Emoji",
+          hide: false,
+          active: false,
+        },
+      ],
+      [
+        1,
+        {
+          name: "fromIndex",
+          type: "Number",
+          hide: true,
+          active: false,
+          color: "var(--selection)",
+        },
+      ],
+      [2, null],
+      [3, null],
+    ]),
   },
+  // {
+  //   title: "filter",
+  //   icon: IconWith,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "callbackFn",
+  //         required: true,
+  //         type: "Callback",
+  //         active: false,
+  //       },
+  //     ],
+  //     [1, null],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
 
-  {
-    title: "at",
-    icon: IconIndexOf,
-    parameters: [
-      {
-        name: "index",
-        required: true,
-        type: "Number",
-        active: false,
-      },
-      null,
-      null,
-      null,
-    ],
-  },
+  // {
+  //   title: "join",
+  //   icon: IconConcat,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "seperator",
+  //         type: "String",
+  //         hide: false,
+  //         active: false,
+  //       },
+  //     ],
+  //     [1, null],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
+
+  // {
+  //   title: "join",
+  //   icon: IconConcat,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "seperator",
+  //         type: "String",
+  //         hide: false,
+  //         active: false,
+  //       },
+  //     ],
+  //     [1, null],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
+
+  // {
+  //   title: "at",
+  //   icon: IconIndexOf,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "index",
+  //         required: true,
+  //         type: "Number",
+  //         active: false,
+  //       },
+  //     ],
+  //     [1, null],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
 ];

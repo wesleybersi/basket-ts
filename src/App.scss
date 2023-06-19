@@ -70,7 +70,7 @@
       }
     }
     .header-right {
-      flex: 1;
+      flex: 6;
 
       justify-content: flex-end;
       align-items: center;
@@ -94,6 +94,9 @@
           border: none;
           font-size: 2.5rem;
         }
+        &:hover {
+          filter: invert(1);
+        }
       }
     }
   }
@@ -112,7 +115,7 @@
     flex-direction: column;
     // justify-content: center;
 
-    padding-top: 7rem;
+    padding-top: 8rem;
     .aside-top {
       position: fixed;
       top: 0;
@@ -157,7 +160,7 @@
         width: 100%;
         height: 100%;
         display: flex;
-
+        transition: all 125ms ease;
         cursor: pointer;
         opacity: 0.85;
         &:hover {
@@ -176,5 +179,17 @@
         }
       }
     }
+  }
+}
+
+@keyframes inOut {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2rem);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

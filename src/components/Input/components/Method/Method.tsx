@@ -1,4 +1,5 @@
 import { useStore } from "../../../../store/store";
+import { useEffect, useState } from "react";
 import { Emoji } from "../../../../utils/emoji/emojis";
 
 const Method: React.FC = () => {
@@ -12,17 +13,21 @@ const Method: React.FC = () => {
       >
         basket.
         {method.title}(
-        {parameters.map((parameter, index, arr) => {
+        {Array.from(parameters).map(([id, parameter], index, arr) => {
           if (!parameter) return;
           if (parameter.value instanceof Emoji) {
             return (
               parameter.value.emoji +
               `${
-                arr[index + 1]?.value || arr[index + 1]?.value === 0 ? "," : ""
+                parameters.get(index + 1)?.value ||
+                parameters.get(index + 1)?.value === 0
+                  ? ","
+                  : ""
               }`
             );
           } else if (typeof parameter.value === "number") {
-            return arr[index + 1]?.value || arr[index + 1]?.value === 0
+            return parameters.get(index + 1)?.value ||
+              parameters.get(index + 1)?.value === 0
               ? parameter.value + ","
               : parameter.value;
           }

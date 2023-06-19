@@ -18,33 +18,33 @@
 //     active4,
 //   ]);
 
-//   function updateValue(
-//     index: number,
-//     name: string,
-//     value: Emoji | number | null
-//   ) {
-//     parameterValues[index] = value;
-//     set({ parameterValues: [...parameterValues] });
+// function updateValue(
+//   index: number,
+//   name: string,
+//   value: Emoji | number | null
+// ) {
+//   parameterValues[index] = value;
+//   set({ parameterValues: [...parameterValues] });
 
-//     // if (typeof value === "number" || value === null) {
-//     //   if (name === "index") {
-//     //     dispatch({ type: "Select Items", index: value });
-//     //   } else if (
-//     //     name === "start" ||
-//     //     (name === "fromIndex" && state.method !== "LastIndexOf")
-//     //   ) {
-//     //     dispatch({ type: "Select Items", start: value });
-//     //   } else if (name === "fromIndex" && state.method === "LastIndexOf") {
-//     //     dispatch({ type: "Select Items", start: 0, amount: value });
-//     //   } else if (name === "end") {
-//     //     dispatch({ type: "Select Items", end: value });
-//     //   } else if (name === "target") {
-//     //     dispatch({ type: "Select Items", target: value });
-//     //   } else if (name === "deleteCount") {
-//     //     dispatch({ type: "Select Items", amount: value });
-//     //   }
-//     // }
+//   if (typeof value === "number" || value === null) {
+//     if (name === "index") {
+//       dispatch({ type: "Select Items", index: value });
+//     } else if (
+//       name === "start" ||
+//       (name === "fromIndex" && state.method !== "LastIndexOf")
+//     ) {
+//       dispatch({ type: "Select Items", start: value });
+//     } else if (name === "fromIndex" && state.method === "LastIndexOf") {
+//       dispatch({ type: "Select Items", start: 0, amount: value });
+//     } else if (name === "end") {
+//       dispatch({ type: "Select Items", end: value });
+//     } else if (name === "target") {
+//       dispatch({ type: "Select Items", target: value });
+//     } else if (name === "deleteCount") {
+//       dispatch({ type: "Select Items", amount: value });
+//     }
 //   }
+// }
 
 //   useEffect(() => {
 //     parameterValues.forEach((value, index) => {

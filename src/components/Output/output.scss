@@ -4,15 +4,16 @@
   transition: all 250ms ease-in;
   justify-content: center;
   margin-top: 2rem;
+
   .output-lens {
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    padding: 2rem;
     gap: 1rem;
     margin: 2rem 0;
-    padding: 2rem;
     background-color: rgba(255, 255, 255, 0.75);
+
     // box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
     // transform: translateY(calc(-100% - 2rem));
     // border-radius: 1rem;
@@ -20,7 +21,7 @@
 
     position: relative;
     overflow: hidden;
-
+    padding: 2rem;
     @media (max-width: 768px) {
       padding: 1rem;
     }
@@ -40,46 +41,68 @@
       display: none;
     }
     .output-header {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .output-basket-length,
+      .output-add-basket {
+        position: relative;
+        border: none;
+        font-weight: 500;
+        width: 2rem;
+        aspect-ratio: 1;
+        font-size: 1rem;
+        display: grid;
+        place-content: center;
+        @media (max-width: 768px) {
+          width: 1.75rem;
+          height: 1.75rem;
+          font-size: calc(var(--itemFont) / 2);
+        }
+        @media (max-width: 500px) {
+          width: 1rem;
+          height: 1rem;
+          font-size: calc(var(--itemFont) / 1.25);
+          scale: 0.75 !important;
+        }
+      }
     }
+
     .output {
-      padding: 0.5rem;
+      padding: 0 2rem;
       background-color: white;
-      //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.075);
       align-items: center;
       height: 96px;
-
       border: 1px solid #22222244;
-      //   border-radius: 100vw !important;
       justify-content: center;
       transition: all 250ms ease;
       justify-content: center;
-      // width: var(--pageWidth);
-      // max-width: var(--pageWidth);
-      transition: all 250ms ease;
+
       position: relative;
       overflow: hidden;
 
       @media (max-width: 768px) {
         max-height: 5rem;
       }
-      &:before {
-        position: absolute;
-        left: 0;
-        content: "[";
-        opacity: var(--brackets);
-        font-size: 2.5rem;
-        padding: 1rem;
-        margin: 0.5rem 0.5rem;
-      }
+      &:before,
       &:after {
         position: absolute;
-        right: 0;
-        content: "]";
+        top: 8px;
+        content: "";
+        border: 6px solid rgb(35, 35, 35);
+        width: 24px;
+        height: calc(100% - 16px);
+        box-sizing: border-box;
         opacity: var(--brackets);
-        font-size: 2.5rem;
-        padding: 1rem;
-        margin: 0.5rem 0.5rem;
+      }
+      &:before {
+        left: 8px;
+        border-right: none;
+      }
+      &:after {
+        right: 8px;
+        border-left: none;
       }
 
       .output-item {

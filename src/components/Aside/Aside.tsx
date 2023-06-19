@@ -25,6 +25,7 @@ const Aside: React.FC = () => {
           <div
             className="method-aside-selector"
             style={{
+              // transform: title === method.title ? "translateX(1.5rem)" : "",
               justifyContent: type === "Compact" ? "center" : "flex-start",
             }}
             onClick={() =>
@@ -39,6 +40,7 @@ const Aside: React.FC = () => {
                 color={title === method.title ? "var(--blue)" : ""}
               />
             )}
+
             {type === "Full" && (
               <p
                 style={
@@ -55,15 +57,16 @@ const Aside: React.FC = () => {
             )}
           </div>
         ))}
-        <div
+        {/* <div
           onClick={() =>
             set({ settings: { ...settings, isOpen: !settings.isOpen } })
           }
         >
           <IconSettings size="40px" />
-        </div>
+        </div> */}
         <span
           className="aside-type"
+          style={{ opacity: 0 }}
           onClick={() => {
             if (type === "Compact") setType("Full");
             else if (type === "Full") setType("Compact");
