@@ -14,10 +14,26 @@ const audioPops = [
   audioPop06,
 ];
 
-export function playPopSound() {
-  const pop = new Audio(
-    audioPops[Math.floor(Math.random() * audioPops.length)]
-  );
-  pop.volume = 0.025;
-  pop.play();
+export function playPopSound(volume = 0.05) {
+  const audioContext = new AudioContext();
+
+  const randomPop = audioPops[Math.floor(Math.random() * audioPops.length)];
+
+  fetch(randomPop)
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+    .then((audioBuffer) => {
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+
+      const gainNode = audioContext.createGain();
+      gainNode.gain.value = volume;
+
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      source.start();
+    })
+    .catch((error) => {
+      console.error("Error loading audio file:", error);
+    });
 }

@@ -7,7 +7,7 @@ import {
   BsChevronDoubleLeft as IconChevronLeft,
 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-
+import { GrSettingsOption as IconSettings } from "react-icons/gr";
 const Aside: React.FC = () => {
   const navigate = useNavigate();
   const { set, settings, method } = useStore();
@@ -74,13 +74,15 @@ const Aside: React.FC = () => {
             )}
           </div>
         ))}
-        {/* <div
+        <div
+          className="method-aside-selector"
+          style={{ filter: "invert(1)", paddingTop: "2rem" }}
           onClick={() =>
             set({ settings: { ...settings, isOpen: !settings.isOpen } })
           }
         >
-          <IconSettings size="40px" />
-        </div> */}
+          <IconSettings size="32px" />
+        </div>
         <span
           className="aside-hide"
           onClick={() => {

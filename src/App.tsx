@@ -9,7 +9,7 @@ import About from "./components/About/About";
 import { randomEmojis } from "./utils/emoji/random-emoji";
 import { MethodName, allMethods } from "./store/methods";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
-import { GrSettingsOption as IconSettings } from "react-icons/gr";
+
 import { BsArrowDown as IconDown } from "react-icons/bs";
 import { useStore } from "./store/store";
 import Tooltip from "./components/Tooltip/Tooltip";
@@ -60,14 +60,6 @@ function App() {
             <li>Donate</li> */}
             <li>About us</li>
           </ul>
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              set({ settings: { ...settings, isOpen: !settings.isOpen } })
-            }
-          >
-            <IconSettings size="32px" />
-          </div>
         </section>
       </header>
 
