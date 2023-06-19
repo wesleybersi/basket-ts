@@ -4,11 +4,12 @@ import { create } from "zustand";
 import { Parameters, Store } from "./types";
 import { ParameterState } from "./methods";
 import { Emoji } from "../utils/emoji/emojis";
+import { randomEmojis } from "../utils/emoji/random-emoji";
 
 export const useStore = create<Store>((set, get) => ({
   loading: false,
   method: allMethods[0],
-  basket: [],
+  basket: randomEmojis(4),
   output: [],
   itemsToAdd: [],
   itemsToRemove: [],
@@ -543,6 +544,7 @@ export const useStore = create<Store>((set, get) => ({
   },
   settings: {
     isOpen: false,
+    aboutIsOpen: false,
     theme: "All",
     animationDuration: 200,
     soundEnabled: true,

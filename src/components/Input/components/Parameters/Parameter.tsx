@@ -97,7 +97,7 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
     if (active) {
       if (type === "Emoji") {
         const theme = themes.get(settings.theme);
-        function newIndex() {
+        function newIndex(): number {
           if (!theme) return 0;
           let r = Math.floor(Math.random() * theme.length);
           if (r === emojiIndex) return newIndex();

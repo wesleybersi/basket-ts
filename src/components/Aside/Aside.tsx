@@ -6,8 +6,10 @@ import {
   BsChevronDoubleRight as IconChevronRight,
   BsChevronDoubleLeft as IconChevronLeft,
 } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const Aside: React.FC = () => {
+  const navigate = useNavigate();
   const { set, settings, method } = useStore();
   const [type, setType] = useState<"Hidden" | "Compact" | "Full">("Full");
 
@@ -17,9 +19,27 @@ const Aside: React.FC = () => {
         width: type === "Full" ? "18rem" : "4rem",
       }}
     >
-      <div className="aside-top">
+      <div
+        className="aside-top"
+        onClick={() =>
+          set({ settings: { ...settings, aboutIsOpen: !settings.aboutIsOpen } })
+        }
+      >
         <IconFruit size="40px" />
-        {type !== "Compact" && <h2>basketJS</h2>}
+        {type !== "Compact" && (
+          <h2 style={{ display: "flex", gap: "0.5rem" }}>
+            basketJS
+            <span
+              style={{
+                fontSize: "0.75rem",
+
+                color: "var(--red)",
+              }}
+            >
+              alpha
+            </span>
+          </h2>
+        )}
       </div>
       <div className="method-aside-list">
         {allMethods.map(({ title, icon: Icon }, index) => (
@@ -29,11 +49,7 @@ const Aside: React.FC = () => {
               // transform: title === method.title ? "translateX(1.5rem)" : "",
               justifyContent: type === "Compact" ? "center" : "flex-start",
             }}
-            onClick={() =>
-              set({
-                method: allMethods[index],
-              })
-            }
+            onClick={() => navigate(title.toLowerCase())}
           >
             {Icon && (
               <Icon

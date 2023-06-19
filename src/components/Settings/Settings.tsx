@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BasketContext } from "../../contexts/BasketContext";
+
 import "./settings.scss";
 import { GrClose as IconClose } from "react-icons/gr";
 import { useStore } from "../../store/store";
@@ -13,7 +13,6 @@ interface ThemeOption {
 const Settings: React.FC = (): JSX.Element => {
   const { set, settings } = useStore();
   const { animationDuration } = settings;
-  const { state, dispatch } = useContext(BasketContext);
 
   const themeOptions: ThemeOption[] = [];
   for (const [string, emojis] of themes) {

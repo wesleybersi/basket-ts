@@ -5,7 +5,7 @@ import { useStore } from "../../store/store";
 import Method from "./components/Method/Method";
 import ChangeMethod from "./components/ChangeMethod/ChangeMethod";
 import { Emoji } from "../../utils/emoji/emojis";
-
+import { useNavigate } from "react-router-dom";
 import "./input.scss";
 
 interface Props {}
@@ -21,6 +21,7 @@ const Input: React.FC<Props> = () => {
     updateParameterState,
     selectedIndexes,
   } = useStore();
+  const navigate = useNavigate();
   const [index, setIndex] = useState<number>(0);
 
   useEffect(() => {

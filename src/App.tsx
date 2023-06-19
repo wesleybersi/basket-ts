@@ -1,4 +1,3 @@
-import { useState, useContext, useEffect } from "react";
 import "./App.scss";
 
 import Aside from "./components/Aside/Aside";
@@ -6,13 +5,18 @@ import Basket from "./components/Basket/Basket";
 import Input from "./components/Input/Input";
 import Callback from "./components/Callback/Callback";
 import Output from "./components/Output/Output";
+import About from "./components/About/About";
+import { randomEmojis } from "./utils/emoji/random-emoji";
+import { MethodName, allMethods } from "./store/methods";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
 import { BsArrowDown as IconDown } from "react-icons/bs";
 import { useStore } from "./store/store";
 import Tooltip from "./components/Tooltip/Tooltip";
+import { useLocation } from "react-router-dom";
 
 import Settings from "./components/Settings/Settings";
+import { useEffect } from "react";
 
 function App() {
   const {
@@ -24,13 +28,16 @@ function App() {
     selectedIndexes,
     hoverItem,
   } = useStore();
+  const location = useLocation();
 
-  const arr1 = ["Ajax", "Feyenoord", "PSV"];
-  const arr2 = arr1.copyWithin(2);
-
-  console.log(arr1);
-  console.log(arr2);
-  console.log(arr1 === arr2);
+  useEffect(() => {
+    for (const method of allMethods) {
+      if (method.title.toLowerCase() === location.pathname.slice(1)) {
+        set({ method });
+        break;
+      }
+    }
+  }, [location.pathname]);
 
   return (
     <div className="App">
@@ -63,6 +70,8 @@ function App() {
           </div>
         </section>
       </header>
+
+      {settings.aboutIsOpen && <About />}
 
       <Aside />
       {settings.isOpen && <Settings />}

@@ -51,6 +51,7 @@ export interface Store {
   };
   settings: {
     isOpen: boolean;
+    aboutIsOpen: boolean;
     theme: "Fruit" | "Veggies" | "All";
     animationDuration: number;
     soundEnabled: boolean;
