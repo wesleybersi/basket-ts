@@ -7,17 +7,18 @@
 
 .change-method-left,
 .change-method-right {
-  position: absolute;
-  top: 50%;
-  background-color: white;
+  // position: absolute;
+  // top: 50%;
+  background-color: transparent;
   color: var(--black);
   border: none;
-  transform: translateY(-50%);
+  // transform: translate(-50%);
   width: 3rem;
   aspect-ratio: 1;
   display: grid;
   place-content: center;
-
+  border-radius: 50%;
+  display: none;
   @media (max-width: 768px) {
     display: none;
   }

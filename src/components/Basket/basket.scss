@@ -1,15 +1,16 @@
 .basket-wrapper {
   width: 100%;
-  margin: 8rem 0 4rem 0;
+
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.75);
   // background: white;
-  //   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 32px 2px rgba(0, 0, 0, 0.035);
   //   border: 1px solid #22222222;
   padding: 1rem;
-  // border-radius: 1rem;
+  border-radius: 0.5rem;
+
   position: relative;
   //   padding-top: 5rem;
   overflow: hidden;
@@ -43,7 +44,7 @@
 
   .basket {
     --animation-offset: 0;
-    padding: 0 1.5rem;
+    padding: 0 3rem;
     // border: 2px solid var(--light);
     background-color: white;
     // box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
@@ -52,7 +53,8 @@
     // border-right: none;
     align-items: center;
     height: 96px;
-    border-radius: 100vw;
+    border-radius: 0.5rem;
+    // border-radius:100vw;
     justify-content: center;
     transition: all 250ms ease;
     // overflow: hidden;
@@ -70,18 +72,22 @@
       position: absolute;
       top: 16px;
       content: "";
-      border: 6px solid rgb(35, 35, 35);
+      border: 4px solid rgb(35, 35, 35);
       width: 24px;
       height: calc(100% - 32px);
       box-sizing: border-box;
     }
     &:before {
-      left: 32px;
+      left: 16px;
       border-right: none;
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
     }
     &:after {
-      right: 32px;
+      right: 16px;
       border-left: none;
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
     }
 
     .basket-item {
@@ -118,6 +124,7 @@
         // background: none !important;
 
         // border: 4px dashed var(--selection);
+        border-radius: 0.25rem;
 
         content: "";
         width: calc(80%);
@@ -136,6 +143,7 @@
         // }
       }
       .basket-item-highlight {
+        border-radius: 0.25rem;
         z-index: -1;
         position: absolute;
         top: 50%;

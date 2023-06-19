@@ -18,6 +18,6 @@ export function playPopSound() {
   const pop = new Audio(
     audioPops[Math.floor(Math.random() * audioPops.length)]
   );
-  pop.volume = 0.25;
+  pop.volume = 0.025;
   pop.play();
 }

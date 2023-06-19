@@ -303,7 +303,11 @@ const Basket: React.FC = () => {
       <ul className="basket" ref={basketRef}>
         {basket.length === 0 && <li></li>}
         {basket.map((item, index) => (
-          <li className="basket-item">
+          <li
+            className="basket-item"
+            onMouseEnter={() => set({ hoverItem: item })}
+            onMouseLeave={() => set({ hoverItem: null })}
+          >
             {item.emoji}{" "}
             {selection.show &&
               selectedIndexes.includes(index) &&

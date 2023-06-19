@@ -5,10 +5,15 @@ import { Emoji } from "../../../../../utils/emoji/emojis";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 import { useStore } from "../../../../../store/store";
 import themes from "../../../../../utils/emoji/themes";
+// import {
+//   GoChevronRight as IconRight,
+//   GoChevronLeft as IconLeft,
+// } from "react-icons/go";
+
 import {
-  GoChevronRight as IconRight,
-  GoChevronLeft as IconLeft,
-} from "react-icons/go";
+  FiChevronRight as IconRight,
+  FiChevronLeft as IconLeft,
+} from "react-icons/fi";
 
 interface Props {
   name: string;

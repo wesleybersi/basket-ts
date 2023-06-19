@@ -16,6 +16,7 @@ export const useStore = create<Store>((set, get) => ({
   itemsToReplace: [],
   processedIndexes: new Set(),
   triggerSplice: false,
+  hoverItem: null,
   methods: {
     //ANCHOR Methods
     pop: () =>

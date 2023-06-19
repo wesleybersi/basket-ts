@@ -8,20 +8,29 @@ import Callback from "./components/Callback/Callback";
 import Output from "./components/Output/Output";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
+import { BsArrowDown as IconDown } from "react-icons/bs";
 import { useStore } from "./store/store";
+import Tooltip from "./components/Tooltip/Tooltip";
 
 import Settings from "./components/Settings/Settings";
 
 function App() {
-  const { set, loading, settings, method, selection, selectedIndexes } =
-    useStore();
+  const {
+    set,
+    loading,
+    settings,
+    method,
+    selection,
+    selectedIndexes,
+    hoverItem,
+  } = useStore();
 
   const arr1 = ["Ajax", "Feyenoord", "PSV"];
-  const arr2 = ["Vitesse", "De Graafschap", "Hadjuk Split"];
+  const arr2 = arr1.copyWithin(2);
 
-  console.log(arr1.concat(arr2));
   console.log(arr1);
   console.log(arr2);
+  console.log(arr1 === arr2);
 
   return (
     <div className="App">
@@ -32,6 +41,7 @@ function App() {
         </section>
         <section className="header-right">
           <ul>
+            <li>{hoverItem?.title}</li>
             {/* <li>{selection.index}</li>
             <li>Start: {selection.start ?? "undefined"}</li>
             <li>End: {selection.end ?? "undefined"}</li>
@@ -56,10 +66,25 @@ function App() {
 
       <Aside />
       {settings.isOpen && <Settings />}
-      <main>
+      <main
+        style={{
+          width: "100%",
+          alignSelf: "center",
+          // marginTop: "8rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "4rem",
+          transition: "all 125ms ease",
+        }}
+      >
         <Basket />
         <Input />
         <Callback />
+        <Tooltip />
+        <div style={{ marginTop: "-2rem", marginBottom: "-2rem" }}>
+          <IconDown size="32px" />
+        </div>
         <Output />
       </main>
     </div>

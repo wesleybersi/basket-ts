@@ -63,6 +63,7 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
       setNoParam(true);
       setRequired(false);
       setActive(false);
+
       setValue(undefined);
       setType("");
       setName("");

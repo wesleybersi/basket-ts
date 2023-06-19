@@ -87,7 +87,6 @@ const Input: React.FC<Props> = () => {
   return (
     <section className="active-method">
       <ChangeMethod direction="Left" index={index} />
-      <ChangeMethod direction="Right" index={index} />
       <div className="input-wrapper">
         <section className="parameters">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -96,6 +95,7 @@ const Input: React.FC<Props> = () => {
         </section>
         <Method />
       </div>
+      <ChangeMethod direction="Right" index={index} />
     </section>
   );
 };

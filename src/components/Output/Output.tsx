@@ -163,13 +163,18 @@ const Output: React.FC = () => {
 
   return (
     <section className="output-wrapper">
+      {hide && (
+        <div className="hide-message" style={{ textAlign: "center" }}>
+          Reference to original
+        </div>
+      )}
       <div
         className="output-lens"
         style={
           hide
             ? {
                 opacity: 0,
-                transition: "all 125ms ease",
+                transition: "all 250ms ease",
                 transform: "translateY(calc(-100% - 2rem)",
                 width:
                   type === "Array" || type === "String" ? "100%" : "16.5rem",
@@ -182,57 +187,45 @@ const Output: React.FC = () => {
               }
         }
       >
-        <div className="output-header">
-          {/* {type === "Array" && <span></span>} */}
-          {/* <p
+        <div
+          className="output-header"
+          style={{
+            maxHeight: type === "Array" ? "100%" : 0,
+            marginBottom: type === "Array" ? "1rem" : 0,
+            overflow: "hidden",
+          }}
+        >
+          <button
+            className="output-basket-length"
             style={{
-              marginTop: "-1rem",
-              alignSelf: type === "Array" ? "center" : "center",
-              justifySelf: "center",
+              background: "var(--blue)",
+              // marginBottom: "1rem",
+              marginRight: "0.5rem",
+              color: "#222",
+              fontWeight: 600,
             }}
           >
-            <IconDown size="32px" />
-          </p> */}
-          {/* <p
-            style={{ justifySelf: type === "Array" ? "flex-start" : "center" }}
+            {Array.isArray(output) ? output.length : 0}
+          </button>
+          <button
+            className="output-add-basket"
+            style={{ background: "#22222211", color: "#555" }}
+            onClick={() =>
+              Array.isArray(output) && output.length > 0
+                ? set({ basket: output as Emoji[] })
+                : undefined
+            }
           >
-            const output =
-          </p> */}
-          {type === "Array" && (
-            <>
-              <button
-                className="output-basket-length"
-                style={{
-                  background: "var(--blue)",
-
-                  marginRight: "0.5rem",
-                  color: "#222",
-                  fontWeight: 600,
-                }}
-              >
-                {Array.isArray(output) ? output.length : 0}
-              </button>
-              <button
-                className="output-add-basket"
-                style={{ background: "#22222211", color: "#555" }}
-                onClick={() =>
-                  Array.isArray(output) && output.length > 0
-                    ? set({ basket: output as Emoji[] })
-                    : undefined
-                }
-              >
-                <IconUp size="32px" />
-              </button>
-            </>
-          )}
+            <IconUp size="32px" />
+          </button>
         </div>
+
         <ul
           className="output"
           ref={outputRef}
           style={{
             transition: "all 125ms ease",
-            width: type === "Array" || type === "String" ? "100%" : "12.5rem",
-            borderRadius: type === "Array" ? "100vw" : "100vw",
+            width: "100%",
           }}
         >
           <>
@@ -248,17 +241,31 @@ const Output: React.FC = () => {
             )}
             {type === "Item" && (
               <>
-                <li className="output-item output-emoji">
+                <li
+                  className="output-item output-emoji"
+                  onMouseEnter={() => set({ hoverItem: output as Emoji })}
+                  onMouseLeave={() => set({ hoverItem: null })}
+                >
                   {output instanceof Emoji && output.emoji}
                 </li>
-                <li className="output-item output-clone">
+                <li
+                  className="output-item output-clone"
+                  onMouseEnter={() => set({ hoverItem: output as Emoji })}
+                  onMouseLeave={() => set({ hoverItem: null })}
+                >
                   {clone && clone.emoji}
                 </li>
               </>
             )}
             {Array.isArray(output) &&
               output.map((item, index) => (
-                <li className="output-item">{item.emoji}</li>
+                <li
+                  className="output-item"
+                  onMouseEnter={() => set({ hoverItem: item })}
+                  onMouseLeave={() => set({ hoverItem: null })}
+                >
+                  {item.emoji}
+                </li>
               ))}
           </>
         </ul>

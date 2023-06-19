@@ -5,6 +5,10 @@ import { MethodName } from "../../contexts/types";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
 import { useStore } from "../../store/store";
+import {
+  BsChevronDoubleRight as IconChevronRight,
+  BsChevronDoubleLeft as IconChevronLeft,
+} from "react-icons/bs";
 
 const Aside: React.FC = () => {
   const { set, settings, method } = useStore();
@@ -13,12 +17,12 @@ const Aside: React.FC = () => {
   return (
     <aside
       style={{
-        width: type === "Full" ? "16rem" : "4rem",
+        width: type === "Full" ? "18rem" : "4rem",
       }}
     >
       <div className="aside-top">
         <IconFruit size="40px" />
-        <h2>basketJS</h2>
+        {type !== "Compact" && <h2>basketJS</h2>}
       </div>
       <div className="method-aside-list">
         {allMethods.map(({ title, icon: Icon }, index) => (
@@ -65,13 +69,18 @@ const Aside: React.FC = () => {
           <IconSettings size="40px" />
         </div> */}
         <span
-          className="aside-type"
-          style={{ opacity: 0 }}
+          className="aside-hide"
           onClick={() => {
             if (type === "Compact") setType("Full");
             else if (type === "Full") setType("Compact");
           }}
-        ></span>
+        >
+          {type === "Full" ? (
+            <IconChevronLeft size="24px" color="white" />
+          ) : (
+            <IconChevronRight size="24px" color="white" />
+          )}
+        </span>
       </div>
     </aside>
   );

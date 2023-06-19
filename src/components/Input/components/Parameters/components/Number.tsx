@@ -1,10 +1,14 @@
 import { useState } from "react";
 
 import { Emoji } from "../../../../../utils/emoji/emojis";
+// import {
+//   GoChevronRight as IconRight,
+//   GoChevronLeft as IconLeft,
+// } from "react-icons/go";
 import {
-  GoChevronRight as IconRight,
-  GoChevronLeft as IconLeft,
-} from "react-icons/go";
+  FiChevronRight as IconRight,
+  FiChevronLeft as IconLeft,
+} from "react-icons/fi";
 import { useStore } from "../../../../../store/store";
 
 interface Props {

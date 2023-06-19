@@ -1,7 +1,12 @@
+// import {
+//   GoChevronRight as IconRight,
+//   GoChevronLeft as IconLeft,
+// } from "react-icons/go";
 import {
-  GoChevronRight as IconRight,
-  GoChevronLeft as IconLeft,
-} from "react-icons/go";
+  FiChevronRight as IconRight,
+  FiChevronLeft as IconLeft,
+} from "react-icons/fi";
+
 import { allMethods } from "../../../../store/methods";
 import { useStore } from "../../../../store/store";
 
@@ -27,7 +32,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
           })
         }
       >
-        <IconLeft size="32px" />
+        <IconLeft size="48px" />
       </button>
     );
   } else if (direction === "Right") {
@@ -43,7 +48,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
           })
         }
       >
-        <IconRight size="32px" />
+        <IconRight size="48px" />
       </button>
     );
   } else return <></>;

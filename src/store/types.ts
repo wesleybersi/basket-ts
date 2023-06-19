@@ -13,6 +13,7 @@ export interface Store {
   itemsToReplace: { index: number; replacement: Emoji }[];
   processedIndexes: Set<number>;
   triggerSplice: boolean;
+  hoverItem: Emoji | null;
   methods: {
     push: () => void;
     pop: () => void;
