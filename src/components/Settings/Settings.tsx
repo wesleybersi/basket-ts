@@ -64,7 +64,7 @@ const Settings: React.FC = (): JSX.Element => {
             </button>
             <button
               style={
-                animationDuration === 200
+                animationDuration === 250
                   ? {
                       backgroundColor: "var(--light)",
                       border: "4px solid lightblue",
@@ -72,7 +72,7 @@ const Settings: React.FC = (): JSX.Element => {
                   : {}
               }
               onClick={() =>
-                set({ settings: { ...settings, animationDuration: 200 } })
+                set({ settings: { ...settings, animationDuration: 250 } })
               }
             >
               🐇

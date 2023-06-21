@@ -51,6 +51,32 @@ export const veggies: Emoji[] = [
   new Emoji("Ginger", "🫚"),
 ];
 
+const extra = [
+  new Emoji("Baguette Bread", "🥖"),
+  new Emoji("Cheese Wedge", "🧀"),
+  new Emoji("Hamburger", "🍔"),
+  new Emoji("Hot Dog", "🌭"),
+  new Emoji("Taco", "🌮"),
+  new Emoji("Sandwich", "🥪"),
+  new Emoji("Pizza", "🍕"),
+  new Emoji("Marshmallow", "🍡"),
+  new Emoji("Green Salad", "🥗"),
+  new Emoji("Bottle of Champagne", "🍾"),
+  new Emoji("Grill", "🍖"),
+  new Emoji("Sun Umbrella", "⛱️"),
+  new Emoji("Barbecue", "🍗"),
+  new Emoji("Wine Glass", "🍷"),
+  new Emoji("Cupcake", "🧁"),
+  new Emoji("Cookie", "🍪"),
+  new Emoji("Ice Cream", "🍨"),
+  new Emoji("Croissant", "🥐"),
+  new Emoji("French Fries", "🍟"),
+  new Emoji("Fork and Knife", "🍽️"),
+  new Emoji("Tropical Drink", "🍹"),
+  new Emoji("Cup with Straw", "🥤"),
+  new Emoji("Salt Shaker", "🧂"),
+];
+
 export const fastFood: Emoji[] = [
   new Emoji("Hamburger", "🍔"),
   new Emoji("French Fries", "🍟"),
@@ -60,4 +86,4 @@ export const fastFood: Emoji[] = [
   new Emoji("Cheeseburger", "🍔"),
 ];
 
-export const allThemes: Emoji[] = [...fruit, ...veggies];
+export const allThemes: Emoji[] = [...fruit, ...veggies, ...extra];

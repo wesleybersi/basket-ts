@@ -453,84 +453,8 @@ export const useStore = create<Store>((set, get) => ({
         parameters: updatedParameters,
         selection,
       };
-
-      // console.count("UPDATING HERE");
-
-      // if (typeof value === "number" || value === undefined) {
-      //   const { name } = param;
-      //   const { title: method } = state.method;
-      //   if (name === "index") {
-      //     selection.index = value;
-      //   } else if (
-      //     name === "start" ||
-      //     (name === "fromIndex" && method !== "lastIndexOf")
-      //   ) {
-      //     selection.start = value || value === 0 ? value : 0;
-      //   } else if (name === "fromIndex" && method === "lastIndexOf") {
-      //     selection.start = 0;
-      //     selection.amount = value;
-      //   } else if (name === "end") {
-      //     selection.end = value;
-      //   } else if (name === "target") {
-      //     selection.target = value;
-      //   } else if (name === "deleteCount") {
-      //     selection.amount = value;
-      //   }
-      // }
-
-      // let indexes: number[] = [];
-      // if (selection.start) {
-      //   const { start, end } = selection;
-      //   if (!start) selection.start = 0;
-
-      // const startIndex =
-      //   start >= 0 ? start : Math.max(state.basket.length + start, 0);
-
-      //   let endIndex = state.basket.length - 1;
-      //   selection.end = endIndex;
-      //   if (end || end === 0) {
-      //     endIndex =
-      //       end >= 0 ? end + 1 : Math.max(state.basket.length + end + 1, 0);
-      //   }
-
-      //   indexes = Array.from(
-      //     Array(endIndex - startIndex),
-      //     (_, index) => index + startIndex
-      //   );
-      // }
     }),
-  // updateSelection: (
-  //   type: "index" | "start" | "end" | "target" | "amount" | "calc",
-  //   value: number | undefined
-  // ) =>
-  //   set((state) => {
-  //     const selection = {
-  //       index: type === "index" ? value : state.selection.index,
-  //       start: type === "start" ? value : state.selection.start,
-  //       end: type === "end" ? value : state.selection.end,
-  //       target: type === "target" ? value : state.selection.target,
-  //       amount: type === "amount" ? value : state.selection.amount,
-  //     };
 
-  //     let indexes: number[] = [];
-
-  //     const { start, end } = selection;
-
-  //     const startIndex =
-  //       start >= 0 ? start : Math.max(state.basket.length + start, 0);
-
-  //     const endIndex =
-  //       end >= 0 ? end + 1 : Math.max(state.basket.length + end + 1, 0);
-  //     indexes = Array.from(
-  //       Array(endIndex - startIndex),
-  //       (_, index) => index + startIndex
-  //     );
-
-  //     return {
-  //       selection,
-  //       selectedIndexes: indexes,
-  //     };
-  //   }),
   selectedIndexes: [],
   targetedIndexes: [],
   selection: {
@@ -546,7 +470,7 @@ export const useStore = create<Store>((set, get) => ({
     isOpen: false,
     aboutIsOpen: false,
     theme: "All",
-    animationDuration: 200,
+    animationDuration: 250,
     soundEnabled: true,
   },
   set,

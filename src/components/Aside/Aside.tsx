@@ -8,6 +8,7 @@ import {
 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { GrSettingsOption as IconSettings } from "react-icons/gr";
+import "./aside.scss";
 const Aside: React.FC = () => {
   const navigate = useNavigate();
   const { set, settings, method } = useStore();
@@ -74,7 +75,7 @@ const Aside: React.FC = () => {
             )}
           </div>
         ))}
-        <div
+        {/* <div
           className="method-aside-selector"
           style={{ filter: "invert(1)", paddingTop: "2rem" }}
           onClick={() =>
@@ -82,7 +83,7 @@ const Aside: React.FC = () => {
           }
         >
           <IconSettings size="32px" />
-        </div>
+        </div> */}
         <span
           className="aside-hide"
           onClick={() => {

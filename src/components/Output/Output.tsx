@@ -143,7 +143,9 @@ const Output: React.FC = () => {
           if (method.title === "slice" || method.title === "with") {
             if (settings.soundEnabled) playPopSound();
             if (child === outputRef.current.lastChild) {
-              set({ loading: false });
+              setTimeout(() => {
+                set({ loading: false });
+              }, duration);
             }
           }
           count++;
@@ -162,36 +164,37 @@ const Output: React.FC = () => {
   }, [loading, type]);
 
   return (
-    <section className="output-wrapper">
+    <section
+      className="output-wrapper"
+      style={{ pointerEvents: hide ? "none" : "all" }}
+    >
       {hide && (
-        <div className="hide-message" style={{ textAlign: "center" }}>
+        <div
+          className="hide-message"
+          style={{
+            textAlign: "center",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
           Reference to original
         </div>
       )}
       <div
         className="output-lens"
-        style={
-          hide
-            ? {
-                opacity: 0,
-                transition: "all 250ms ease",
-                transform: "translateY(calc(-100% - 2rem)",
-                width:
-                  type === "Array" || type === "String" ? "100%" : "16.5rem",
-              }
-            : {
-                width:
-                  type === "Array" || type === "String" ? "100%" : "16.5rem",
-                opacity: 1,
-                transform: "",
-              }
-        }
+        style={{
+          opacity: hide ? 0 : 1,
+          transition: "all 250ms ease",
+          transform: hide ? "translateY(calc(-100% - 2rem)" : "",
+          width: type === "Array" || type === "String" ? "100%" : "16.5rem",
+          paddingTop: type === "Array" ? "2rem" : "0",
+        }}
       >
         <div
           className="output-header"
           style={{
-            maxHeight: type === "Array" ? "100%" : 0,
-            marginBottom: type === "Array" ? "1rem" : 0,
+            flex: type === "Array" ? 1 : 0,
+            paddingBottom: type === "Array" ? "1rem" : 0,
             overflow: "hidden",
           }}
         >
@@ -199,7 +202,6 @@ const Output: React.FC = () => {
             className="output-basket-length"
             style={{
               background: "var(--blue)",
-              // marginBottom: "1rem",
               marginRight: "0.5rem",
               color: "#222",
               fontWeight: 600,
@@ -209,7 +211,10 @@ const Output: React.FC = () => {
           </button>
           <button
             className="output-add-basket"
-            style={{ background: "#22222211", color: "#555" }}
+            style={{
+              background: "#22222211",
+              color: "#555",
+            }}
             onClick={() =>
               Array.isArray(output) && output.length > 0
                 ? set({ basket: output as Emoji[] })
@@ -224,7 +229,7 @@ const Output: React.FC = () => {
           className="output"
           ref={outputRef}
           style={{
-            transition: "all 125ms ease",
+            transition: "all 250ms ease",
             width: "100%",
           }}
         >

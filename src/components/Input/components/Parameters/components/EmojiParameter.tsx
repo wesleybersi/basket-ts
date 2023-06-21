@@ -59,14 +59,10 @@ const EmojiParameter: React.FC<Props> = ({
         {
           <p
             className="parameter-name"
-            onMouseEnter={() => !animating && setHoverTitle(true)}
-            onMouseLeave={() => setHoverTitle(false)}
             onClick={!required ? () => setActive(false) : undefined}
             style={{
-              textDecoration:
-                hoverTitle && active && !required ? "line-through" : "",
+              textDecoration: required || animating || !active ? "none" : "",
               paddingTop: "0.25rem",
-              // marginTop: active ? "-2.5rem" : "0",
             }}
           >
             {!active ? <IconAdd size="24px" /> : name}

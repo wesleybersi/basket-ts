@@ -40,13 +40,9 @@ const NumberParameter: React.FC<Props> = ({
         <p
           className="parameter-name"
           style={{
-            textDecoration:
-              hoverTitle && active && !required ? "line-through" : "",
+            textDecoration: required || animating || !active ? "none" : "",
             paddingTop: "0.25rem",
-            // marginTop: active ? "-2.5rem" : "0",
           }}
-          onMouseEnter={() => setHoverTitle(true)}
-          onMouseLeave={() => setHoverTitle(false)}
           onClick={!required ? () => setActive((prev) => !prev) : undefined}
         >
           {name}

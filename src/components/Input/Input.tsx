@@ -13,12 +13,14 @@ interface Props {}
 const Input: React.FC<Props> = () => {
   const {
     set,
+    loading,
     method,
     triggerSplice,
     selection,
     parameters,
     basket,
     updateParameterState,
+    updateAllParameters,
     selectedIndexes,
   } = useStore();
   const navigate = useNavigate();
@@ -84,6 +86,10 @@ const Input: React.FC<Props> = () => {
       set({ selection: { ...selection, show: true } });
     }
   }, [triggerSplice]);
+
+  useEffect(() => {
+    if (!loading && !triggerSplice) updateAllParameters();
+  }, [loading]);
 
   return (
     <section className="active-method">
