@@ -54,7 +54,7 @@
     align-items: center;
     height: 96px;
     border-radius: 0.5rem;
-    // border-radius:100vw;
+    border-radius: 100vw;
     justify-content: center;
     transition: all 250ms ease;
     // overflow: hidden;
@@ -71,23 +71,20 @@
     &:after {
       position: absolute;
       top: 16px;
-      content: "";
-      border: 4px solid rgb(35, 35, 35);
+      font-size: 3rem;
+      display: grid;
+      place-content: center;
       width: 20px;
       height: calc(100% - 32px);
       box-sizing: border-box;
     }
     &:before {
-      left: 16px;
-      border-right: none;
-      border-top-left-radius: 0.25rem;
-      border-bottom-left-radius: 0.25rem;
+      content: "[";
+      left: 32px;
     }
     &:after {
-      right: 16px;
-      border-left: none;
-      border-top-right-radius: 0.25rem;
-      border-bottom-right-radius: 0.25rem;
+      content: "]";
+      right: 32px;
     }
 
     .basket-item {
@@ -120,10 +117,10 @@
         height: calc(100% - 2rem);
         max-width: 128px;
 
-        background-color: var(--selection);
+        // background-color: var(--selection);
         // background: none !important;
 
-        // border: 4px dashed var(--selection);
+        border: 4px dashed var(--selection);
         border-radius: 0.25rem;
 
         content: "";

@@ -5,6 +5,8 @@ import { ParameterState } from "./methods";
 export interface Store {
   loading: boolean;
   method: IMethod;
+  basketIndex: number;
+  allBaskets: Emoji[][];
   basket: Emoji[];
   output: number | string | Emoji | Emoji[] | undefined;
   itemsToRemove: number[];
@@ -14,6 +16,10 @@ export interface Store {
   processedIndexes: Set<number>;
   triggerSplice: boolean;
   hoverItem: Emoji | null;
+  changeBasket: (type: "Primary" | "Secondary", index: number) => void;
+  addEmptyBasket: (type: "Primary" | "Secondary") => void;
+  removeBasket: (index: number) => void;
+  addOutputBasket: () => void;
   methods: {
     push: () => void;
     pop: () => void;

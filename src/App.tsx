@@ -27,6 +27,9 @@ function App() {
     selection,
     selectedIndexes,
     hoverItem,
+    basketIndex,
+    allBaskets,
+    basket,
   } = useStore();
   const location = useLocation();
 
@@ -49,6 +52,8 @@ function App() {
         <section className="header-right">
           <ul>
             <li>{hoverItem?.title}</li>
+            <li>basketIndex: {basketIndex}</li>
+            <li>allBaskets: {allBaskets.length}</li>
             {/* <li>{selection.index}</li>
             <li>Start: {selection.start ?? "undefined"}</li>
             <li>End: {selection.end ?? "undefined"}</li>

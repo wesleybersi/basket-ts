@@ -22,6 +22,7 @@ const Input: React.FC<Props> = () => {
     updateParameterState,
     updateAllParameters,
     selectedIndexes,
+    basketIndex,
   } = useStore();
   const navigate = useNavigate();
   const [index, setIndex] = useState<number>(0);
@@ -89,7 +90,7 @@ const Input: React.FC<Props> = () => {
 
   useEffect(() => {
     if (!loading && !triggerSplice) updateAllParameters();
-  }, [loading]);
+  }, [loading, basketIndex]);
 
   return (
     <section className="active-method">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { randomEmoji } from "../../../../../utils/emoji/random-emoji";
+import { allThemes } from "../../../../../utils/emoji/emojis";
 import { Emoji } from "../../../../../utils/emoji/emojis";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 import { useStore } from "../../../../../store/store";
@@ -83,7 +84,14 @@ const EmojiParameter: React.FC<Props> = ({
         >
           <IconLeft size="32px" />
         </div>
-        <div className="parameter-emoji">
+        <div
+          className="parameter-emoji"
+          onClick={() => {
+            const currentTheme = themes.get(settings.theme);
+            if (!currentTheme) return;
+            setEmojiIndex(Math.floor(Math.random() * currentTheme.length));
+          }}
+        >
           {value && value instanceof Emoji && value.emoji.toString()}
         </div>
         <div

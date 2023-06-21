@@ -9,7 +9,10 @@ import { randomEmojis } from "../utils/emoji/random-emoji";
 export const useStore = create<Store>((set, get) => ({
   loading: false,
   method: allMethods[0],
+  basketIndex: 0,
   basket: randomEmojis(4),
+  allBaskets: [[]],
+  secondary: [],
   output: [],
   itemsToAdd: [],
   itemsToRemove: [],
@@ -18,10 +21,73 @@ export const useStore = create<Store>((set, get) => ({
   processedIndexes: new Set(),
   triggerSplice: false,
   hoverItem: null,
+  changeBasket: (type: "Primary" | "Secondary", index: number) =>
+    set((state) => {
+      //Save current basket
+      const updatedBaskets = [...state.allBaskets];
+      updatedBaskets[state.basketIndex] = [...state.basket];
+      const returnBasket = updatedBaskets[index];
+      return {
+        basket: returnBasket,
+        allBaskets: updatedBaskets,
+        basketIndex: index,
+      };
+    }),
+  addEmptyBasket: (type: "Primary" | "Secondary") =>
+    set((state) => {
+      if (state.allBaskets.length === 5) return {};
+      //Save current basket
+      const updatedBaskets = [...state.allBaskets];
+      updatedBaskets[state.basketIndex] = [...state.basket];
+      updatedBaskets.push([]);
+
+      console.log(updatedBaskets);
+      console.log(updatedBaskets.length);
+      return {
+        basket: updatedBaskets[updatedBaskets.length - 1],
+        allBaskets: updatedBaskets,
+        basketIndex: updatedBaskets.length - 1,
+      };
+    }),
+  removeBasket: (index: number) =>
+    set((state) => {
+      if (state.allBaskets.length === 1) return {};
+
+      const updatedBaskets = [...state.allBaskets];
+      updatedBaskets.splice(index, 1);
+
+      let newIndex = state.basketIndex;
+      if (state.basketIndex > 0) {
+        newIndex--;
+      }
+
+      return {
+        basket: updatedBaskets[newIndex],
+        allBaskets: updatedBaskets,
+        basketIndex: newIndex,
+      };
+    }),
+  addOutputBasket: () =>
+    set((state) => {
+      if (state.allBaskets.length === 5 || !Array.isArray(state.output))
+        return {};
+      //Save current basket
+      const updatedBaskets = [...state.allBaskets];
+      updatedBaskets[state.basketIndex] = [...state.basket];
+      updatedBaskets.push([]);
+      updatedBaskets[updatedBaskets.length - 1] = state.output;
+      return {
+        basket: updatedBaskets[updatedBaskets.length - 1],
+        allBaskets: updatedBaskets,
+        basketIndex: updatedBaskets.length - 1,
+      };
+    }),
   methods: {
     //ANCHOR Methods
     pop: () =>
       set((state) => {
+        if (state.basket.length === 0) return {};
+        //FIXME Should still animate and then return "empty"
         return {
           loading: true,
           itemsToRemove: [state.basket.length - 1],
@@ -30,7 +96,7 @@ export const useStore = create<Store>((set, get) => ({
       }),
     shift: () =>
       set((state) => {
-        console.warn(state.basket);
+        if (state.basket.length === 0) return {};
         return {
           loading: true,
           itemsToRemove: [0],
@@ -69,6 +135,7 @@ export const useStore = create<Store>((set, get) => ({
       }),
     reverse: () =>
       set((state) => {
+        if (state.basket.length === 0) return {};
         const reversed = [...state.basket].reverse();
         return {
           loading: true,

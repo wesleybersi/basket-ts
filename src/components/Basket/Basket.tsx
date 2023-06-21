@@ -24,6 +24,7 @@ const Basket: React.FC = () => {
     processedIndexes,
     selection,
     parameters,
+    basketIndex,
   } = useStore();
   const { animationDuration: duration, soundEnabled } = settings;
 
@@ -129,16 +130,20 @@ const Basket: React.FC = () => {
           setTimeout(() => {
             processed.clear();
             set({ itemsToProcess: [], processedIndexes: processed });
-          }, duration * 2);
+          }, duration);
         }
       }, accumulator);
-      accumulator += duration;
+      if (method.title === "slice" || method.title === "with") {
+        accumulator += duration / 2;
+      } else {
+        accumulator += duration;
+      }
     }
   }, [itemsToProcess]);
 
   useEffect(() => {
-    console.log(processedIndexes);
-  }, [processedIndexes]);
+    normalizeAll();
+  }, [basketIndex]);
 
   useEffect(() => {
     if (!loading && itemsToReplace.length === 0) {
@@ -178,7 +183,7 @@ const Basket: React.FC = () => {
     ) {
       return;
     }
-
+    const processed = new Set<number>();
     const noItems = itemsToAdd.length === basket.length;
 
     // Normalize original items
@@ -231,14 +236,18 @@ const Basket: React.FC = () => {
       accumulator += duration;
 
       function end() {
+        processed.add(index);
+        set({ processedIndexes: processed });
         itemStyling(child, "Normalize");
         if (settings.soundEnabled) playPopSound();
         if (index === itemsToAdd[itemsToAdd.length - 1]) {
           //ANCHOR Items added
+          processed.clear();
           set({
             loading: false,
             itemsToAdd: [],
             triggerSplice: false,
+            processedIndexes: processed,
           });
         }
         child.removeEventListener("animationend", end);

@@ -14,8 +14,17 @@ import {
 import { RiAddFill as IconAdd } from "react-icons/ri";
 
 const Output: React.FC = () => {
-  const { set, loading, settings, output, method, itemsToAdd, parameters } =
-    useStore();
+  const {
+    set,
+    loading,
+    settings,
+    output,
+    method,
+    itemsToAdd,
+    parameters,
+    allBaskets,
+    addOutputBasket,
+  } = useStore();
   const { animationDuration: duration } = settings;
 
   const outputRef = useRef<HTMLUListElement | null>(null);
@@ -136,7 +145,12 @@ const Output: React.FC = () => {
         child.addEventListener("animationend", end);
 
         child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
-        accumulator += duration;
+
+        if (method.title === "slice" || method.title === "with") {
+          accumulator += duration / 2;
+        } else {
+          accumulator += duration;
+        }
         function end() {
           if (!outputRef.current) return;
 
@@ -214,10 +228,11 @@ const Output: React.FC = () => {
             style={{
               background: "#22222211",
               color: "#555",
+              opacity: allBaskets.length < 5 ? 1 : 0.35,
             }}
             onClick={() =>
               Array.isArray(output) && output.length > 0
-                ? set({ basket: output as Emoji[] })
+                ? addOutputBasket()
                 : undefined
             }
           >

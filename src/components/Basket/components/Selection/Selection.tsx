@@ -15,8 +15,14 @@ const Selection: React.FC<Props> = ({ type }) => {
   return (
     <span
       style={{
+        border:
+          type === "blue"
+            ? "3px dashed var(--selection)"
+            : "3px dashed var(--deleteCount)",
         backgroundColor:
-          type === "blue" ? "var(--selection)" : "var(--deleteCount)",
+          type === "blue"
+            ? "var(--selectionOpaque)"
+            : "var(--deleteCountOpaque)",
       }}
       className="basket-item-selected"
     />
