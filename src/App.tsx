@@ -75,8 +75,8 @@ function App() {
       <main
         style={{
           width: "100%",
-          alignSelf: "center",
-          // marginTop: "8rem",
+          alignSelf: "flex-start",
+          marginTop: "8rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

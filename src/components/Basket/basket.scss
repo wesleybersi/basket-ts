@@ -57,7 +57,7 @@
     border-radius: 100vw;
     justify-content: center;
     transition: all 250ms ease;
-    // overflow: hidden;
+    overflow: hidden;
     position: relative;
 
     &:first-of-type {
@@ -266,5 +266,14 @@
     flex: 1;
     opacity: 1;
     max-width: 100%;
+  }
+}
+
+@keyframes ascendItemIn {
+  from {
+    transform: translateY(8rem);
+  }
+  to {
+    transform: translateY(0);
   }
 }

@@ -35,6 +35,7 @@ const Output: React.FC = () => {
   );
   const [offset, setOffset] = useState<string>("0");
   const [cloneOffset, setCloneOffset] = useState<string>("0");
+  const [ascendItems, setAscendItems] = useState<boolean>(false);
   useCSSProperty(outputRef.current, "--brackets", type === "Array" ? "1" : "0");
   useCSSProperty(outputRef.current, "--output-offset", offset);
   useCSSProperty(outputRef.current, "--clone-offset", cloneOffset);
@@ -177,6 +178,27 @@ const Output: React.FC = () => {
     }
   }, [loading, type]);
 
+  useEffect(() => {
+    if (!outputRef.current) return;
+    if (ascendItems) {
+      for (const child of outputRef.current.children) {
+        if (!child || !(child instanceof HTMLElement)) return;
+        child.style.animation = "ascend 250ms ease-in";
+        child.addEventListener("animationend", end);
+
+        function end() {
+          if (!child || !(child instanceof HTMLElement)) return;
+          child.removeEventListener("animationend", end);
+          child.style.animation = "";
+          if (child === outputRef.current?.lastChild) {
+            setAscendItems(false);
+            if (Array.isArray(output) && output.length > 0) set({ output: [] });
+          }
+        }
+      }
+    }
+  }, [ascendItems]);
+
   return (
     <section
       className="output-wrapper"
@@ -230,11 +252,12 @@ const Output: React.FC = () => {
               color: "#555",
               opacity: allBaskets.length < 5 ? 1 : 0.35,
             }}
-            onClick={() =>
+            onClick={() => {
+              setAscendItems(true);
               Array.isArray(output) && output.length > 0
                 ? addOutputBasket()
-                : undefined
-            }
+                : undefined;
+            }}
           >
             <IconUp size="32px" />
           </button>

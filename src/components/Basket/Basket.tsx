@@ -20,6 +20,7 @@ const Basket: React.FC = () => {
     itemsToRemove,
     itemsToReplace,
     itemsToProcess,
+    ascendAll,
     selectedIndexes,
     processedIndexes,
     selection,
@@ -30,8 +31,7 @@ const Basket: React.FC = () => {
 
   const basketRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
-  const [allBaskets, setAllBaskets] = useState<Emoji[][]>([[...basket]]);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
 
   function itemStyling(item: HTMLElement, state: "Zero" | "Normalize") {
@@ -43,6 +43,7 @@ const Basket: React.FC = () => {
       item.style.margin = "0";
     } else if (state === "Normalize") {
       item.style.animation = "";
+      item.style.transform = "";
       item.style.fontSize = "var(--itemFont)";
       item.style.flex = "1";
       item.style.opacity = "1";
@@ -53,8 +54,7 @@ const Basket: React.FC = () => {
     if (!basketRef.current) {
       return;
     }
-    const children = basketRef.current.children.length;
-    [...new Array(children)].forEach((_, index) => {
+    Array.from(basketRef.current.children).forEach((_, index) => {
       if (basketRef.current) {
         const child = basketRef.current.children[index] as HTMLElement;
         if (!animation) {
@@ -142,15 +142,34 @@ const Basket: React.FC = () => {
   }, [itemsToProcess]);
 
   useEffect(() => {
-    normalizeAll();
-  }, [basketIndex]);
-
-  useEffect(() => {
     if (!loading && itemsToReplace.length === 0) {
-      const baskets = [...allBaskets];
-      baskets[currentIndex] = [...basket];
-      setAllBaskets(baskets);
-      normalizeAll();
+      if (ascendAll) {
+        const showSelection = selection.show;
+        set({ selection: { ...selection, show: false } });
+        if (!basketRef.current) return;
+        for (const child of basketRef.current.children) {
+          if (!(child instanceof HTMLElement)) return;
+          child.style.transform = "translateY(8rem)";
+          child.style.animation = "ascendItemIn 250ms ease-out 400ms";
+          child.addEventListener("animationend", end);
+
+          function end() {
+            if (!(child instanceof HTMLElement)) return;
+            child.style.transform = "";
+            child.style.animation = "";
+            child.removeEventListener("animationend", end);
+            if (child === basketRef.current?.lastChild) {
+              set({
+                ascendAll: false,
+                selection: { ...selection, show: showSelection },
+              });
+              normalizeAll();
+            }
+          }
+        }
+      } else {
+        normalizeAll();
+      }
     }
 
     if (
@@ -162,16 +181,7 @@ const Basket: React.FC = () => {
     ) {
       set({ loading: false });
     }
-  }, [loading]);
-
-  useEffect(() => {
-    if (!loading) {
-      normalizeAll(true);
-
-      const indexes = selectedIndexes.filter((index) => index < basket.length);
-      set({ selectedIndexes: indexes });
-    }
-  }, [currentIndex]);
+  }, [loading, basketIndex]);
 
   useEffect(() => {
     //Sees when items need to be added to the basket. And animates them appropriately.

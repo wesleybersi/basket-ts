@@ -173,3 +173,12 @@
     transform: translateX(var(--clone-offset));
   }
 }
+
+@keyframes ascend {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8rem);
+  }
+}

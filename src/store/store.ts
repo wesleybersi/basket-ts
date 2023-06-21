@@ -18,6 +18,7 @@ export const useStore = create<Store>((set, get) => ({
   itemsToRemove: [],
   itemsToProcess: [],
   itemsToReplace: [],
+  ascendAll: false,
   processedIndexes: new Set(),
   triggerSplice: false,
   hoverItem: null,
@@ -80,6 +81,7 @@ export const useStore = create<Store>((set, get) => ({
         basket: updatedBaskets[updatedBaskets.length - 1],
         allBaskets: updatedBaskets,
         basketIndex: updatedBaskets.length - 1,
+        ascendAll: true,
       };
     }),
   methods: {
