@@ -221,8 +221,10 @@ const Output: React.FC = () => {
       className="output-wrapper"
       style={{
         pointerEvents: hide ? "none" : "all",
-        marginTop: hide ? "-9rem" : "",
+        // marginTop: hide ? "-12rem" : "",
         // maxHeight: hide ? 0 : "",
+        marginTop: hide ? "-3rem" : "",
+        height: hide ? "0" : type === "Array" ? "172px" : "128px",
       }}
     >
       {/* {hide && (
