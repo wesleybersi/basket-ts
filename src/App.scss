@@ -11,6 +11,7 @@
   transition: all 125ms ease;
 
   .container {
+    z-index: -1;
     position: fixed;
     top: 0;
     left: 0;
@@ -22,7 +23,18 @@
 
   .circle {
     position: absolute;
+    backdrop-filter: blur(4px);
+
     background-color: rgba(255, 255, 255, 0.2);
+    // border-radius: 50%;
+    background: radial-gradient(
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0.2)
+    );
+
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.35);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+
     border-radius: 50%;
     // box-shadow: 0 2px 32px 2px rgba(255, 255, 255, 0.15),
     //   0 4px 8px rgba(255, 255, 255, 0.005),
@@ -33,21 +45,59 @@
       left: 5%;
       width: 400px;
       height: 400px;
-      filter: blur(2px);
+      opacity: 0.35;
+      // filter: blur(1px);
     }
     &:nth-child(2) {
       top: 55%;
-      left: 25%;
+      left: 22%;
       width: 200px;
       height: 200px;
-      filter: blur(2px);
+      opacity: 0.35;
+      // filter: blur(2px);
     }
     &:nth-child(3) {
       top: 15%;
       right: 10%;
       width: 333px;
       height: 333px;
-      filter: blur(2px);
+      opacity: 0.35;
+    }
+    &:nth-child(4) {
+      bottom: -60%;
+      left: 40%;
+
+      width: 800px;
+      height: 800px;
+      opacity: 0.2;
+    }
+    &:nth-child(5) {
+      top: -25%;
+      left: 55%;
+      width: 333px;
+      height: 333px;
+      opacity: 0.2;
+    }
+    &:nth-child(6) {
+      top: 10%;
+      left: 22%;
+      width: 111px;
+      height: 111px;
+      opacity: 0.15;
+    }
+    &:nth-child(7) {
+      bottom: 10%;
+      right: 5%;
+      width: 111px;
+      height: 111px;
+      opacity: 0.15;
+    }
+    &:nth-child(8) {
+      bottom: 10%;
+      right: 5%;
+      width: 50px;
+      height: 50px;
+      opacity: 0.15;
     }
   }
 
@@ -57,13 +107,19 @@
       0 4px 8px rgba(255, 255, 255, 0.005),
       0 8px 16px rgba(255, 255, 255, 0.005),
       0 16px 32px rgba(255, 255, 255, 0.005);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-radius: 2rem;
     padding: 3rem;
     pointer-events: all;
     max-width: 1280px;
     width: min(100% - 4rem);
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    border: 3px solid rgba(255, 255, 255, 0.55);
+    border-top-color: rgba(255, 255, 255, 0.25);
+    border-left-color: rgba(255, 255, 255, 0.15);
+    border-right-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+
     @media (max-width: 1300px) {
       padding-left: 4rem;
     }
@@ -79,8 +135,14 @@
   }
   &:before {
     background: linear-gradient(-45deg, #c3e7e8, #e5d0ea, #f7e6cf);
+    background: linear-gradient(-45deg, #7fd5e988, #f5a3e288, #e9b36788);
+    // background: linear-gradient(-45deg, #a6d1f2, #f5a3e2, #e9b367);
+    // background: linear-gradient(-45deg, #b2222255, #1e90ff55, #ffc0cb55);
+    // background: linear-gradient(-45deg, #d9cfc388, #91b194, #ffffff);
+
     // background: linear-gradient(45deg, #e3acb2, #e2e8f9, #e4eef8);
-    // background: #eeeeee;
+    background: linear-gradient(-45deg, #79c6ffcc, #82a1ffcc, #b0d4fecc);
+    // background: #1e90ff44;
     // background: linear-gradient(
     //   135deg,
     //   #f8a10255,

@@ -80,14 +80,19 @@ function App() {
         <Input />
 
         <Callback />
-        {/* <div style={{ marginTop: "-1rem", marginBottom: "rem" }}>
-          <IconDown size="32px" />
-        </div> */}
+        {/* <div style={{ marginTop: "-1.5rem", marginBottom: "-1.5rem" }}> */}
+        {/* <IconDown size="32px" /> */}
+        {/* </div> */}
         <Output />
       </main>
 
       <Tooltip />
       <div className="container">
+        <div className="circle"></div>
+        <div className="circle"></div>
+        <div className="circle"></div>
+        <div className="circle"></div>
+        <div className="circle"></div>
         <div className="circle"></div>
         <div className="circle"></div>
         <div className="circle"></div>
