@@ -10,7 +10,7 @@
   // position: absolute;
   // top: 50%;
   background-color: transparent;
-  color: var(--black);
+  color: var(--grey);
   border: none;
   // transform: translate(-50%);
   width: 3rem;
@@ -22,8 +22,8 @@
   @media (max-width: 768px) {
     display: none;
   }
-  &:hover {
-    background-color: var(--blue);
-    color: white;
-  }
+  // &:hover {
+  //   background-color: var(--blue);
+  //   color: white;
+  // }
 }

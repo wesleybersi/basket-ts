@@ -17,13 +17,19 @@ interface Props {
   index: number;
 }
 const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
-  const { set } = useStore();
+  const { set, parameters } = useStore();
 
   if (direction === "Left") {
     return (
       <button
         style={
-          allMethods[index - 1] ? {} : { opacity: 0, pointerEvents: "none" }
+          allMethods[index - 1]
+            ? {}
+            : {
+                opacity: 0,
+
+                pointerEvents: "none",
+              }
         }
         className="change-method-left"
         onClick={() =>

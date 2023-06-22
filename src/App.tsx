@@ -51,29 +51,10 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <section className="header-left">
-          <IconFruit size="32px" />
-          <h2>basketJS</h2>
-        </section>
-        <section className="header-right">
-          <ul>
-            <li>{hoverItem?.title}</li>
-            <li>basketIndex: {basketIndex}</li>
-            <li>allBaskets: {allBaskets.length}</li>
-            {/* <li>{selection.index}</li>
-            <li>Start: {selection.start ?? "undefined"}</li>
-            <li>End: {selection.end ?? "undefined"}</li>
-            <li>{selection.amount}</li>
-            <li>Target: {selection.target ?? "undefined"}</li>
-            <li>{selectedIndexes.map((i) => i)}</li>
-            <li>{method.title}</li>
-            <li>Loading: {loading.toString()}</li>
-            <li>Donate</li> */}
-            <li>About us</li>
-          </ul>
-        </section>
-      </header>
+      {/* <header>
+        <IconFruit size="42px" />
+        <h2>basketJS</h2>
+      </header> */}
 
       {settings.aboutIsOpen && <About />}
       {maxLimitMessage && <MaxLimit />}

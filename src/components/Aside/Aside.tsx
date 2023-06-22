@@ -15,12 +15,15 @@ const Aside: React.FC = () => {
 
   return (
     <aside
+      // onMouseEnter={() => setType("Full")}
+      // onMouseLeave={() => setType("Compact")}
       style={{
         width: type === "Full" ? "17rem" : "4rem",
       }}
     >
       <div
         className="aside-top"
+        style={type === "Compact" ? { padding: "0 0.75rem" } : {}}
         onClick={() =>
           set({ settings: { ...settings, aboutIsOpen: !settings.aboutIsOpen } })
         }
@@ -46,6 +49,7 @@ const Aside: React.FC = () => {
           <div
             className="method-aside-selector"
             style={{
+              padding: type === "Compact" ? 0 : "0 3rem",
               // transform: title === method.title ? "translateX(1.5rem)" : "",
               justifyContent: type === "Compact" ? "center" : "flex-start",
             }}
@@ -66,7 +70,7 @@ const Aside: React.FC = () => {
                         color: "var(--blue)",
                         fontWeight: 800,
                       }
-                    : { fontWeight: 400 }
+                    : { fontWeight: 500 }
                 }
               >
                 {title.charAt(0).toLowerCase() + title.slice(1)}

@@ -4,7 +4,7 @@ import { Emoji } from "../../utils/emoji/emojis";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import "./output.scss";
 import { useStore } from "../../store/store";
-import { playPopSound } from "../../utils/audio/pop-sound";
+import { playPopSound, playWhoosh } from "../../utils/audio/pop-sound";
 import Selection from "../Basket/components/Selection/Selection";
 
 import {
@@ -191,6 +191,7 @@ const Output: React.FC = () => {
     if (!outputRef.current) return;
     if (ascendItems) {
       set({ loading: true });
+      settings.soundEnabled && playWhoosh();
       for (const child of outputRef.current.children) {
         if (!child || !(child instanceof HTMLElement)) {
           setAscendItems(false);

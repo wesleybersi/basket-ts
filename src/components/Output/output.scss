@@ -93,6 +93,7 @@
 
       position: relative;
       overflow: hidden;
+
       border-radius: 0.5rem;
       border-radius: 100vw;
       // display: none;
@@ -130,7 +131,7 @@
         display: grid;
         place-content: center;
         transform-origin: center;
-        overflow: hidden;
+
         border-radius: 0.25rem;
 
         &:hover {
