@@ -22,6 +22,7 @@ export const useStore = create<Store>((set, get) => ({
   processedIndexes: new Set(),
   triggerSplice: false,
   hoverItem: null,
+  maxLimitMessage: false,
   changeBasket: (type: "Primary" | "Secondary", index: number) =>
     set((state) => {
       //Save current basket
@@ -40,14 +41,12 @@ export const useStore = create<Store>((set, get) => ({
       //Save current basket
       const updatedBaskets = [...state.allBaskets];
       updatedBaskets[state.basketIndex] = [...state.basket];
-      updatedBaskets.push([]);
+      updatedBaskets.splice(state.basketIndex + 1, 0, []);
 
-      console.log(updatedBaskets);
-      console.log(updatedBaskets.length);
       return {
-        basket: updatedBaskets[updatedBaskets.length - 1],
+        basket: updatedBaskets[state.basketIndex + 1],
         allBaskets: updatedBaskets,
-        basketIndex: updatedBaskets.length - 1,
+        basketIndex: state.basketIndex + 1,
       };
     }),
   removeBasket: (index: number) =>
@@ -70,17 +69,14 @@ export const useStore = create<Store>((set, get) => ({
     }),
   addOutputBasket: () =>
     set((state) => {
-      if (state.allBaskets.length === 5 || !Array.isArray(state.output))
-        return {};
-      //Save current basket
+      if (state.basket.length > 0 || !Array.isArray(state.output)) return {};
+
       const updatedBaskets = [...state.allBaskets];
-      updatedBaskets[state.basketIndex] = [...state.basket];
-      updatedBaskets.push([]);
-      updatedBaskets[updatedBaskets.length - 1] = state.output;
+      updatedBaskets[state.basketIndex] = [...state.output];
+
       return {
-        basket: updatedBaskets[updatedBaskets.length - 1],
+        basket: updatedBaskets[state.basketIndex],
         allBaskets: updatedBaskets,
-        basketIndex: updatedBaskets.length - 1,
         ascendAll: true,
       };
     }),
@@ -111,6 +107,8 @@ export const useStore = create<Store>((set, get) => ({
         for (const [index, parameter] of state.parameters) {
           if (parameter?.value instanceof Emoji) items.push(parameter.value);
         }
+        if (items.length + state.basket.length > 20)
+          return { maxLimitMessage: true };
         return {
           loading: true,
           basket: [...state.basket, ...items],
@@ -124,6 +122,9 @@ export const useStore = create<Store>((set, get) => ({
         for (const [index, parameter] of state.parameters) {
           if (parameter?.value instanceof Emoji) items.push(parameter.value);
         }
+
+        if (items.length + state.basket.length > 20)
+          return { maxLimitMessage: true };
         return {
           loading: true,
           basket: [...items, ...state.basket],

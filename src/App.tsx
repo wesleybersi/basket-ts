@@ -6,6 +6,7 @@ import Input from "./components/Input/Input";
 import Callback from "./components/Callback/Callback";
 import Output from "./components/Output/Output";
 import About from "./components/About/About";
+import MaxLimit from "./components/MaxLimit/MaxLimit";
 import { randomEmojis } from "./utils/emoji/random-emoji";
 import { MethodName, allMethods } from "./store/methods";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
@@ -30,6 +31,7 @@ function App() {
     basketIndex,
     allBaskets,
     basket,
+    maxLimitMessage,
   } = useStore();
   const location = useLocation();
 
@@ -69,7 +71,7 @@ function App() {
       </header>
 
       {settings.aboutIsOpen && <About />}
-
+      {maxLimitMessage && <MaxLimit />}
       <Aside />
       {settings.isOpen && <Settings />}
       <main

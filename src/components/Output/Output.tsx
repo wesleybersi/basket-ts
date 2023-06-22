@@ -17,6 +17,7 @@ const Output: React.FC = () => {
   const {
     set,
     loading,
+    basket,
     settings,
     output,
     method,
@@ -102,7 +103,7 @@ const Output: React.FC = () => {
   }, [method]);
 
   useEffect(() => {
-    if (!outputRef.current || !loading) {
+    if (!outputRef.current || !loading || ascendItems) {
       return;
     }
     if (method.title === "splice" && itemsToAdd.length > 0) {
@@ -181,13 +182,20 @@ const Output: React.FC = () => {
   useEffect(() => {
     if (!outputRef.current) return;
     if (ascendItems) {
+      set({ loading: true });
       for (const child of outputRef.current.children) {
-        if (!child || !(child instanceof HTMLElement)) return;
-        child.style.animation = "ascend 250ms ease-in";
+        if (!child || !(child instanceof HTMLElement)) {
+          setAscendItems(false);
+          return;
+        }
+        child.style.animation = "ascend 300ms ease-in";
         child.addEventListener("animationend", end);
 
         function end() {
-          if (!child || !(child instanceof HTMLElement)) return;
+          if (!child || !(child instanceof HTMLElement)) {
+            setAscendItems(false);
+            return;
+          }
           child.removeEventListener("animationend", end);
           child.style.animation = "";
           if (child === outputRef.current?.lastChild) {
@@ -250,13 +258,18 @@ const Output: React.FC = () => {
             style={{
               background: "#22222211",
               color: "#555",
-              opacity: allBaskets.length < 5 ? 1 : 0.35,
+              opacity: allBaskets.length <= 5 && basket.length === 0 ? 1 : 0.45,
             }}
             onClick={() => {
-              setAscendItems(true);
-              Array.isArray(output) && output.length > 0
-                ? addOutputBasket()
-                : undefined;
+              if (
+                !loading &&
+                basket.length === 0 &&
+                Array.isArray(output) &&
+                output.length > 0
+              ) {
+                setAscendItems(true);
+                addOutputBasket();
+              }
             }}
           >
             <IconUp size="32px" />

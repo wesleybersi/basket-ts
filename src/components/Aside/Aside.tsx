@@ -7,7 +7,6 @@ import {
   BsChevronDoubleLeft as IconChevronLeft,
 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { GrSettingsOption as IconSettings } from "react-icons/gr";
 import "./aside.scss";
 const Aside: React.FC = () => {
   const navigate = useNavigate();

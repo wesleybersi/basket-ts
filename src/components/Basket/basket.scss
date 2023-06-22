@@ -37,9 +37,8 @@
   .basket-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    // font-size: calc(var(--itemFont) / 2); // padding: 0 2rem;
-    font-size: 1.5rem;
+    align-items: center;
+    font-size: 1.35rem;
   }
 
   .basket {
@@ -182,13 +181,13 @@
 
 @keyframes addItem {
   0% {
-    opacity: 0;
+    opacity: 1;
     flex: 0;
     font-size: 0;
     transform: translateX(var(--animation-offset));
   }
   50% {
-    font-size: calc(var(--itemFont) * 1.25);
+    font-size: calc(var(--itemFont) * 1.15);
   }
   75% {
     font-size: calc(var(--itemFont) * 0.9);
@@ -222,50 +221,6 @@
     flex: 0;
     opacity: 0;
     max-width: 0;
-  }
-}
-
-@keyframes spliceItemRemove {
-  0% {
-    font-size: var(--itemFont);
-    flex: 1;
-    opacity: 1;
-    max-width: 100%;
-  }
-  50% {
-    font-size: 0rem;
-    flex: 1;
-    opacity: 1;
-    max-width: 100%;
-  }
-  100% {
-    font-size: 0rem;
-    flex: 0;
-    max-width: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes spliceItemAdd {
-  0% {
-    // padding: 0;
-    font-size: 0rem;
-    flex: 0;
-    max-width: 0;
-    opacity: 0;
-  }
-
-  50% {
-    font-size: 0rem;
-    flex: 1;
-    opacity: 1;
-    max-width: 100%;
-  }
-  100% {
-    font-size: var(--itemFont);
-    flex: 1;
-    opacity: 1;
-    max-width: 100%;
   }
 }
 

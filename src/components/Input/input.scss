@@ -30,6 +30,7 @@
       padding: 1rem;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       overflow: hidden;
       position: relative;
       border-bottom-left-radius: 0.5rem;
@@ -40,7 +41,7 @@
         max-height: 5rem;
       }
       .method-name {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
         font-weight: 400;
 
         @media (max-width: 768px) {

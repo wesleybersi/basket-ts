@@ -17,6 +17,7 @@ export interface Store {
   processedIndexes: Set<number>;
   triggerSplice: boolean;
   hoverItem: Emoji | null;
+  maxLimitMessage: boolean;
   changeBasket: (type: "Primary" | "Secondary", index: number) => void;
   addEmptyBasket: (type: "Primary" | "Secondary") => void;
   removeBasket: (index: number) => void;

@@ -39,11 +39,13 @@ export type MethodName =
   | "splice"
   | "concat"
   | "slice"
+  // | "toSpliced"
   | "includes"
   | "indexOf"
   | "lastIndexOf"
   | "at"
   | "with";
+// | "toReversed";
 // | "join"
 // | "filter";
 
@@ -178,6 +180,17 @@ export const allMethods: IMethod[] = [
       [3, null],
     ]),
   },
+  // {
+  //   title: "toReversed",
+  //   icon: IconReverse,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [0, null],
+  //     [1, null],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
   {
     title: "fill",
     icon: IconFill,
@@ -246,6 +259,44 @@ export const allMethods: IMethod[] = [
       ],
     ]),
   },
+  // {
+  //   title: "toSpliced",
+  //   icon: IconSplice,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "start",
+  //         type: "Number",
+  //         required: true,
+  //         active: false,
+  //         hide: false,
+  //         color: "var(--selectionOpaque)",
+  //       },
+  //     ],
+  //     [
+  //       1,
+  //       {
+  //         name: "deleteCount",
+  //         type: "Number",
+  //         hide: true,
+  //         active: false,
+  //         color: "var(--deleteCount)",
+  //       },
+  //     ],
+  //     [2, { name: "item1", hide: true, active: false, type: "Emoji" }],
+  //     [
+  //       3,
+  //       {
+  //         name: "item2",
+  //         type: "Emoji",
+  //         active: false,
+  //         hide: true,
+  //       },
+  //     ],
+  //   ]),
+  // },
   {
     title: "copyWithin",
     icon: IconCopy,

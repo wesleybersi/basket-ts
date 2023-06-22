@@ -4,14 +4,12 @@ import "./picker.scss";
 const Picker: React.FC = () => {
   const {
     loading,
-    set,
     basket,
     basketIndex,
     allBaskets,
     changeBasket,
     addEmptyBasket,
     removeBasket,
-    processedIndexes,
   } = useStore();
   return (
     <div className="basket-picker">
@@ -20,8 +18,9 @@ const Picker: React.FC = () => {
           style={
             basketIndex === index
               ? {
-                  backgroundColor: "var(--blue)",
-                  color: "#222",
+                  backgroundColor:
+                    basket.length < 20 ? "var(--blue)" : "var(--red)",
+                  color: basket.length < 20 ? "var(--black)" : "white",
                   fontWeight: 600,
                 }
               : {

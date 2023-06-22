@@ -19,6 +19,7 @@ const Input: React.FC<Props> = () => {
     selection,
     parameters,
     basket,
+    ascendAll,
     updateParameterState,
     updateAllParameters,
     selectedIndexes,
@@ -89,7 +90,7 @@ const Input: React.FC<Props> = () => {
   }, [triggerSplice]);
 
   useEffect(() => {
-    if (!loading && !triggerSplice) updateAllParameters();
+    if (!loading && !triggerSplice && !ascendAll) updateAllParameters();
   }, [loading, basketIndex]);
 
   return (

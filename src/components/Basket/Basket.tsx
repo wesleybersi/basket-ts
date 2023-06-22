@@ -37,6 +37,7 @@ const Basket: React.FC = () => {
   function itemStyling(item: HTMLElement, state: "Zero" | "Normalize") {
     if (state === "Zero") {
       item.style.animation = "";
+      item.style.transform = "";
       item.style.fontSize = "0";
       item.style.flex = "0";
       item.style.opacity = "0";
@@ -54,17 +55,16 @@ const Basket: React.FC = () => {
     if (!basketRef.current) {
       return;
     }
-    Array.from(basketRef.current.children).forEach((_, index) => {
-      if (basketRef.current) {
-        const child = basketRef.current.children[index] as HTMLElement;
+    Array.from(basketRef.current.children).forEach((child, index) => {
+      if (child instanceof HTMLElement) {
         if (!animation) {
           itemStyling(child, "Normalize");
         } else {
           setAnimationOffset("0");
-          child.style.animation = `addItem ${duration}ms ease`;
+          child.style.animation = `addItem ${duration * 1.25}ms ease`;
           child.addEventListener("animationend", end);
           function end() {
-            itemStyling(child, "Normalize");
+            itemStyling(child as HTMLElement, "Normalize");
             child.removeEventListener("animationend", end);
           }
         }
@@ -142,15 +142,19 @@ const Basket: React.FC = () => {
   }, [itemsToProcess]);
 
   useEffect(() => {
+    if (!basketRef.current) return;
     if (!loading && itemsToReplace.length === 0) {
       if (ascendAll) {
+        normalizeAll();
         const showSelection = selection.show;
         set({ selection: { ...selection, show: false } });
-        if (!basketRef.current) return;
+
         for (const child of basketRef.current.children) {
-          if (!(child instanceof HTMLElement)) return;
+          if (!(child instanceof HTMLElement)) {
+            return;
+          }
           child.style.transform = "translateY(8rem)";
-          child.style.animation = "ascendItemIn 250ms ease-out 400ms";
+          child.style.animation = "ascendItemIn 300ms ease 300ms";
           child.addEventListener("animationend", end);
 
           function end() {
@@ -159,7 +163,9 @@ const Basket: React.FC = () => {
             child.style.animation = "";
             child.removeEventListener("animationend", end);
             if (child === basketRef.current?.lastChild) {
+              console.log("Animating end");
               set({
+                loading: false,
                 ascendAll: false,
                 selection: { ...selection, show: showSelection },
               });
@@ -181,7 +187,11 @@ const Basket: React.FC = () => {
     ) {
       set({ loading: false });
     }
-  }, [loading, basketIndex]);
+  }, [loading, ascendAll]);
+
+  useEffect(() => {
+    if (!loading) normalizeAll(true);
+  }, [basketIndex]);
 
   useEffect(() => {
     //Sees when items need to be added to the basket. And animates them appropriately.

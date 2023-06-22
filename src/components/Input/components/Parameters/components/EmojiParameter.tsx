@@ -91,6 +91,8 @@ const EmojiParameter: React.FC<Props> = ({
             if (!currentTheme) return;
             setEmojiIndex(Math.floor(Math.random() * currentTheme.length));
           }}
+          onMouseEnter={() => set({ hoverItem: value as Emoji })}
+          onMouseLeave={() => set({ hoverItem: null })}
         >
           {value && value instanceof Emoji && value.emoji.toString()}
         </div>
