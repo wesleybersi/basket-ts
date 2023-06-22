@@ -306,6 +306,7 @@ const Output: React.FC = () => {
           style={{
             transition: "all 250ms ease",
             width: "100%",
+            padding: type === "Array" ? "0 4rem" : 0,
           }}
         >
           <>

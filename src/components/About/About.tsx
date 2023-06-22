@@ -65,7 +65,7 @@ const About: React.FC = (): JSX.Element => {
             </li>
           </ul>
         </p>
-        <p>Like what you see? Buy me a coffee ☕! </p>
+        <p>Like what you see? basket.push(☕) </p>
       </div>
     </div>
   );

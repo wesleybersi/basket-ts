@@ -12,7 +12,8 @@ const Method: React.FC = () => {
         style={loading ? { opacity: 0.25 } : { opacity: 1 }}
       >
         basket.
-        <span className="b">{method.title}</span>(
+        <span className="b">{method.title}</span>
+        <span style={{ fontFamily: "Spline Sans Mono" }}>(</span>
         {method.title !== "concat"
           ? Array.from(parameters).map(([id, parameter], index, arr) => {
               if (!parameter) return;
@@ -29,12 +30,12 @@ const Method: React.FC = () => {
               } else if (typeof parameter.value === "number") {
                 return parameters.get(index + 1)?.value ||
                   parameters.get(index + 1)?.value === 0
-                  ? parameter.value + ","
+                  ? parameter.value + ", "
                   : parameter.value;
               }
             })
           : `crate`}
-        )
+        <span style={{ fontFamily: "Spline Sans Mono" }}>)</span>
       </h2>
       <button
         className="method-btn"
