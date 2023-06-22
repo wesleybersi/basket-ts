@@ -70,6 +70,7 @@
       width: 800px;
       height: 800px;
       opacity: 0.2;
+      border: 2px solid rgba(255, 255, 255, 0.35);
     }
     &:nth-child(5) {
       top: -25%;
@@ -142,6 +143,7 @@
 
     // background: linear-gradient(45deg, #e3acb2, #e2e8f9, #e4eef8);
     background: linear-gradient(-45deg, #79c6ffcc, #82a1ffcc, #b0d4fecc);
+    // background: linear-gradient(135deg, #a2d2f2, #e1abe2cc, #fe98a7aa, #ffffff);
     // background: #1e90ff44;
     // background: linear-gradient(
     //   135deg,

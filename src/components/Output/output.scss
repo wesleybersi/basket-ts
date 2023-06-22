@@ -133,7 +133,7 @@
         transform-origin: center;
 
         border-radius: 0.25rem;
-
+        overflow: hidden;
         &:hover {
           transform: scale(1.15);
           // background: white;

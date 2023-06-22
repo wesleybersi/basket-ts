@@ -13,7 +13,7 @@ export const useStore = create<Store>((set, get) => ({
   basket: randomEmojis(4),
   secondary: [],
   secondaryIndex: 0,
-  showSecondary: true,
+  showSecondary: false,
   allBaskets: [[]],
   output: [],
   itemsToAdd: [],

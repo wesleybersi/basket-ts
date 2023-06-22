@@ -41,7 +41,7 @@ const NumberParameter: React.FC<Props> = ({
           className="parameter-name"
           style={{
             textDecoration: required || animating || !active ? "none" : "",
-            paddingTop: "0.25rem",
+            paddingTop: "0.5rem",
           }}
           onClick={!required ? () => setActive((prev) => !prev) : undefined}
         >

@@ -63,7 +63,7 @@ const EmojiParameter: React.FC<Props> = ({
             onClick={!required ? () => setActive(false) : undefined}
             style={{
               textDecoration: required || animating || !active ? "none" : "",
-              paddingTop: "0.25rem",
+              paddingTop: "0.5rem",
             }}
           >
             {!active ? <IconAdd size="24px" /> : name}
