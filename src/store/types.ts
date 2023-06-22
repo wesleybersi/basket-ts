@@ -8,6 +8,9 @@ export interface Store {
   basketIndex: number;
   allBaskets: Emoji[][];
   basket: Emoji[];
+  secondary: Emoji[];
+  secondaryIndex: number;
+  showSecondary: boolean;
   output: number | string | Emoji | Emoji[] | undefined;
   itemsToRemove: number[];
   itemsToAdd: number[];

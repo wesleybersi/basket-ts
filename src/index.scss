@@ -3,15 +3,22 @@
   padding: 0;
   box-sizing: border-box;
   // border-radius: 0 !important;
+  // box-shadow: none !important;
 }
 
+html {
+  overflow-y: none;
+}
 body {
   --itemFont: 2.5rem;
   --pageWidth: 1140px;
   --bg: #f9f5f2;
   --black: #1d202b;
+  --black: #292c6d;
+  --grey: #909090;
   --light: #d9e1f5;
   --medium: #83b6b1;
+  --pink: #f84194;
 
   //   --blue: #16bb72;
   --blue: #15a8e2;
@@ -31,6 +38,14 @@ body {
 
   --yellow: #f8d44b;
   --lightblue: #82dfdf;
+
+  --selection: white;
+  --selection: #ffffff00;
+  --selectionOpaque: #15a8e240;
+  --deleteCount: #ffffff00;
+  --deleteCountOpaque: #e5363640;
+  --target: white;
+  --highlight: white;
 
   font-family: "Poppins", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -61,4 +76,8 @@ body {
 
     font-variant: small-caps;
   }
+}
+
+.b {
+  font-weight: 600;
 }

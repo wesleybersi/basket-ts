@@ -1,26 +1,46 @@
 import { RiAddFill as IconAdd } from "react-icons/ri";
 import { useStore } from "../../../../store/store";
+import { useEffect, useState } from "react";
 import "./picker.scss";
-const Picker: React.FC = () => {
+
+interface Props {
+  type: "Primary" | "Secondary";
+}
+
+const Picker: React.FC<Props> = ({ type }) => {
   const {
     loading,
     basket,
+    secondary,
     basketIndex,
+    secondaryIndex,
     allBaskets,
     changeBasket,
     addEmptyBasket,
     removeBasket,
   } = useStore();
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [length, setLength] = useState<number>(0);
+
+  useEffect(() => {
+    if (type === "Primary") {
+      setCurrentIndex(basketIndex);
+      setLength(basket.length);
+    } else if (type === "Secondary") {
+      setCurrentIndex(secondaryIndex);
+      setLength(secondary.length);
+    }
+  }, [basketIndex, secondaryIndex, basket.length, secondary.length]);
+
   return (
     <div className="basket-picker">
       {allBaskets.map((basketPick, index) => (
         <button
           style={
-            basketIndex === index
+            currentIndex === index
               ? {
-                  backgroundColor:
-                    basket.length < 20 ? "var(--blue)" : "var(--red)",
-                  color: basket.length < 20 ? "var(--black)" : "white",
+                  backgroundColor: length < 20 ? "var(--blue)" : "var(--red)",
+                  color: length < 20 ? "var(--black)" : "white",
                   fontWeight: 600,
                 }
               : {
@@ -30,12 +50,12 @@ const Picker: React.FC = () => {
           }
           onClick={() => {
             if (!loading) {
-              if (basketIndex !== index) changeBasket("Primary", index);
+              if (currentIndex !== index) changeBasket(type, index);
               else removeBasket(index);
             }
           }}
         >
-          <p>{basketIndex === index ? basket.length : basketPick.length}</p>
+          <p>{currentIndex === index ? length : basketPick.length}</p>
         </button>
       ))}
       <button
@@ -45,7 +65,7 @@ const Picker: React.FC = () => {
           opacity: allBaskets.length < 5 ? 1 : 0.35,
         }}
         onClick={() => {
-          if (!loading && allBaskets.length < 5) addEmptyBasket("Primary");
+          if (!loading && allBaskets.length < 5) addEmptyBasket(type);
         }}
       >
         <IconAdd size="24px" />

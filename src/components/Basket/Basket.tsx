@@ -23,13 +23,16 @@ const Basket: React.FC = () => {
     ascendAll,
     selectedIndexes,
     processedIndexes,
+    secondary,
     selection,
     parameters,
     basketIndex,
+    showSecondary,
   } = useStore();
   const { animationDuration: duration, soundEnabled } = settings;
 
   const basketRef = useRef<HTMLUListElement | null>(null);
+  const secondaryRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
 
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
@@ -154,7 +157,7 @@ const Basket: React.FC = () => {
             return;
           }
           child.style.transform = "translateY(8rem)";
-          child.style.animation = "ascendItemIn 300ms ease 300ms";
+          child.style.animation = "ascendItemIn 250ms ease 250ms";
           child.addEventListener("animationend", end);
 
           function end() {
@@ -324,10 +327,16 @@ const Basket: React.FC = () => {
   }, [itemsToRemove]);
 
   return (
-    <section className="basket-wrapper">
+    <section
+      className="basket-wrapper"
+      style={{
+        borderBottomLeftRadius: showSecondary ? 0 : "4rem",
+        borderBottomRightRadius: showSecondary ? 0 : "4rem",
+      }}
+    >
       <div className="basket-header">
         <p>const basket =</p>
-        <Picker />
+        <Picker type="Primary" />
       </div>
       <ul className="basket" ref={basketRef}>
         {basket.length === 0 && <li></li>}
@@ -358,6 +367,24 @@ const Basket: React.FC = () => {
           </li>
         ))}
       </ul>
+      {/* ANCHOR SECONDARY */}
+      {/* 
+      <div className="basket-header">
+        <p>const crate =</p>
+        <Picker type="Secondary" />
+      </div>
+      <ul className="basket" ref={secondaryRef} style={{ marginTop: "-1rem" }}>
+        {secondary.length === 0 && <li></li>}
+        {secondary.map((item, index) => (
+          <li
+            className="secondary-item"
+            onMouseEnter={() => set({ hoverItem: item })}
+            onMouseLeave={() => set({ hoverItem: null })}
+          >
+            {item.emoji}{" "}
+          </li>
+        ))}
+      </ul> */}
     </section>
   );
 };

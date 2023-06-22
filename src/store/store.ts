@@ -11,8 +11,10 @@ export const useStore = create<Store>((set, get) => ({
   method: allMethods[0],
   basketIndex: 0,
   basket: randomEmojis(4),
-  allBaskets: [[]],
   secondary: [],
+  secondaryIndex: 0,
+  showSecondary: true,
+  allBaskets: [[]],
   output: [],
   itemsToAdd: [],
   itemsToRemove: [],
@@ -25,21 +27,42 @@ export const useStore = create<Store>((set, get) => ({
   maxLimitMessage: false,
   changeBasket: (type: "Primary" | "Secondary", index: number) =>
     set((state) => {
-      //Save current basket
       const updatedBaskets = [...state.allBaskets];
+
+      if (state.basketIndex === state.secondaryIndex) {
+        state.secondary = [...state.basket];
+      } else {
+        state.secondary = updatedBaskets[state.secondaryIndex];
+      }
+
+      if (type === "Secondary") {
+        updatedBaskets[state.secondaryIndex] = [...state.secondary];
+        const returnBasket = updatedBaskets[index];
+        return {
+          basket: updatedBaskets[state.basketIndex],
+          secondary: returnBasket,
+          allBaskets: updatedBaskets,
+          secondaryIndex: index,
+        };
+      }
+
+      //Save current basket
+
       updatedBaskets[state.basketIndex] = [...state.basket];
       const returnBasket = updatedBaskets[index];
       return {
         basket: returnBasket,
+        secondary: updatedBaskets[state.secondaryIndex],
         allBaskets: updatedBaskets,
         basketIndex: index,
       };
     }),
-  addEmptyBasket: (type: "Primary" | "Secondary") =>
+  addEmptyBasket: (type: "Secondary" | "Primary") =>
     set((state) => {
       if (state.allBaskets.length === 5) return {};
       //Save current basket
       const updatedBaskets = [...state.allBaskets];
+
       updatedBaskets[state.basketIndex] = [...state.basket];
       updatedBaskets.splice(state.basketIndex + 1, 0, []);
 
@@ -243,7 +266,16 @@ export const useStore = create<Store>((set, get) => ({
       }),
     concat: () =>
       set((state) => {
-        return {};
+        const updatedBaskets = [...state.allBaskets];
+        const primary = [...state.basket];
+        const secondary = [...state.secondary];
+        console.log(primary, secondary);
+        const output = primary.concat(secondary);
+        if (output.length > 20) {
+          return { maxLimitMessage: true };
+        }
+
+        return { output, loading: true };
       }),
     slice: () =>
       set((state) => {

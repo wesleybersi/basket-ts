@@ -148,7 +148,11 @@ const Output: React.FC = () => {
 
         child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
 
-        if (method.title === "slice" || method.title === "with") {
+        if (
+          method.title === "slice" ||
+          method.title === "with" ||
+          method.title === "concat"
+        ) {
           accumulator += duration / 2;
         } else {
           accumulator += duration;
@@ -156,7 +160,11 @@ const Output: React.FC = () => {
         function end() {
           if (!outputRef.current) return;
 
-          if (method.title === "slice" || method.title === "with") {
+          if (
+            method.title === "slice" ||
+            method.title === "with" ||
+            method.title === "concat"
+          ) {
             if (settings.soundEnabled) playPopSound();
             if (child === outputRef.current.lastChild) {
               setTimeout(() => {
@@ -188,7 +196,7 @@ const Output: React.FC = () => {
           setAscendItems(false);
           return;
         }
-        child.style.animation = "ascend 300ms ease-in";
+        child.style.animation = "ascend 250ms ease-in";
         child.addEventListener("animationend", end);
 
         function end() {
@@ -210,28 +218,40 @@ const Output: React.FC = () => {
   return (
     <section
       className="output-wrapper"
-      style={{ pointerEvents: hide ? "none" : "all" }}
+      style={{
+        pointerEvents: hide ? "none" : "all",
+        marginTop: hide ? "-9rem" : "",
+        // maxHeight: hide ? 0 : "",
+      }}
     >
-      {hide && (
+      {/* {hide && (
         <div
           className="hide-message"
           style={{
             textAlign: "center",
             pointerEvents: "none",
             userSelect: "none",
+            height: "100%",
+            display: "grid",
+            placeContent: "center",
+
+            padding: "2rem",
+            borderRadius: "1rem",
           }}
         >
           Reference to original
         </div>
-      )}
+      )} */}
       <div
         className="output-lens"
         style={{
           opacity: hide ? 0 : 1,
           transition: "all 250ms ease",
           transform: hide ? "translateY(calc(-100% - 2rem)" : "",
-          width: type === "Array" || type === "String" ? "100%" : "16.5rem",
-          paddingTop: type === "Array" ? "2rem" : "0",
+          width: type === "Array" || type === "String" ? "100%" : "14rem",
+          paddingTop: type === "Array" ? "1rem" : "0",
+          borderTopLeftRadius: type === "Array" ? "1rem" : "",
+          borderTopRightRadius: type === "Array" ? "1rem" : "",
         }}
       >
         <div
@@ -240,13 +260,14 @@ const Output: React.FC = () => {
             flex: type === "Array" ? 1 : 0,
             paddingBottom: type === "Array" ? "1rem" : 0,
             overflow: "hidden",
+            marginTop: type === "Array" ? 0 : "-0.5rem",
           }}
         >
           <button
             className="output-basket-length"
             style={{
               background: "var(--blue)",
-              marginRight: "0.5rem",
+              marginRight: "0.75rem",
               color: "#222",
               fontWeight: 600,
             }}

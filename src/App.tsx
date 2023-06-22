@@ -7,6 +7,7 @@ import Callback from "./components/Callback/Callback";
 import Output from "./components/Output/Output";
 import About from "./components/About/About";
 import MaxLimit from "./components/MaxLimit/MaxLimit";
+import Secondary from "./components/Basket/Secondary";
 import { randomEmojis } from "./utils/emoji/random-emoji";
 import { MethodName, allMethods } from "./store/methods";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
@@ -31,6 +32,7 @@ function App() {
     basketIndex,
     allBaskets,
     basket,
+    showSecondary,
     maxLimitMessage,
   } = useStore();
   const location = useLocation();
@@ -43,6 +45,9 @@ function App() {
       }
     }
   }, [location.pathname]);
+
+  const eredivisie = ["Ajax", "PSV", "Feyenoord"];
+  console.log(eredivisie.concat(eredivisie));
 
   return (
     <div className="App">
@@ -74,29 +79,38 @@ function App() {
       {maxLimitMessage && <MaxLimit />}
       <Aside />
       {settings.isOpen && <Settings />}
+
       <main
         style={{
           width: "100%",
-          alignSelf: "flex-start",
-          marginTop: "8rem",
+          alignSelf: "center",
+
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "4rem",
+
+          gap: "3rem",
           transition: "all 125ms ease",
         }}
       >
         <Basket />
+        <Secondary />
 
         <Input />
 
         <Callback />
-        <Tooltip />
-        <div style={{ marginTop: "-2rem", marginBottom: "-2rem" }}>
+        {/* <div style={{ marginTop: "-1rem", marginBottom: "rem" }}>
           <IconDown size="32px" />
-        </div>
+        </div> */}
         <Output />
       </main>
+
+      <Tooltip />
+      <div className="container">
+        <div className="circle"></div>
+        <div className="circle"></div>
+        <div className="circle"></div>
+      </div>
     </div>
   );
 }

@@ -4,14 +4,66 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  font-family: "Spline Sans Mono";
+  // font-family: "Spline Sans Mono";
+  font-family: "Poppins";
   // font-family: "Poppins";
 
   transition: all 125ms ease;
 
+  .container {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+  }
+
+  .circle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    // box-shadow: 0 2px 32px 2px rgba(255, 255, 255, 0.15),
+    //   0 4px 8px rgba(255, 255, 255, 0.005),
+    //   0 8px 16px rgba(255, 255, 255, 0.005),
+    //   0 16px 32px rgba(255, 255, 255, 0.005);
+    &:nth-child(1) {
+      top: 55%;
+      left: 5%;
+      width: 400px;
+      height: 400px;
+      filter: blur(2px);
+    }
+    &:nth-child(2) {
+      top: 55%;
+      left: 25%;
+      width: 200px;
+      height: 200px;
+      filter: blur(2px);
+    }
+    &:nth-child(3) {
+      top: 15%;
+      right: 10%;
+      width: 333px;
+      height: 333px;
+      filter: blur(2px);
+    }
+  }
+
   main {
-    max-width: var(--pageWidth);
+    background: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.035),
+      0 4px 8px rgba(255, 255, 255, 0.005),
+      0 8px 16px rgba(255, 255, 255, 0.005),
+      0 16px 32px rgba(255, 255, 255, 0.005);
+    backdrop-filter: blur(4px);
+    border-radius: 2rem;
+    padding: 3rem;
+    pointer-events: all;
+    max-width: 1280px;
     width: min(100% - 4rem);
+    border: 2px solid rgba(255, 255, 255, 0.25);
     @media (max-width: 1300px) {
       padding-left: 4rem;
     }
@@ -26,9 +78,24 @@
     }
   }
   &:before {
-    // background: linear-gradient(-45deg, #c3e7e845, #e5d0ea45, #f7e6cf45);
+    background: linear-gradient(-45deg, #c3e7e8, #e5d0ea, #f7e6cf);
     // background: linear-gradient(45deg, #e3acb2, #e2e8f9, #e4eef8);
-    background: #eeeeee;
+    // background: #eeeeee;
+    // background: linear-gradient(
+    //   135deg,
+    //   #f8a10255,
+    //   #ff3d0755,
+    //   #ff0a7f55,
+    //   #e92ea055,
+    //   #ad3dd355
+    // );
+
+    // background: linear-gradient(
+    //   135deg,
+    //   rgba(255, 222, 192, 0.8),
+    //   rgba(224, 192, 255, 0.8),
+    //   rgba(255, 192, 224, 0.8)
+    // );
 
     content: "";
     position: fixed;

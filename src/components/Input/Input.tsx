@@ -7,6 +7,7 @@ import ChangeMethod from "./components/ChangeMethod/ChangeMethod";
 import { Emoji } from "../../utils/emoji/emojis";
 import { useNavigate } from "react-router-dom";
 import "./input.scss";
+import Secondary from "../Basket/Secondary";
 
 interface Props {}
 
@@ -24,6 +25,8 @@ const Input: React.FC<Props> = () => {
     updateAllParameters,
     selectedIndexes,
     basketIndex,
+    secondaryIndex,
+    allBaskets,
   } = useStore();
   const navigate = useNavigate();
   const [index, setIndex] = useState<number>(0);
@@ -38,9 +41,14 @@ const Input: React.FC<Props> = () => {
         param.value = undefined;
         param.active = undefined;
       }
+
+      const updatedBaskets = [...allBaskets];
+      updatedBaskets[basketIndex] = [...basket];
+
       set({
         parameters: method.parameters,
         output: undefined,
+        allBaskets: updatedBaskets,
         selection: {
           show: false,
           start: undefined,
@@ -50,7 +58,9 @@ const Input: React.FC<Props> = () => {
           amount: undefined,
           highlight: undefined,
         },
+        secondary: updatedBaskets[secondaryIndex],
         selectedIndexes: [],
+        showSecondary: method.title === "concat",
       });
     }
   }, [method.title]);

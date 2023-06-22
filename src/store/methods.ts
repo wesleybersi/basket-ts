@@ -51,7 +51,7 @@ export type MethodName =
 
 export interface ParameterState {
   name: string;
-  type: "Emoji" | "Number" | "String" | "Callback";
+  type: "Emoji" | "Number" | "String" | "Callback" | "Array";
   active?: boolean;
   value?: Emoji | number | string;
   required?: boolean;
@@ -402,11 +402,10 @@ export const allMethods: IMethod[] = [
       [
         0,
         {
-          name: "index",
-          type: "Number",
+          name: "value",
+          type: "Array",
           hide: false,
           active: false,
-          color: "var(--selectionOpaque)",
         },
       ],
       [1, null],

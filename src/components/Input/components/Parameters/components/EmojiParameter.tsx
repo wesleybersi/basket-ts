@@ -73,7 +73,7 @@ const EmojiParameter: React.FC<Props> = ({
       </div>
       <div className="parameter-emoji-wrapper">
         <div
-          style={{ opacity: animating ? 0 : undefined }}
+          style={{ opacity: true || animating ? 0 : undefined }}
           className="previous-emoji"
           onClick={() => {
             const theme = themes.get(settings.theme);
@@ -97,7 +97,7 @@ const EmojiParameter: React.FC<Props> = ({
           {value && value instanceof Emoji && value.emoji.toString()}
         </div>
         <div
-          style={{ opacity: animating ? 0 : undefined }}
+          style={{ opacity: true || animating ? 0 : undefined }}
           className="next-emoji"
           onClick={() => {
             const theme = themes.get(settings.theme);

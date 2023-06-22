@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Emoji } from "../../../../utils/emoji/emojis";
 
 const Method: React.FC = () => {
-  const { loading, method, parameters, methods } = useStore();
+  const { loading, method, parameters, methods, secondaryIndex } = useStore();
 
   return (
     <div className="method">
@@ -12,26 +12,28 @@ const Method: React.FC = () => {
         style={loading ? { opacity: 0.25 } : { opacity: 1 }}
       >
         basket.
-        {method.title}(
-        {Array.from(parameters).map(([id, parameter], index, arr) => {
-          if (!parameter) return;
-          if (parameter.value instanceof Emoji) {
-            return (
-              parameter.value.emoji +
-              `${
-                parameters.get(index + 1)?.value ||
-                parameters.get(index + 1)?.value === 0
-                  ? ","
-                  : ""
-              }`
-            );
-          } else if (typeof parameter.value === "number") {
-            return parameters.get(index + 1)?.value ||
-              parameters.get(index + 1)?.value === 0
-              ? parameter.value + ","
-              : parameter.value;
-          }
-        })}
+        <span className="b">{method.title}</span>(
+        {method.title !== "concat"
+          ? Array.from(parameters).map(([id, parameter], index, arr) => {
+              if (!parameter) return;
+              if (parameter.value instanceof Emoji) {
+                return (
+                  parameter.value.emoji +
+                  `${
+                    parameters.get(index + 1)?.value ||
+                    parameters.get(index + 1)?.value === 0
+                      ? ", "
+                      : ""
+                  }`
+                );
+              } else if (typeof parameter.value === "number") {
+                return parameters.get(index + 1)?.value ||
+                  parameters.get(index + 1)?.value === 0
+                  ? parameter.value + ","
+                  : parameter.value;
+              }
+            })
+          : `crate`}
         )
       </h2>
       <button

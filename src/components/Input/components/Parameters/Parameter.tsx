@@ -5,6 +5,11 @@ import { useStore } from "../../../../store/store";
 import { ParameterState } from "../../../../store/methods";
 import { GrClose as IconClose } from "react-icons/gr";
 import themes from "../../../../utils/emoji/themes";
+import { RiAddFill as IconAdd } from "react-icons/ri";
+import {
+  FiChevronRight as IconRight,
+  FiChevronLeft as IconLeft,
+} from "react-icons/fi";
 
 import "./parameter.scss";
 import { Parameters } from "../../../../store/types";
@@ -15,15 +20,24 @@ interface Props {
 }
 
 const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
-  const { settings, parameters, set, loading, updateParameterState, basket } =
-    useStore();
+  const {
+    settings,
+    parameters,
+    set,
+    secondaryIndex,
+    changeBasket,
+    loading,
+    updateParameterState,
+    basket,
+    allBaskets,
+  } = useStore();
   const paramRef = useRef<HTMLDivElement | null>(null);
 
   const [active, setActive] = useState<boolean>(false);
   const [required, setRequired] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<
-    "Emoji" | "Number" | "String" | "Callback" | ""
+    "Emoji" | "Number" | "String" | "Callback" | "Array" | ""
   >("");
   const [value, setValue] = useState<Emoji | number | string | undefined>(
     undefined
@@ -139,12 +153,12 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
         active && !noParam
           ? {
               pointerEvents: loading ? "none" : "all",
-              backgroundColor,
+              // backgroundColor,
             }
           : {
               transform: noParam ? "translateY(6.25rem)" : "translateY(3.8rem)",
               opacity: noParam || (forceClose && type !== "Number") ? 0 : 0.55,
-              margin: noParam ? "0 -1rem 0 0" : "",
+              margin: noParam ? "0 -0.75rem 0 0" : "",
               flex: noParam ? 0 : 1,
               height: noParam ? 0 : "",
               pointerEvents: forceClose ? "none" : "all",
@@ -186,6 +200,73 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
           type="text"
           onChange={(event) => setValue(event?.target.value)}
         ></input>
+      )}
+      {type === "Array" && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "center",
+            height: "100%",
+            gap: "1rem",
+          }}
+        >
+          {
+            <p
+              className="parameter-name"
+              onClick={!required ? () => setActive(false) : undefined}
+              style={{
+                textDecoration: required || animating || !active ? "none" : "",
+                paddingTop: "0.25rem",
+              }}
+            >
+              {!active ? <IconAdd size="24px" /> : name}
+              {required && <span style={{ color: "red" }}>*</span>}
+            </p>
+          }
+          <div
+            className="parameter-concat"
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "grid",
+              gridTemplateColumns: "repeat(3,1fr)",
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                placeContent: "center",
+                pointerEvents: secondaryIndex > 0 ? "all" : "none",
+                opacity: animating || secondaryIndex <= 0 ? 0 : undefined,
+              }}
+              className="decrement-number"
+              onClick={() => changeBasket("Secondary", secondaryIndex - 1)}
+            >
+              <IconLeft size="32px" />
+            </div>
+            <p style={{ display: "grid", placeContent: "center" }}>
+              {secondaryIndex}
+            </p>
+            <div
+              style={{
+                opacity:
+                  animating || secondaryIndex >= allBaskets.length - 1
+                    ? 0
+                    : undefined,
+                display: "grid",
+                pointerEvents:
+                  secondaryIndex < allBaskets.length - 1 ? "all" : "none",
+                placeContent: "center",
+              }}
+              className="increment-number"
+              onClick={() => changeBasket("Secondary", secondaryIndex + 1)}
+            >
+              <IconRight size="32px" />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

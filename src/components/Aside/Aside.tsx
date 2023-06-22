@@ -11,12 +11,12 @@ import "./aside.scss";
 const Aside: React.FC = () => {
   const navigate = useNavigate();
   const { set, settings, method } = useStore();
-  const [type, setType] = useState<"Hidden" | "Compact" | "Full">("Full");
+  const [type, setType] = useState<"Hidden" | "Compact" | "Full">("Compact");
 
   return (
     <aside
       style={{
-        width: type === "Full" ? "18rem" : "4rem",
+        width: type === "Full" ? "17rem" : "4rem",
       }}
     >
       <div
@@ -29,7 +29,7 @@ const Aside: React.FC = () => {
         {type !== "Compact" && (
           <h2 style={{ display: "flex", gap: "0.5rem" }}>
             basketJS
-            <span
+            {/* <span
               style={{
                 fontSize: "0.75rem",
 
@@ -37,7 +37,7 @@ const Aside: React.FC = () => {
               }}
             >
               alpha
-            </span>
+            </span> */}
           </h2>
         )}
       </div>
