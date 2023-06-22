@@ -34,6 +34,7 @@ const Basket: React.FC = () => {
   const basketRef = useRef<HTMLUListElement | null>(null);
   const secondaryRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
 
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
 
@@ -193,7 +194,8 @@ const Basket: React.FC = () => {
   }, [loading, ascendAll]);
 
   useEffect(() => {
-    if (!loading) normalizeAll(true);
+    if (!initialLoad && !loading) normalizeAll(true);
+    setInitialLoad(false);
   }, [basketIndex]);
 
   useEffect(() => {
