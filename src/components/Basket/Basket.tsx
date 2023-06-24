@@ -32,9 +32,9 @@ const Basket: React.FC = () => {
   const { animationDuration: duration, soundEnabled } = settings;
 
   const basketRef = useRef<HTMLUListElement | null>(null);
-  const secondaryRef = useRef<HTMLUListElement | null>(null);
   const [animationOffset, setAnimationOffset] = useState<string>("0");
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
+  const [length, setLength] = useState<number>(basket.length);
 
   useCSSProperty(basketRef.current, "--animation-offset", animationOffset);
 
@@ -148,6 +148,7 @@ const Basket: React.FC = () => {
   useEffect(() => {
     if (!basketRef.current) return;
     if (!loading && itemsToReplace.length === 0) {
+      setLength(basket.length);
       if (ascendAll) {
         normalizeAll();
         const showSelection = selection.show;
@@ -194,6 +195,7 @@ const Basket: React.FC = () => {
   }, [loading, ascendAll]);
 
   useEffect(() => {
+    setLength(basket.length);
     if (!initialLoad && !loading) normalizeAll(true);
     setInitialLoad(false);
   }, [basketIndex]);
@@ -209,6 +211,7 @@ const Basket: React.FC = () => {
       return;
     }
     const processed = new Set<number>();
+
     const noItems = itemsToAdd.length === basket.length;
 
     // Normalize original items
@@ -254,15 +257,19 @@ const Basket: React.FC = () => {
           animationOffset();
         }
       }
-
+      child.addEventListener("animationstart", start);
       child.addEventListener("animationend", end);
 
       child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
       accumulator += duration;
 
+      function start() {
+        setLength((prev) => prev + 1);
+      }
       function end() {
         processed.add(index);
         set({ processedIndexes: processed });
+
         itemStyling(child, "Normalize");
         if (settings.soundEnabled) playPopSound();
         if (index === itemsToAdd[itemsToAdd.length - 1]) {
@@ -275,6 +282,7 @@ const Basket: React.FC = () => {
             processedIndexes: processed,
           });
         }
+        child.removeEventListener("animationstart", start);
         child.removeEventListener("animationend", end);
       }
     }
@@ -293,9 +301,13 @@ const Basket: React.FC = () => {
       const child = basketRef.current.children[index] as HTMLElement;
       if (!child) continue;
       itemStyling(child, "Normalize");
+      child.addEventListener("animationstart", start);
       child.addEventListener("animationend", end);
       child.style.animation = `removeItem ${duration}ms ease ${accumulator}ms`;
 
+      function start() {
+        setLength((prev) => prev - 1);
+      }
       function end() {
         itemStyling(child, "Zero");
         if (settings.soundEnabled) playPopSound();
@@ -322,6 +334,7 @@ const Basket: React.FC = () => {
             };
           });
         }
+        child.removeEventListener("animationstart", start);
         child.removeEventListener("animationend", end);
       }
       accumulator += duration;
@@ -338,14 +351,14 @@ const Basket: React.FC = () => {
     >
       <div className="basket-header">
         <p>const basket =</p>
-        <Picker type="Primary" />
+        <Picker type="Primary" selection={basketIndex} length={length} />
       </div>
       <ul className="basket" ref={basketRef}>
         {basket.length === 0 && <li></li>}
         {basket.map((item, index) => (
           <li
             className="basket-item"
-            onMouseEnter={() => set({ hoverItem: item })}
+            onMouseOver={() => set({ hoverItem: item })}
             onMouseLeave={() => set({ hoverItem: null })}
           >
             {item.emoji}{" "}
@@ -369,24 +382,6 @@ const Basket: React.FC = () => {
           </li>
         ))}
       </ul>
-      {/* ANCHOR SECONDARY */}
-      {/* 
-      <div className="basket-header">
-        <p>const crate =</p>
-        <Picker type="Secondary" />
-      </div>
-      <ul className="basket" ref={secondaryRef} style={{ marginTop: "-1rem" }}>
-        {secondary.length === 0 && <li></li>}
-        {secondary.map((item, index) => (
-          <li
-            className="secondary-item"
-            onMouseEnter={() => set({ hoverItem: item })}
-            onMouseLeave={() => set({ hoverItem: null })}
-          >
-            {item.emoji}{" "}
-          </li>
-        ))}
-      </ul> */}
     </section>
   );
 };

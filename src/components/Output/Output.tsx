@@ -1,17 +1,12 @@
-import { useContext, memo, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { Emoji } from "../../utils/emoji/emojis";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import "./output.scss";
 import { useStore } from "../../store/store";
 import { playPopSound, playWhoosh } from "../../utils/audio/pop-sound";
-import Selection from "../Basket/components/Selection/Selection";
 
-import {
-  BsArrowDown as IconDown,
-  BsArrowUpShort as IconUp,
-} from "react-icons/bs";
-import { RiAddFill as IconAdd } from "react-icons/ri";
+import { BsArrowUpShort as IconUp } from "react-icons/bs";
 
 const Output: React.FC = () => {
   const {
@@ -37,6 +32,7 @@ const Output: React.FC = () => {
   const [offset, setOffset] = useState<string>("0");
   const [cloneOffset, setCloneOffset] = useState<string>("0");
   const [ascendItems, setAscendItems] = useState<boolean>(false);
+  const [length, setLength] = useState<number>(0);
   useCSSProperty(outputRef.current, "--brackets", type === "Array" ? "1" : "0");
   useCSSProperty(outputRef.current, "--output-offset", offset);
   useCSSProperty(outputRef.current, "--clone-offset", cloneOffset);
@@ -104,6 +100,8 @@ const Output: React.FC = () => {
 
   useEffect(() => {
     if (!outputRef.current || !loading || ascendItems) {
+      if (Array.isArray(output)) setLength(output.length);
+      else setLength(0);
       return;
     }
     if (method.title === "splice" && itemsToAdd.length > 0) {
@@ -137,13 +135,18 @@ const Output: React.FC = () => {
         }
         cloneChild.style.animation = "";
         cloneChild.removeEventListener("animationend", cloneEnd);
+        if (output instanceof Emoji && output.title === "undefined") {
+          set({ loading: false });
+        }
       }
     } else if (type === "Array") {
       let accumulator = 0;
       let count = 0;
+      setLength(0);
       for (const child of outputRef.current.children) {
         if (!(child instanceof HTMLElement)) continue;
         itemStyling(child, "Zero");
+        child.addEventListener("animationstart", start);
         child.addEventListener("animationend", end);
 
         child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
@@ -156,6 +159,9 @@ const Output: React.FC = () => {
           accumulator += duration / 2;
         } else {
           accumulator += duration;
+        }
+        function start() {
+          setLength((prev) => prev + 1);
         }
         function end() {
           if (!outputRef.current) return;
@@ -174,14 +180,8 @@ const Output: React.FC = () => {
           }
           count++;
           itemStyling(child as HTMLElement, "Normalize");
+          child.removeEventListener("animationstart", start);
           child.removeEventListener("animationend", end);
-          if (
-            method.title === "with" &&
-            parameters.get(0)?.value ===
-              Array.from(outputRef.current.children).indexOf(child)
-          ) {
-            //Highlight
-          }
         }
       }
     }
@@ -209,6 +209,7 @@ const Output: React.FC = () => {
           child.style.animation = "";
           if (child === outputRef.current?.lastChild) {
             setAscendItems(false);
+            setLength(0);
             if (Array.isArray(output) && output.length > 0) set({ output: [] });
           }
         }
@@ -216,35 +217,21 @@ const Output: React.FC = () => {
     }
   }, [ascendItems]);
 
+  useEffect(() => {}, [length]);
+
+  useEffect(() => {
+    setLength(0);
+  }, [method.title, output]);
+
   return (
     <section
       className="output-wrapper"
       style={{
         pointerEvents: hide ? "none" : "all",
-        // marginTop: hide ? "-12rem" : "",
-        // maxHeight: hide ? 0 : "",
         marginTop: hide ? "-3rem" : "",
-        height: hide ? "0" : type === "Array" ? "172px" : "128px",
+        height: hide ? "0" : type === "Array" ? "170px" : "128px",
       }}
     >
-      {/* {hide && (
-        <div
-          className="hide-message"
-          style={{
-            textAlign: "center",
-            pointerEvents: "none",
-            userSelect: "none",
-            height: "100%",
-            display: "grid",
-            placeContent: "center",
-
-            padding: "2rem",
-            borderRadius: "1rem",
-          }}
-        >
-          Reference to original
-        </div>
-      )} */}
       <div
         className="output-lens"
         style={{
@@ -275,7 +262,7 @@ const Output: React.FC = () => {
               fontWeight: 600,
             }}
           >
-            {Array.isArray(output) ? output.length : 0}
+            {length}
           </button>
           <button
             className="output-add-basket"
@@ -323,14 +310,22 @@ const Output: React.FC = () => {
             {type === "Item" && (
               <>
                 <li
-                  className="output-item output-emoji"
+                  className={`output-item output-emoji ${
+                    output instanceof Emoji && output.title === "undefined"
+                      ? "output-undefined"
+                      : ""
+                  }`}
                   onMouseEnter={() => set({ hoverItem: output as Emoji })}
                   onMouseLeave={() => set({ hoverItem: null })}
                 >
                   {output instanceof Emoji && output.emoji}
                 </li>
                 <li
-                  className="output-item output-clone"
+                  className={`output-item output-clone ${
+                    output instanceof Emoji && output.title === "undefined"
+                      ? "output-undefined"
+                      : ""
+                  }`}
                   onMouseEnter={() => set({ hoverItem: output as Emoji })}
                   onMouseLeave={() => set({ hoverItem: null })}
                 >

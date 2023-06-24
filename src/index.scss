@@ -45,7 +45,7 @@ body {
   --deleteCount: #ffffff00;
   --deleteCountOpaque: #e5363640;
   --target: white;
-  --highlight: white;
+  --highlight: #f8d44b;
 
   font-family: "Poppins", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -58,6 +58,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   color: var(--black);
+
   @media (max-width: 768px) {
     font-size: 14px !important;
     --itemFont: 2rem;

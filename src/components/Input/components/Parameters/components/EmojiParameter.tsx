@@ -41,17 +41,12 @@ const EmojiParameter: React.FC<Props> = ({
   setValue,
   animating,
 }) => {
-  const [hoverTitle, setHoverTitle] = useState<boolean>(false);
-
   const { set, settings } = useStore();
 
   useEffect(() => {
     if (!active) return;
     const theme = themes.get(settings.theme);
-    if (theme) {
-      console.log("Updating index");
-      setValue(theme[emojiIndex]);
-    }
+    if (theme) setValue(theme[emojiIndex]);
   }, [emojiIndex]);
 
   return (
@@ -73,7 +68,7 @@ const EmojiParameter: React.FC<Props> = ({
       </div>
       <div className="parameter-emoji-wrapper">
         <div
-          style={{ opacity: true || animating ? 0 : undefined }}
+          style={{ opacity: animating ? 0 : undefined }}
           className="previous-emoji"
           onClick={() => {
             const theme = themes.get(settings.theme);
@@ -86,18 +81,18 @@ const EmojiParameter: React.FC<Props> = ({
         </div>
         <div
           className="parameter-emoji"
-          onClick={() => {
-            const currentTheme = themes.get(settings.theme);
-            if (!currentTheme) return;
-            setEmojiIndex(Math.floor(Math.random() * currentTheme.length));
-          }}
-          onMouseEnter={() => set({ hoverItem: value as Emoji })}
+          // onClick={() => {
+          //   const currentTheme = themes.get(settings.theme);
+          //   if (!currentTheme) return;
+          //   setEmojiIndex(Math.floor(Math.random() * currentTheme.length));
+          // }}
+          onMouseOver={() => set({ hoverItem: value as Emoji })}
           onMouseLeave={() => set({ hoverItem: null })}
         >
           {value && value instanceof Emoji && value.emoji.toString()}
         </div>
         <div
-          style={{ opacity: true || animating ? 0 : undefined }}
+          style={{ opacity: animating ? 0 : undefined }}
           className="next-emoji"
           onClick={() => {
             const theme = themes.get(settings.theme);

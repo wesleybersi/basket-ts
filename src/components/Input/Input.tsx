@@ -100,8 +100,17 @@ const Input: React.FC<Props> = () => {
   }, [triggerSplice]);
 
   useEffect(() => {
-    if (!loading && !triggerSplice && !ascendAll) updateAllParameters();
-  }, [loading, basketIndex]);
+    if (!loading && !triggerSplice && !ascendAll) {
+      updateAllParameters();
+    }
+  }, [
+    loading,
+    basketIndex,
+    parameters.get(0)?.active,
+    parameters.get(1)?.active,
+    parameters.get(2)?.active,
+    parameters.get(3)?.active,
+  ]);
 
   return (
     <section className="active-method">

@@ -37,6 +37,7 @@ const Method: React.FC = () => {
           : `crate`}
         <span style={{ fontFamily: "Spline Sans Mono" }}>)</span>
       </h2>
+
       <button
         className="method-btn"
         onClick={() => {

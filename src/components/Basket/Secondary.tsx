@@ -58,7 +58,11 @@ const Secondary = () => {
       >
         <div className="basket-header">
           <p>const crate =</p>
-          <Picker type="Secondary" />
+          <Picker
+            type="Secondary"
+            selection={secondaryIndex}
+            length={secondary.length}
+          />
         </div>
         <ul className="basket" ref={secondaryRef}>
           {secondary.length === 0 && <li></li>}

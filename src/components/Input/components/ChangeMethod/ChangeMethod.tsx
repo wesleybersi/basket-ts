@@ -9,6 +9,7 @@ import {
 
 import { allMethods } from "../../../../store/methods";
 import { useStore } from "../../../../store/store";
+import { useNavigate } from "react-router-dom";
 
 import "./change-method.scss";
 
@@ -17,6 +18,7 @@ interface Props {
   index: number;
 }
 const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
+  const navigate = useNavigate();
   const { set, parameters } = useStore();
 
   if (direction === "Left") {
@@ -33,11 +35,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
                 }
           }
           className="change-method-left"
-          onClick={() =>
-            set({
-              method: allMethods[index - 1],
-            })
-          }
+          onClick={() => navigate(allMethods[index - 1].title.toLowerCase())}
         >
           <IconLeft size="48px" />
         </button>
@@ -51,11 +49,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
             allMethods[index + 1] ? {} : { opacity: 0, pointerEvents: "none" }
           }
           className="change-method-right"
-          onClick={() =>
-            set({
-              method: allMethods[index + 1],
-            })
-          }
+          onClick={() => navigate(allMethods[index + 1].title.toLowerCase())}
         >
           <IconRight size="48px" />
         </button>

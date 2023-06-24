@@ -1,4 +1,4 @@
-import { useContext, memo, useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { allMethods } from "../../store/methods";
 import { GiFruitBowl as IconFruit } from "react-icons/gi";
 import { useStore } from "../../store/store";
@@ -7,6 +7,7 @@ import {
   BsChevronDoubleLeft as IconChevronLeft,
 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { FcSettings as IconSettings } from "react-icons/fc";
 import "./aside.scss";
 const Aside: React.FC = () => {
   const navigate = useNavigate();
@@ -78,29 +79,20 @@ const Aside: React.FC = () => {
             )}
           </div>
         ))}
-        {/* <div
-          className="method-aside-selector"
-          style={{ filter: "invert(1)", paddingTop: "2rem" }}
-          onClick={() =>
-            set({ settings: { ...settings, isOpen: !settings.isOpen } })
-          }
-        >
-          <IconSettings size="32px" />
-        </div> */}
-        <span
-          className="aside-hide"
-          onClick={() => {
-            if (type === "Compact") setType("Full");
-            else if (type === "Full") setType("Compact");
-          }}
-        >
-          {type === "Full" ? (
-            <IconChevronLeft size="24px" color="white" />
-          ) : (
-            <IconChevronRight size="24px" color="white" />
-          )}
-        </span>
       </div>
+      <span
+        className="aside-hide"
+        onClick={() => {
+          if (type === "Compact") setType("Full");
+          else if (type === "Full") setType("Compact");
+        }}
+      >
+        {type === "Full" ? (
+          <IconChevronLeft size="24px" color="white" />
+        ) : (
+          <IconChevronRight size="24px" color="white" />
+        )}
+      </span>
     </aside>
   );
 };

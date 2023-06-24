@@ -82,3 +82,9 @@ export type Parameters = [
   ParameterState | null,
   ParameterState | null
 ];
+
+export interface Basket {
+  name: string;
+  length: number;
+  items: Emoji[];
+}

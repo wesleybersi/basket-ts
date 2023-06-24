@@ -28,7 +28,7 @@ const About: React.FC = (): JSX.Element => {
         >
           <IconClose size="32px" color="var(--black)" />
         </div>
-        <h2>About basketJS</h2>
+        <h2 style={{ color: "var(--blue)" }}>About basketJS</h2>
 
         <p>
           <span style={{ fontWeight: "bold" }}>basketJS</span> is a visual
@@ -45,13 +45,7 @@ const About: React.FC = (): JSX.Element => {
           in no time.
         </p>
         <p>
-          Whether you're a beginner taking your first steps in JavaScript or a
-          seasoned developer looking to enhance your skills. Through interactive
-          exercises, you'll gain hands-on experience with array manipulation all
-          the while engaging in a delightful world of fruits and vegetables.
-        </p>
-        <p>
-          Future plans:
+          <span className="b">Notes:</span>
           <ul
             style={{
               listStyleType: "disc",
@@ -60,12 +54,37 @@ const About: React.FC = (): JSX.Element => {
             }}
           >
             <li style={{ marginLeft: "2rem" }}>
-              methods that require callback functions like every, some, filter
-              and map.
+              When a method has no return value, it indicates that the method
+              modifies the original array and then returns a reference to it.
+              For example, if you log <span className="b">basket.fill()</span>,
+              both the original variable and the log will point to the same
+              array. To keep things simple, the latter is implied.
+            </li>
+            <li style={{ marginLeft: "2rem" }}>
+              Although the <span className="b">concat</span> method allows for
+              multiple input values, I have chosen to focus on its most common
+              use case to avoid cluttering the screen and potentially confusing
+              the user. With one parameter as a selector of arrays I think it
+              gets the point across best.
             </li>
           </ul>
         </p>
-        <p>Like what you see? basket.push(☕) </p>
+        <p>
+          <span className="b">Future plans:</span>
+          <ul
+            style={{
+              listStyleType: "disc",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <li style={{ marginLeft: "2rem" }}>
+              Include most methods that require callback functions like every,
+              some, filter and map.
+            </li>
+          </ul>
+        </p>
+        <p>Like what you see? Buy me a coffee ☕ </p>
       </div>
     </div>
   );

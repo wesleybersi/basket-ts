@@ -63,13 +63,29 @@ export const useStore = create<Store>((set, get) => ({
       //Save current basket
       const updatedBaskets = [...state.allBaskets];
 
-      updatedBaskets[state.basketIndex] = [...state.basket];
-      updatedBaskets.splice(state.basketIndex + 1, 0, []);
+      if (type === "Primary") {
+        updatedBaskets[state.basketIndex] = [...state.basket];
+      } else if (type === "Secondary") {
+        updatedBaskets[state.secondaryIndex] = [...state.secondary];
+      }
+      updatedBaskets.push([]);
 
       return {
-        basket: updatedBaskets[state.basketIndex + 1],
+        basket:
+          type === "Primary"
+            ? updatedBaskets[updatedBaskets.length - 1]
+            : updatedBaskets[state.basketIndex],
+        secondary:
+          type === "Secondary"
+            ? updatedBaskets[updatedBaskets.length - 1]
+            : updatedBaskets[state.secondaryIndex],
         allBaskets: updatedBaskets,
-        basketIndex: state.basketIndex + 1,
+        basketIndex:
+          type === "Primary" ? updatedBaskets.length - 1 : state.basketIndex,
+        secondaryIndex:
+          type === "Secondary"
+            ? updatedBaskets.length - 1
+            : state.secondaryIndex,
       };
     }),
   removeBasket: (index: number) =>
@@ -107,21 +123,23 @@ export const useStore = create<Store>((set, get) => ({
     //ANCHOR Methods
     pop: () =>
       set((state) => {
-        if (state.basket.length === 0) return {};
-        //FIXME Should still animate and then return "empty"
+        const output =
+          [...state.basket].pop() ?? new Emoji("undefined", "undefined");
         return {
           loading: true,
-          itemsToRemove: [state.basket.length - 1],
-          output: [...state.basket].pop(),
+          itemsToRemove:
+            output.title !== "undefined" ? [state.basket.length - 1] : [],
+          output,
         };
       }),
     shift: () =>
       set((state) => {
-        if (state.basket.length === 0) return {};
+        const output =
+          [...state.basket].shift() ?? new Emoji("undefined", "undefined");
         return {
           loading: true,
-          itemsToRemove: [0],
-          output: [...state.basket].shift(),
+          itemsToRemove: output.title !== "undefined" ? [0] : [],
+          output,
         };
       }),
     push: () =>
@@ -201,6 +219,7 @@ export const useStore = create<Store>((set, get) => ({
       }),
     copyWithin: () =>
       set((state) => {
+        if (state.basket.length === 0) return {};
         const pasteTarget = state.selection.target ?? 0;
 
         let copiedItems: Emoji[] = [];
@@ -223,7 +242,7 @@ export const useStore = create<Store>((set, get) => ({
 
         return {
           itemsToReplace: replacements,
-          loading: true,
+          loading: replacements.length > 0,
         };
       }),
     splice: () =>
@@ -266,19 +285,23 @@ export const useStore = create<Store>((set, get) => ({
       }),
     concat: () =>
       set((state) => {
-        const updatedBaskets = [...state.allBaskets];
         const primary = [...state.basket];
         const secondary = [...state.secondary];
-        console.log(primary, secondary);
         const output = primary.concat(secondary);
-        if (output.length > 20) {
-          return { maxLimitMessage: true };
-        }
 
-        return { output, loading: true };
+        if (output.length === 0) {
+          return {};
+        } else if (output.length > 20) {
+          return { maxLimitMessage: true };
+        } else return { output, loading: true };
       }),
     slice: () =>
       set((state) => {
+        if (state.basket.length === 0) {
+          return {
+            output: [],
+          };
+        }
         return {
           loading: true,
           output: [...state.basket].slice(
