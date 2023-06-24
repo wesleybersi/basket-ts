@@ -15,6 +15,7 @@ import "./parameter.scss";
 import { Parameters } from "../../../../store/types";
 import EmojiParameter from "./components/EmojiParameter";
 import NumberParameter from "./components/Number";
+import useCSSProperty from "../../../../hooks/useCSSProperty";
 interface Props {
   index: number;
 }
@@ -166,6 +167,12 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
       }
       onClick={!active && !forceClose ? () => setActive(true) : undefined}
     >
+      {
+        <div
+          style={{ opacity: active ? 1 : 0 }}
+          className="parameter-below"
+        ></div>
+      }
       {!required && active && (
         <div className="close-param" onClick={() => setActive(false)}>
           <IconClose size="16px" />

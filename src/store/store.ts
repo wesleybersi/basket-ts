@@ -302,12 +302,14 @@ export const useStore = create<Store>((set, get) => ({
             output: [],
           };
         }
+        const output = [...state.basket].slice(
+          state.selection.start ?? undefined,
+          state.selection.end ?? undefined
+        );
+
         return {
-          loading: true,
-          output: [...state.basket].slice(
-            state.selection.start ?? undefined,
-            state.selection.end ?? undefined
-          ),
+          loading: output.length > 0,
+          output,
           itemsToProcess: state.selectedIndexes.slice(
             0,
             state.selectedIndexes.length

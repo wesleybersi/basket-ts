@@ -240,8 +240,8 @@ const Output: React.FC = () => {
           transform: hide ? "translateY(calc(-100% - 2rem)" : "",
           width: type === "Array" || type === "String" ? "100%" : "14rem",
           paddingTop: type === "Array" ? "1rem" : "0",
-          borderTopLeftRadius: type === "Array" ? "1rem" : "",
-          borderTopRightRadius: type === "Array" ? "1rem" : "",
+          borderTopLeftRadius: type === "Array" ? "1.5rem" : "",
+          borderTopRightRadius: type === "Array" ? "1.5rem" : "",
         }}
       >
         <div
