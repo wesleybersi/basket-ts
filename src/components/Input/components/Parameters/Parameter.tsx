@@ -108,6 +108,18 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
   }, [required, active]);
 
   useEffect(() => {
+    function keydown(event: KeyboardEvent) {
+      if (required) return;
+      if (!parameters.get(index - 1)?.active) return;
+      if (event.key === (index + 1).toString()) {
+        setActive(!active);
+      }
+    }
+    window.addEventListener("keydown", keydown);
+    return () => window.removeEventListener("keydown", keydown);
+  }, [active]);
+
+  useEffect(() => {
     //ANCHOR When open, set value
     if (active) {
       if (type === "Emoji") {
@@ -130,7 +142,6 @@ const Parameter: React.FC<Props> = ({ index }): JSX.Element => {
   }, [active, update]);
 
   useEffect(() => {
-    // console.log("Updating value parameters", index, value);
     //ANCHOR When value changes, update state
     updateParameterState(index, value, active);
   }, [value, active]);

@@ -4,10 +4,11 @@ import { create } from "zustand";
 import { Parameters, Store } from "./types";
 import { ParameterState } from "./methods";
 import { Emoji } from "../utils/emoji/emojis";
-import { randomEmojis } from "../utils/emoji/random-emoji";
+import { randomEmoji, randomEmojis } from "../utils/emoji/random-emoji";
 
 export const useStore = create<Store>((set, get) => ({
   loading: false,
+  disableInput: false,
   method: allMethods[0],
   basketIndex: 0,
   basket: randomEmojis(4),
@@ -470,7 +471,7 @@ export const useStore = create<Store>((set, get) => ({
         } else {
           return {
             parameters: updatedParameters,
-            selection: { ...state.selection, show: false },
+            selection: { ...state.selection, start: 0, show: false },
           };
         }
       }

@@ -19,7 +19,7 @@ interface Props {
 }
 const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
   const navigate = useNavigate();
-  const { set, parameters } = useStore();
+  const { loading } = useStore();
 
   if (direction === "Left") {
     return (
@@ -27,7 +27,9 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
         <button
           style={
             allMethods[index - 1]
-              ? {}
+              ? {
+                  pointerEvents: loading ? "none" : "all",
+                }
               : {
                   opacity: 0,
 
@@ -35,7 +37,9 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
                 }
           }
           className="change-method-left"
-          onClick={() => navigate(allMethods[index - 1].title.toLowerCase())}
+          onClick={() =>
+            !loading && navigate(allMethods[index - 1].title.toLowerCase())
+          }
         >
           <IconLeft size="48px" />
         </button>
@@ -46,10 +50,14 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
       <div style={{ height: "96px", display: "grid", placeContent: "center" }}>
         <button
           style={
-            allMethods[index + 1] ? {} : { opacity: 0, pointerEvents: "none" }
+            allMethods[index + 1]
+              ? { pointerEvents: loading ? "none" : "all" }
+              : { opacity: 0, pointerEvents: "none" }
           }
           className="change-method-right"
-          onClick={() => navigate(allMethods[index + 1].title.toLowerCase())}
+          onClick={() =>
+            !loading && navigate(allMethods[index + 1].title.toLowerCase())
+          }
         >
           <IconRight size="48px" />
         </button>

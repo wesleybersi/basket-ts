@@ -22,7 +22,7 @@ import { useLocation } from "react-router-dom";
 
 function App() {
   const appRef = useRef<HTMLDivElement | null>(null);
-  const { set, settings, maxLimitMessage } = useStore();
+  const { set, settings, maxLimitMessage, disableInput } = useStore();
   const location = useLocation();
 
   useEffect(() => {
@@ -51,7 +51,13 @@ function App() {
   }, []);
 
   return (
-    <div className="App" ref={appRef}>
+    <div
+      className="App"
+      style={{
+        pointerEvents: disableInput ? "none" : "all",
+      }}
+      ref={appRef}
+    >
       <Aside />
 
       <main>

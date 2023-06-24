@@ -4,6 +4,7 @@ import { ParameterState } from "./methods";
 
 export interface Store {
   loading: boolean;
+  disableInput: boolean;
   method: IMethod;
   basketIndex: number;
   allBaskets: Emoji[][];
@@ -21,6 +22,7 @@ export interface Store {
   triggerSplice: boolean;
   hoverItem: Emoji | null;
   maxLimitMessage: boolean;
+
   changeBasket: (type: "Primary" | "Secondary", index: number) => void;
   addEmptyBasket: (type: "Primary" | "Secondary") => void;
   removeBasket: (index: number) => void;

@@ -49,6 +49,28 @@ const EmojiParameter: React.FC<Props> = ({
     if (theme) setValue(theme[emojiIndex]);
   }, [emojiIndex]);
 
+  useEffect(() => {
+    function keydown(event: KeyboardEvent) {
+      if (event.key === "r") {
+        const currentTheme = themes.get(settings.theme);
+        if (!currentTheme) return;
+        let count = 0;
+        const interval = setInterval(() => {
+          if (count < 20) {
+            set({ disableInput: true });
+            setEmojiIndex(Math.floor(Math.random() * currentTheme.length));
+            count++;
+          } else {
+            clearInterval(interval);
+            set({ disableInput: false });
+          }
+        }, 10);
+      }
+    }
+    window.addEventListener("keydown", keydown);
+    return () => window.removeEventListener("keydown", keydown);
+  }, []);
+
   return (
     <>
       <div style={{ display: "flex" }}>

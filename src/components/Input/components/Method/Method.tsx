@@ -13,7 +13,9 @@ const Method: React.FC = () => {
       >
         basket.
         <span className="b">{method.title}</span>
-        <span style={{ fontFamily: "Spline Sans Mono" }}>(</span>
+        <span style={{ fontFamily: "Spline Sans Mono", fontWeight: 600 }}>
+          (
+        </span>
         {method.title !== "concat"
           ? Array.from(parameters).map(([id, parameter], index, arr) => {
               if (!parameter) return;
@@ -35,7 +37,9 @@ const Method: React.FC = () => {
               }
             })
           : `crate`}
-        <span style={{ fontFamily: "Spline Sans Mono" }}>)</span>
+        <span style={{ fontFamily: "Spline Sans Mono", fontWeight: 600 }}>
+          )
+        </span>
       </h2>
 
       <button
