@@ -19,12 +19,12 @@ const Aside: React.FC = () => {
       // onMouseEnter={() => setType("Full")}
       // onMouseLeave={() => setType("Compact")}
       style={{
-        width: type === "Full" ? "17rem" : "4rem",
+        width: type === "Full" ? "17rem" : "4.5rem",
       }}
     >
       <div
         className="aside-top"
-        style={type === "Compact" ? { padding: "0 0.75rem" } : {}}
+        style={type === "Compact" ? { padding: "0.75rem" } : {}}
         onClick={() =>
           set({ settings: { ...settings, aboutIsOpen: !settings.aboutIsOpen } })
         }

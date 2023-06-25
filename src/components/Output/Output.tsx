@@ -145,26 +145,26 @@ const Output: React.FC = () => {
       let count = 0;
       setLength(0);
 
-      let intervalDuration =
-        method.title === "slice" ||
-        method.title === "with" ||
-        method.title === "concat"
-          ? duration / 2
-          : duration;
-      const interval = setInterval(() => {
-        if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
-          return;
-        pickRef.current.addEventListener("animationend", end);
-        pickRef.current.style.animation = `newItem ${
-          intervalDuration - 30
-        }ms ease`;
-        function end() {
-          if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
-            return;
-          pickRef.current.style.animation = "";
-          pickRef.current?.removeEventListener("animationend", end);
-        }
-      }, intervalDuration);
+      // let intervalDuration =
+      //   method.title === "slice" ||
+      //   method.title === "with" ||
+      //   method.title === "concat"
+      //     ? duration / 2
+      //     : duration;
+      // const interval = setInterval(() => {
+      //   if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
+      //     return;
+      //   pickRef.current.addEventListener("animationend", end);
+      //   pickRef.current.style.animation = `newItem ${
+      //     intervalDuration - 30
+      //   }ms ease`;
+      //   function end() {
+      //     if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
+      //       return;
+      //     pickRef.current.style.animation = "";
+      //     pickRef.current?.removeEventListener("animationend", end);
+      //   }
+      // }, intervalDuration);
 
       for (const child of outputRef.current.children) {
         if (!(child instanceof HTMLElement)) continue;
@@ -201,7 +201,7 @@ const Output: React.FC = () => {
               }, duration);
             }
           }
-          if (child === outputRef.current.lastChild) clearInterval(interval);
+          // if (child === outputRef.current.lastChild) clearInterval(interval);
 
           count++;
           itemStyling(child as HTMLElement, "Normalize");
