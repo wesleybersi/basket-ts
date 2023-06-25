@@ -134,7 +134,7 @@ const Basket: React.FC = () => {
           setTimeout(() => {
             processed.clear();
             set({ itemsToProcess: [], processedIndexes: processed });
-          }, duration);
+          }, duration * 2);
         }
       }, accumulator);
       if (method.title === "slice" || method.title === "with") {
@@ -168,7 +168,6 @@ const Basket: React.FC = () => {
             child.style.animation = "";
             child.removeEventListener("animationend", end);
             if (child === basketRef.current?.lastChild) {
-              console.log("Animating end");
               set({
                 loading: false,
                 ascendAll: false,

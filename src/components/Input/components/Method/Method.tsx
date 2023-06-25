@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Emoji } from "../../../../utils/emoji/emojis";
 
 const Method: React.FC = () => {
-  const { loading, method, parameters, methods, secondaryIndex } = useStore();
+  const { loading, method, parameters, methods, updateAllParameters } =
+    useStore();
 
   return (
     <div className="method">

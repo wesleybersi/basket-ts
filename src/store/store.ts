@@ -135,7 +135,7 @@ export const useStore = create<Store>((set, get) => ({
     shift: () =>
       set((state) => {
         const output =
-          [...state.basket].shift() ?? new Emoji("undefined", "undefined");
+          [...state.basket].shift() ?? new Emoji("undefined", "❓");
         return {
           loading: true,
           itemsToRemove: output.title !== "undefined" ? [0] : [],
@@ -260,13 +260,12 @@ export const useStore = create<Store>((set, get) => ({
           ) {
             itemsToRemove = [];
           } else if (state.selection.amount === undefined) {
-            console.log(state.selection.amount);
             itemsToRemove = [...state.basket].map((_, index) => index);
           }
         }
 
         if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
-          return { triggerSplice: true, loading: true };
+          return { triggerSplice: true, loading: true, output: [] };
         }
 
         let output = [...state.basket].filter((_, index) =>

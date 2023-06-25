@@ -24,6 +24,7 @@ const Output: React.FC = () => {
   const { animationDuration: duration } = settings;
 
   const outputRef = useRef<HTMLUListElement | null>(null);
+  const pickRef = useRef<HTMLButtonElement | null>(null);
   const [clone, setClone] = useState<Emoji | null>(null);
   const [hide, setHide] = useState<boolean>(false);
   const [type, setType] = useState<"Array" | "Number" | "Item" | "String">(
@@ -143,6 +144,28 @@ const Output: React.FC = () => {
       let accumulator = 0;
       let count = 0;
       setLength(0);
+
+      let intervalDuration =
+        method.title === "slice" ||
+        method.title === "with" ||
+        method.title === "concat"
+          ? duration / 2
+          : duration;
+      const interval = setInterval(() => {
+        if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
+          return;
+        pickRef.current.addEventListener("animationend", end);
+        pickRef.current.style.animation = `newItem ${
+          intervalDuration - 30
+        }ms ease`;
+        function end() {
+          if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
+            return;
+          pickRef.current.style.animation = "";
+          pickRef.current?.removeEventListener("animationend", end);
+        }
+      }, intervalDuration);
+
       for (const child of outputRef.current.children) {
         if (!(child instanceof HTMLElement)) continue;
         itemStyling(child, "Zero");
@@ -178,6 +201,8 @@ const Output: React.FC = () => {
               }, duration);
             }
           }
+          if (child === outputRef.current.lastChild) clearInterval(interval);
+
           count++;
           itemStyling(child as HTMLElement, "Normalize");
           child.removeEventListener("animationstart", start);
@@ -254,6 +279,7 @@ const Output: React.FC = () => {
           }}
         >
           <button
+            ref={pickRef}
             className="output-basket-length"
             style={{
               background: "var(--blue)",
@@ -270,6 +296,7 @@ const Output: React.FC = () => {
               background: "transparent",
               color: "var(--black)",
               opacity: allBaskets.length <= 5 && basket.length === 0 ? 1 : 0.5,
+              transform: "scale(0.75)",
             }}
             onClick={() => {
               if (

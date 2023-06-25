@@ -32,7 +32,7 @@ const Selection: React.FC<Props> = ({ type, item }) => {
     if (value && value instanceof Emoji) {
       setEmoji(value.emoji);
     }
-  }, [parameters.get(1)?.value]);
+  }, [parameters.get(1)?.value, method.title]);
 
   useEffect(() => {
     if (method.title !== "fill") return;
@@ -41,7 +41,7 @@ const Selection: React.FC<Props> = ({ type, item }) => {
     if (value && value instanceof Emoji) {
       setEmoji(value.emoji);
     }
-  }, [parameters.get(0)?.value]);
+  }, [parameters.get(0)?.value, method.title]);
 
   useEffect(() => {
     if (method.title !== "with" && method.title !== "fill") {
