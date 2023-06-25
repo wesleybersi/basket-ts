@@ -19,7 +19,7 @@ const Picker: React.FC<Props> = ({ type, length, selection }) => {
           style={
             selection === index
               ? {
-                  backgroundColor: length < 20 ? "var(--blue)" : "var(--red)",
+                  background: length < 20 ? "var(--blue)" : "var(--red)",
                   color: length < 20 ? "var(--black)" : "white",
                   fontWeight: 600,
                 }

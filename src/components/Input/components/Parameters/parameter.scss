@@ -21,20 +21,20 @@
   max-width: calc(50% - 0.333rem);
   position: relative;
   backdrop-filter: blur(8px);
-  border: 3px solid rgba(255, 255, 255, 0.25);
+  // border: 3px solid rgba(255, 255, 255, 0.25);
   border-bottom: none;
   .parameter-below {
     position: absolute;
     bottom: -2rem;
-    left: -3px;
+    left: 0;
     height: 2rem;
-    width: calc(100% + 6px);
+    width: calc(100%);
     background-color: rgba(255, 255, 255, 0.35);
     box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
       inset 0 0 128px #ffffff44, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
       0 2px 16px 4px rgba(0, 0, 0, 0.05);
     transition: all 100ms linear;
-    border: 3px solid rgba(255, 255, 255, 0.25);
+
     border-top: none;
   }
   @media (max-width: 768px) {

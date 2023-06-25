@@ -229,7 +229,7 @@ const Output: React.FC = () => {
       style={{
         pointerEvents: hide ? "none" : "all",
         marginTop: hide ? "-3rem" : "",
-        height: hide ? "0" : type === "Array" ? "175px" : "138px",
+        height: hide ? "0" : type === "Array" ? "175px" : "128px",
       }}
     >
       <div
