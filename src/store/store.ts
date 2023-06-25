@@ -485,8 +485,12 @@ export const useStore = create<Store>((set, get) => ({
         }
       }
       if (param.name === "deleteCount") {
-        if (typeof param.value === "number") {
-          selection.amount = param.value;
+        if (param.active) {
+          if (typeof param.value === "number") {
+            selection.amount = param.value;
+          }
+        } else {
+          selection.amount = undefined;
         }
       }
 
