@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import useCSSProperty from "../../../../hooks/useCSSProperty";
+import { useStore } from "../../../../store/store";
+import { Emoji } from "../../../../utils/emoji/emojis";
 
 interface Props {
   type: "red" | "blue" | "target" | "highlight";
   item: string;
 }
 const Selection: React.FC<Props> = ({ type, item }) => {
+  const { parameters, method } = useStore();
   const selectionRef = useRef<HTMLDivElement | null>(null);
   const [color, setColor] = useState<string>("");
 
@@ -50,7 +53,11 @@ const Selection: React.FC<Props> = ({ type, item }) => {
         }
         className="basket-item-selected"
       >
-        {item}
+        {method.title === "with" &&
+          parameters.get(1)?.value instanceof Emoji &&
+          parameters.get(1)?.value?.emoji.toString()}
+        {method.title === "fill" && parameters.get(0)?.value?.emoji.toString()}
+        {method.title !== "with" && method.title !== "fill" && item}
       </div>
       <span className="basket-item-selected-blend" />
     </>
