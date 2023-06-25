@@ -124,8 +124,7 @@ export const useStore = create<Store>((set, get) => ({
     //ANCHOR Methods
     pop: () =>
       set((state) => {
-        const output =
-          [...state.basket].pop() ?? new Emoji("undefined", "undefined");
+        const output = [...state.basket].pop() ?? new Emoji("undefined", "❓");
         return {
           loading: true,
           itemsToRemove:
