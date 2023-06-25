@@ -24,7 +24,7 @@ const Picker: React.FC<Props> = ({ type, length, selection }) => {
                   fontWeight: 600,
                 }
               : {
-                  background: "#22222211",
+                  background: "transparent",
                   color: "#555",
                 }
           }
@@ -40,9 +40,9 @@ const Picker: React.FC<Props> = ({ type, length, selection }) => {
       ))}
       <button
         style={{
-          background: "#22222211",
-          color: "#555",
-          opacity: allBaskets.length < 5 ? 1 : 0.35,
+          background: "transparent",
+          color: "var(--black)",
+          opacity: allBaskets.length < 5 ? 1 : 0.5,
         }}
         onClick={() => {
           if (!loading && allBaskets.length < 5) addEmptyBasket(type);

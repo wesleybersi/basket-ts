@@ -229,7 +229,7 @@ const Output: React.FC = () => {
       style={{
         pointerEvents: hide ? "none" : "all",
         marginTop: hide ? "-3rem" : "",
-        height: hide ? "0" : type === "Array" ? "170px" : "128px",
+        height: hide ? "0" : type === "Array" ? "175px" : "138px",
       }}
     >
       <div
@@ -239,7 +239,7 @@ const Output: React.FC = () => {
           transition: "all 250ms ease",
           transform: hide ? "translateY(calc(-100% - 2rem)" : "",
           width: type === "Array" || type === "String" ? "100%" : "14rem",
-          paddingTop: type === "Array" ? "1rem" : "0",
+          paddingTop: type === "Array" ? "1rem" : "",
           borderTopLeftRadius: type === "Array" ? "1.5rem" : "",
           borderTopRightRadius: type === "Array" ? "1.5rem" : "",
         }}
@@ -258,7 +258,7 @@ const Output: React.FC = () => {
             style={{
               background: "var(--blue)",
               marginRight: "0.75rem",
-              color: "#222",
+              color: "var(--black)",
               fontWeight: 600,
             }}
           >
@@ -267,9 +267,9 @@ const Output: React.FC = () => {
           <button
             className="output-add-basket"
             style={{
-              background: "#22222211",
-              color: "#555",
-              opacity: allBaskets.length <= 5 && basket.length === 0 ? 1 : 0.45,
+              background: "transparent",
+              color: "var(--black)",
+              opacity: allBaskets.length <= 5 && basket.length === 0 ? 1 : 0.5,
             }}
             onClick={() => {
               if (

@@ -15,7 +15,7 @@ import Tooltip from "./components/Tooltip/Tooltip";
 import Settings from "./components/Settings/Settings";
 
 import { FcSettings as IconSettings } from "react-icons/fc";
-
+import { BsArrowDown as IconDown } from "react-icons/bs";
 import { allMethods } from "./store/methods";
 import { useStore } from "./store/store";
 import { useLocation } from "react-router-dom";
@@ -58,27 +58,81 @@ function App() {
       }}
       ref={appRef}
     >
-      <h1
+      {/* <h3
         style={{
-          color: "crimson",
+          color: "#22222215",
           position: "fixed",
           zIndex: "5000",
           top: "2rem",
-          left: "6rem",
+          right: "2rem",
         }}
       >
         DEV BRANCH
-      </h1>
+      </h3> */}
       <Aside />
 
       <main>
+        <div
+          style={{
+            marginTop: "-7rem",
+            background: "rgba(255,255,255,0.35)",
+            height: "4rem",
+            width: "15rem",
+            transform: "translateX(3rem)",
+            borderTopLeftRadius: "3rem",
+            borderTopRightRadius: "3rem",
+            // display: "flex",
+            gap: "3rem",
+            justifyContent: "center",
+            alignSelf: "flex-end",
+            display: "none",
+          }}
+        >
+          <div
+            className="side-button"
+            style={{
+              display: settings.isOpen ? "grid" : "grid",
+              fontSize: "var(--itemFont)",
+              placeContent: "center",
+            }}
+            onClick={() =>
+              set({
+                settings: { ...settings, soundEnabled: !settings.soundEnabled },
+              })
+            }
+          >
+            {settings.soundEnabled ? "🔊" : "🔇"}
+          </div>
+          <div
+            className="side-button"
+            style={{
+              display: settings.isOpen ? "grid" : "grid",
+              fontSize: "var(--itemFont)",
+              placeContent: "center",
+            }}
+            onClick={() => {
+              if (settings.animationDuration === 250) {
+                set({ settings: { ...settings, animationDuration: 500 } });
+              } else if (settings.animationDuration === 500) {
+                set({ settings: { ...settings, animationDuration: 125 } });
+              } else if (settings.animationDuration === 125) {
+                set({ settings: { ...settings, animationDuration: 250 } });
+              }
+            }}
+          >
+            {settings.animationDuration === 125 && "🐆"}
+            {settings.animationDuration === 250 && "🐇"}
+            {settings.animationDuration === 500 && "🐢"}
+          </div>
+        </div>
+
         <Basket />
         <Secondary />
         <Input />
         {/* <Callback /> */}
-        {/* <div style={{ marginTop: "-1.5rem", marginBottom: "-1.5rem" }}> */}
-        {/* <IconDown size="32px" /> */}
-        {/* </div> */}
+        {/* <div style={{ marginTop: "-0.75rem", marginBottom: "-0.75rem" }}>
+          <IconDown size="32px" />
+        </div> */}
         <Output />
 
         <div

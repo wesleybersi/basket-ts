@@ -8,22 +8,22 @@
   transition: all 125ms ease;
 
   main {
-    background: rgba(255, 255, 255, 0.35);
-    box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.035),
-      0 4px 8px rgba(255, 255, 255, 0.005),
-      0 8px 16px rgba(255, 255, 255, 0.005),
-      0 16px 32px rgba(255, 255, 255, 0.005);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    // background: rgba(255, 255, 255, 0.35);
+    // box-shadow: inset 0 0 32px rgba(255, 255, 255, 0.5),
+    //   inset 0 0 265px rgba(255, 255, 255, 0.2),
+    //   inset 0 6px 0px 6px rgba(255, 255, 255, 0.35),
+    //   0 2px 16px 4px rgba(0, 0, 0, 0.035);
+    // backdrop-filter: blur(8px);
+    // -webkit-backdrop-filter: blur(4px);
     border-radius: 3rem;
-    padding: 3rem;
+    // padding: 3rem;
     pointer-events: all;
-    max-width: 1280px;
+    max-width: 1184px;
     width: min(100% - 4rem);
-    // border: 3px solid rgba(255, 255, 255, 0.55);
+    // border: 4px solid rgba(255, 255, 255, 0.15);
     // border-top-color: rgba(255, 255, 255, 0.25);
-    // border-left-color: rgba(255, 255, 255, 0.15);
-    // border-right-color: rgba(255, 255, 255, 0.1);
+    // border-left-color: rgba(255, 255, 255, 0.35);
+    // border-right-color: rgba(0, 0, 0, 0.035);
     // border-bottom-color: rgba(255, 255, 255, 0.05);
     width: 100%;
     align-self: center;
@@ -94,14 +94,14 @@
     // background: linear-gradient(-45deg, #b2222255, #1e90ff55, #ffc0cb55);
     // background: linear-gradient(-45deg, #d9cfc388, #91b194, #ffffff);
     // background: linear-gradient(45deg, #e3acb2, #e2e8f9, #e4eef8);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 222, 192, 1),
-      rgba(224, 192, 255, 1),
-      rgba(255, 192, 224, 1)
-    );
+    // background: linear-gradient(
+    //   135deg,
+    //   rgb(255, 227, 200),
+    //   rgb(224, 193, 255),
+    //   rgb(255, 188, 221)
+    // );
 
-    background: linear-gradient(-45deg, #79c6ffcc, #82a1ffcc, #b0d4fecc);
+    // background: linear-gradient(-45deg, #79c6ffcc, #86a1ffcc, #b0d0f5cc);
     // background: linear-gradient(135deg, #a2d2f2, #e1abe2cc, #fe98a7aa, #ffffff);
     // background: #1e90ff44;
     // background: linear-gradient(
@@ -112,6 +112,8 @@
     //   #e92ea055,
     //   #ad3dd355
     // );
+
+    background: linear-gradient(135deg, #d9efff, #8cd6fe, #8bcdfd);
 
     content: "";
     position: fixed;

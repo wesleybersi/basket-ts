@@ -51,7 +51,10 @@ const Secondary = () => {
   }
 
   return (
-    <div className="secondary-lens">
+    <div
+      className="secondary-lens"
+      style={{ marginTop: showSecondary ? "-15rem" : "-5rem" }}
+    >
       <section
         className="basket-wrapper secondary-wrapper"
         style={showSecondary ? { marginTop: 0 } : { marginTop: "-20rem" }}

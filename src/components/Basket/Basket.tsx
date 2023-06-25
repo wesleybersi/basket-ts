@@ -345,8 +345,9 @@ const Basket: React.FC = () => {
     <section
       className="basket-wrapper"
       style={{
-        borderBottomLeftRadius: showSecondary ? 0 : "4rem",
-        borderBottomRightRadius: showSecondary ? 0 : "4rem",
+        borderBottomLeftRadius: "4rem",
+        borderBottomRightRadius: "4rem",
+        paddingBottom: showSecondary ? "12rem" : "",
       }}
     >
       <div className="basket-header">

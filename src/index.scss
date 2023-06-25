@@ -14,8 +14,8 @@ body {
   --pageWidth: 1140px;
   --bg: #f9f5f2;
   --black: #1d202b;
-  --black: #34417c;
-  --grey: #909090;
+  --black: #5b7588;
+  --grey: #647c8d;
   --light: #d9e1f5;
   --medium: #83b6b1;
   --pink: #f84194;
@@ -41,11 +41,17 @@ body {
 
   --selection: white;
   --selection: #ffffff00;
-  --selectionOpaque: #15a8e230;
+  --selectionOpaque: #f8d44b;
   --deleteCount: #ffffff00;
-  --deleteCountOpaque: #e5363640;
+  --deleteCountOpaque: #fe8383;
   --target: white;
   --highlight: #f8d44b;
+
+  --colorA: #fd5af6;
+  --colorB: #00d99f;
+  --colorC: #ff8e01;
+  --colorD: #00b8f4;
+  --blue: #f8d44b;
 
   font-family: "Poppins", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

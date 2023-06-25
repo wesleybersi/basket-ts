@@ -1,5 +1,6 @@
 .parameter {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.35);
+
   color: var(--black);
   flex: 1;
   height: 6rem;
@@ -10,24 +11,31 @@
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
   box-shadow: 0 0 32px 2px rgba(0, 0, 0, 0.035);
-  box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.025),
-    0 4px 8px rgba(0, 0, 0, 0.005), 0 8px 16px rgba(0, 0, 0, 0.005),
-    0 16px 32px rgba(0, 0, 0, 0.005);
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
+    inset 0 0 128px #ffffff44, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
+    0 2px 16px 4px rgba(0, 0, 0, 0.05);
+
   user-select: none;
   cursor: pointer;
   transition: all 200ms ease;
   max-width: calc(50% - 0.333rem);
   position: relative;
   backdrop-filter: blur(8px);
-
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-bottom: none;
   .parameter-below {
     position: absolute;
     bottom: -2rem;
-    left: 0;
+    left: -3px;
     height: 2rem;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.85);
+    width: calc(100% + 6px);
+    background-color: rgba(255, 255, 255, 0.35);
+    box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
+      inset 0 0 128px #ffffff44, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
+      0 2px 16px 4px rgba(0, 0, 0, 0.05);
     transition: all 100ms linear;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-top: none;
   }
   @media (max-width: 768px) {
     height: 5rem;
@@ -51,6 +59,7 @@
     font-size: 1rem;
     // opacity: 0;
     // display: none;
+
     color: var(--grey);
     &:hover {
       text-decoration: line-through;
@@ -64,6 +73,7 @@
     display: flex;
     width: 100%;
     height: 100%;
+
     // justify-content: space-evenly;
     // align-items: center;
 
@@ -130,6 +140,7 @@
       width: 100%;
       margin: auto;
       text-align: center;
+      color: var(--black);
     }
     input[type="number"] {
       -moz-appearance: textfield;

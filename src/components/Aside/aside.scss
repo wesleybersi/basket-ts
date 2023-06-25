@@ -1,25 +1,22 @@
 aside {
   position: fixed;
-
   top: 0;
   z-index: 3000;
   left: 0;
   height: calc(100vh);
-
-  // background: var(--black);
   background: rgba(255, 255, 255, 1);
   backdrop-filter: blur(8px);
-
   transition: all 250ms ease;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 0 32px rgba(0, 0, 0, 0.035), 0 4px 8px rgba(0, 0, 0, 0.005),
-    0 8px 16px rgba(0, 0, 0, 0.005), 0 16px 32px rgba(0, 0, 0, 0.005);
-  // padding-top: 8rem;
-  // display: none;
-  &hover {
-  }
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: inset 0 -8px 16px rgba(255, 255, 255, 0.5),
+    inset 0 0 128px #ffffff77, 0 2px 64px 8px rgba(0, 0, 0, 0.05);
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  border-top: none;
+  border-bottom: none;
+  backdrop-filter: blur(4px);
   .aside-top {
     position: fixed;
     top: 0;
@@ -47,7 +44,7 @@ aside {
   .aside-hide {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: -0.25rem;
     transform: translateX(50%) translateY(-50%);
     background: var(--black);
     background: white;
@@ -59,7 +56,7 @@ aside {
     // background: var(--black);
     display: grid;
     place-content: center;
-
+    // display: none;
     cursor: pointer;
     svg {
       width: 18px;
@@ -82,7 +79,7 @@ aside {
       height: 3rem;
       display: flex;
       align-items: center;
-      padding: 0 3rem;
+      padding: 0 1.5rem;
       overflow: hidden;
       transition: all 125ms ease;
       cursor: pointer;
