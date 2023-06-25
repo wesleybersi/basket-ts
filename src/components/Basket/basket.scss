@@ -141,11 +141,10 @@
         text-align: center;
         border-radius: 0.25rem;
         color: transparent;
-        text-shadow: 0 0 4px var(--selectionColor),
-          -1px -1px 4px var(--selectionColor),
-          -1px 1px 4px var(--selectionColor), 1px 1px 4px var(--selectionColor),
-          1px -1px 4px var(--selectionColor);
-        scale: 1.25;
+        text-shadow: 0 0 0 var(--selectionColor),
+          -1px -1px 0 var(--selectionColor), -1px 1px 0 var(--selectionColor),
+          1px 1px 0 var(--selectionColor), 1px -1px 0 var(--selectionColor);
+        scale: 1.55;
         opacity: 0.5;
       }
 
