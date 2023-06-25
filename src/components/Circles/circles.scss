@@ -7,6 +7,7 @@
   height: 100vh;
   pointer-events: none;
   opacity: 0.65;
+  //   display: none;
 }
 
 .circle {
@@ -51,11 +52,11 @@
     opacity: 0.35;
   }
   &:nth-child(5) {
-    top: -25%;
+    top: -15%;
     left: 55%;
-    width: 333px;
-    height: 333px;
-    opacity: 0.65;
+    width: 222px;
+    height: 222px;
+    opacity: 0.3;
   }
   &:nth-child(6) {
     top: 10%;

@@ -20,7 +20,7 @@
     background-color: rgba(255, 255, 255, 0.35);
     box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
       inset 0 0 128px #ffffff66, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
-      0 2px 16px 4px rgba(0, 0, 0, 0.05);
+      0 8px 40px 8px rgba(43, 161, 245, 0.25);
     border-radius: 4rem;
     position: relative;
     overflow: hidden;
@@ -67,7 +67,7 @@
         height: 2.5rem;
         box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.45),
           inset 0 2px 0px 4px rgba(255, 255, 255, 0.35),
-          0 2px 8px 2px rgba(0, 0, 0, 0.025);
+          0 8px 40px 8px rgba(43, 161, 245, 0.25);
         // border: 2px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(4px);
         @media (max-width: 768px) {
@@ -92,7 +92,7 @@
       // border: 1px solid #22222244;
       box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.025),
         0 4px 8px rgba(0, 0, 0, 0.005), 0 8px 16px rgba(0, 0, 0, 0.005),
-        0 16px 32px rgba(0, 0, 0, 0.005);
+        0 8px 40px 8px rgba(43, 161, 245, 0.15);
       justify-content: center;
       transition: all 250ms ease;
 
