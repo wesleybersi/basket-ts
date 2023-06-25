@@ -374,12 +374,15 @@ const Basket: React.FC = () => {
                       ? "red"
                       : "blue"
                   }
+                  item={item.emoji}
                 />
               )}
             {selection.target !== undefined && selection.target === index && (
-              <Selection type="target" />
+              <Selection type="target" item={item.emoji} />
             )}
-            {selection.highlight === index && <Selection type="highlight" />}
+            {selection.highlight === index && (
+              <Selection type="highlight" item={item.emoji} />
+            )}
           </li>
         ))}
       </ul>

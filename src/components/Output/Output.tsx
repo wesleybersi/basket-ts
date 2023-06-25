@@ -265,7 +265,7 @@ const Output: React.FC = () => {
             {length}
           </button>
           <button
-            className="output-add-basket"
+            className="output-add-basket basket-add"
             style={{
               background: "transparent",
               color: "var(--black)",

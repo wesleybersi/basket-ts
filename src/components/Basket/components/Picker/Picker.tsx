@@ -39,6 +39,7 @@ const Picker: React.FC<Props> = ({ type, length, selection }) => {
         </button>
       ))}
       <button
+        className="basket-add"
         style={{
           background: "transparent",
           color: "var(--black)",

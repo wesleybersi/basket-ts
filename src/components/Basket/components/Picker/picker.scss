@@ -22,6 +22,9 @@
       0 8px 40px 8px rgba(43, 161, 245, 0.25);
     // border: 2px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(4px);
+    // color: white !important;
+
+    // background: transparent !important;
 
     @media (max-width: 768px) {
       width: 1.75rem;
@@ -36,3 +39,20 @@
     }
   }
 }
+
+// .basket-add {
+//   color: white !important;
+//   &:before {
+//     z-index: -1;
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     content: "";
+//     background: rgb(118, 198, 255);
+
+//     width: 68%;
+//     height: 68%;
+//     border-radius: 50%;
+//   }
+// }

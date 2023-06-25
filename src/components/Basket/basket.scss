@@ -129,39 +129,26 @@
       z-index: 1;
 
       .basket-item-selected {
-        // display: none;
-        // box-shadow: 0 0 8px 2px #82dfdf44;
-
+        --selectionColor: transparent;
         z-index: -1;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 50px;
-        max-width: 128px;
-
-        // background-color: var(--selection);
-        // background: none !important;
-
-        // border: 4px dashed var(--selectionOpaque);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-content: center;
+        text-align: center;
         border-radius: 0.25rem;
-
-        content: "";
-        width: calc(80%);
-        // opacity: 0.25;
-        animation: fadeIn 200ms ease;
-        // &:after {
-        //   content: "";
-        //   position: absolute;
-        //   bottom: -0.5rem;
-        //   left: 50%;
-        //   width: 0.5rem;
-        //   height: 0.5rem;
-        //   transform: translateX(-50%);
-        //   border-radius: 50%;
-        //   background-color: var(--selection);
-        // }
+        color: transparent;
+        text-shadow: 0 0 4px var(--selectionColor),
+          -1px -1px 4px var(--selectionColor),
+          -1px 1px 4px var(--selectionColor), 1px 1px 4px var(--selectionColor),
+          1px -1px 4px var(--selectionColor);
+        scale: 1.25;
+        opacity: 0.5;
       }
+
       .basket-item-highlight {
         border-radius: 0.25rem;
         z-index: -1;
@@ -289,3 +276,7 @@
     // animation: fallBelow 500ms ease;
   }
 }
+
+// .basket-item {
+//   filter: drop-shadow(8px 8px var(--red));
+// }

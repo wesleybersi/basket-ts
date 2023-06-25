@@ -44,6 +44,7 @@ const Method: React.FC = () => {
 
       <button
         className="method-btn"
+        style={{ color: loading ? "white" : "" }}
         onClick={() => {
           if (!loading) methods[method.title]();
         }}
