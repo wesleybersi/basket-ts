@@ -21,6 +21,8 @@ export const useStore = create<Store>((set, get) => ({
   itemsToRemove: [],
   itemsToProcess: [],
   itemsToReplace: [],
+  spliceRemove: [],
+  spliceAdd: null,
   ascendAll: false,
   processedIndexes: new Set(),
   triggerSplice: false,
@@ -245,43 +247,142 @@ export const useStore = create<Store>((set, get) => ({
           loading: replacements.length > 0,
         };
       }),
+    // splice: () =>
+    //   set((state) => {
+    //     let itemsToRemove: number[] = [];
+    //     if (state.selectedIndexes.length > 0) {
+    //       if (
+    //         state.selection.amount !== undefined &&
+    //         state.selection.amount > 0
+    //       ) {
+    //         itemsToRemove = [...state.selectedIndexes];
+    //       } else if (
+    //         state.selection.amount !== undefined &&
+    //         state.selection.amount === 0
+    //       ) {
+    //         itemsToRemove = [];
+    //       } else if (state.selection.amount === undefined) {
+    //         itemsToRemove = [...state.basket].map((_, index) => index);
+    //       }
+    //     }
+
+    //     if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
+    //       return { triggerSplice: true, loading: true, output: [] };
+    //     }
+
+    //     let output = [...state.basket].filter((_, index) =>
+    //       itemsToRemove.includes(index)
+    //     );
+
+    //     itemsToRemove = itemsToRemove.filter(
+    //       (index) => index < state.basket.length
+    //     );
+
+    //     return {
+    //       loading: itemsToRemove.length > 0 ? true : false,
+    //       itemsToRemove,
+    //       output,
+    //     };
+    //   }),
+
     splice: () =>
       set((state) => {
+        // let itemsToRemove: number[] = [];
+        // if (state.selectedIndexes.length > 0) {
+        //   if (
+        //     state.selection.amount !== undefined &&
+        //     state.selection.amount > 0
+        //   ) {
+        //     itemsToRemove = [...state.selectedIndexes];
+        //   } else if (
+        //     state.selection.amount !== undefined &&
+        //     state.selection.amount === 0
+        //   ) {
+        //     itemsToRemove = [];
+        //   } else if (state.selection.amount === undefined) {
+        //     itemsToRemove = [...state.basket].map((_, index) => index);
+        //   }
+        // }
+
+        // if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
+        //   return { triggerSplice: true, loading: true, output: [] };
+        // }
+
+        // let output = [...state.basket].filter((_, index) =>
+        //   itemsToRemove.includes(index)
+        // );
+
+        // itemsToRemove = itemsToRemove.filter(
+        //   (index) => index < state.basket.length
+        // );
+        if (state.basket.length === 0) return {};
+
+        const updatedBasket = [...state.basket];
+        let output: Emoji[] = [];
+
+        const item1 = state.parameters.get(2)?.value as Emoji;
+        const item2 = state.parameters.get(3)?.value as Emoji;
+        const items: Emoji[] = [];
+        if (item1) items.push(item1);
+        if (item2) items.push(item2);
+
+        const itemsToReplace: { index: number; replacement: Emoji }[] = [];
         let itemsToRemove: number[] = [];
-        if (state.selectedIndexes.length > 0) {
-          if (
-            state.selection.amount !== undefined &&
-            state.selection.amount > 0
-          ) {
-            itemsToRemove = [...state.selectedIndexes];
-          } else if (
-            state.selection.amount !== undefined &&
-            state.selection.amount === 0
-          ) {
-            itemsToRemove = [];
-          } else if (state.selection.amount === undefined) {
-            itemsToRemove = [...state.basket].map((_, index) => index);
+        const itemsToAdd: number[] = [];
+        let spliceAdd: Emoji | null = null;
+
+        if (state.selection.amount !== undefined) {
+          // if (state.selectedIndexes[0] + state.selection.amount >= state.basket.length){
+
+          // }
+
+          if (state.selection.amount >= items.length) {
+            items.forEach((item, index) =>
+              itemsToReplace.push({
+                index: state.selectedIndexes[index],
+                replacement: item,
+              })
+            );
+            if (state.selection.amount > 0 && items.length === 0) {
+              itemsToRemove = [...state.selectedIndexes];
+            }
+          } else if (state.selection.amount <= 0) {
+            if (items.length > 0) {
+              itemsToAdd.push(state.selectedIndexes[0]);
+              itemsToAdd.push(state.selectedIndexes[0] + 1);
+              // itemsToAdd.reverse();
+              updatedBasket.splice(state.selectedIndexes[0], 0, ...items);
+            }
+          } else if (state.selection.amount === 1 && items.length === 2) {
+            itemsToReplace.push({
+              index: state.selectedIndexes[0],
+              replacement: items[0],
+            });
+            spliceAdd = items[1];
           }
+
+          output = [...updatedBasket].splice(
+            state.selectedIndexes[0],
+            state.selection.amount,
+            ...items
+          );
+        } else {
+          output = [...updatedBasket].splice(state.selectedIndexes[0]);
+          itemsToRemove = [...state.selectedIndexes];
         }
-
-        if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
-          return { triggerSplice: true, loading: true, output: [] };
-        }
-
-        let output = [...state.basket].filter((_, index) =>
-          itemsToRemove.includes(index)
-        );
-
-        itemsToRemove = itemsToRemove.filter(
-          (index) => index < state.basket.length
-        );
 
         return {
-          loading: itemsToRemove.length > 0 ? true : false,
+          loading: true,
+          basket: updatedBasket,
+          itemsToReplace,
+          itemsToAdd,
           itemsToRemove,
+          spliceRemove: state.selectedIndexes.slice(itemsToReplace.length),
+          spliceAdd,
           output,
         };
       }),
+
     concat: () =>
       set((state) => {
         const primary = [...state.basket];

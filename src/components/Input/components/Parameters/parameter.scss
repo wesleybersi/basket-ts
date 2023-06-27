@@ -1,40 +1,29 @@
-.parameter {
-  background-color: rgba(255, 255, 255, 0.35);
+@import "../../../../mixins.scss";
 
+.parameter {
+  @include glass;
   color: var(--black);
   flex: 1;
   height: 6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  // padding-top: 0.5rem;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
-  box-shadow: 0 0 32px 2px rgba(0, 0, 0, 0.035);
-  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
-    inset 0 0 128px #ffffff44, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
-    0 8px 40px 8px rgba(43, 161, 245, 0.25);
-
   user-select: none;
   cursor: pointer;
   transition: all 200ms ease;
   max-width: calc(50% - 0.333rem);
   position: relative;
-  backdrop-filter: blur(8px);
-  // border: 3px solid rgba(255, 255, 255, 0.25);
   border-bottom: none;
   .parameter-below {
+    @include glass;
     position: absolute;
     bottom: -2rem;
     left: 0;
     height: 2rem;
-    width: calc(100%);
-    background-color: rgba(255, 255, 255, 0.35);
-    box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
-      inset 0 0 128px #ffffff44, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
-      0 2px 16px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
     transition: all 100ms linear;
-
     border-top: none;
   }
   @media (max-width: 768px) {

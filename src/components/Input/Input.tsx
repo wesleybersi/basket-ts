@@ -65,42 +65,42 @@ const Input: React.FC<Props> = () => {
     }
   }, [method.title]);
 
+  // useEffect(() => {
+  //   if (triggerSplice) {
+  //     // for (const [index, parameter] of parameters) {
+  //     //   if (!parameter) continue;
+  //     //   updateParameterState(
+  //     //     index,
+  //     //     parameter.value,
+  //     //     parameter.active ? true : false
+  //     //   );
+  //     // }
+
+  //     const updatedBasket = [...basket];
+  //     const items = [];
+  //     const value1 = parameters.get(2)?.value;
+  //     const value2 = parameters.get(3)?.value;
+  //     const index = selectedIndexes[0] ?? 0;
+  //     let itemsToAdd: number[] = [];
+  //     if (value1 instanceof Emoji) items.push(value1);
+  //     if (value2 instanceof Emoji) items.push(value2);
+  //     if (items.length === 1) itemsToAdd = [index];
+  //     if (items.length === 2) itemsToAdd = [index, index + 1];
+
+  //     updatedBasket.splice(index, 0, ...items);
+
+  //     set({
+  //       loading: true,
+  //       basket: updatedBasket,
+  //       itemsToAdd,
+  //     });
+  //   } else {
+  //     set({ selection: { ...selection, show: true } });
+  //   }
+  // }, [triggerSplice]);
+
   useEffect(() => {
-    if (triggerSplice) {
-      // for (const [index, parameter] of parameters) {
-      //   if (!parameter) continue;
-      //   updateParameterState(
-      //     index,
-      //     parameter.value,
-      //     parameter.active ? true : false
-      //   );
-      // }
-
-      const updatedBasket = [...basket];
-      const items = [];
-      const value1 = parameters.get(2)?.value;
-      const value2 = parameters.get(3)?.value;
-      const index = selectedIndexes[0] ?? 0;
-      let itemsToAdd: number[] = [];
-      if (value1 instanceof Emoji) items.push(value1);
-      if (value2 instanceof Emoji) items.push(value2);
-      if (items.length === 1) itemsToAdd = [index];
-      if (items.length === 2) itemsToAdd = [index, index + 1];
-
-      updatedBasket.splice(index, 0, ...items);
-
-      set({
-        loading: true,
-        basket: updatedBasket,
-        itemsToAdd,
-      });
-    } else {
-      set({ selection: { ...selection, show: true } });
-    }
-  }, [triggerSplice]);
-
-  useEffect(() => {
-    if (!loading && !triggerSplice && !ascendAll) {
+    if (!loading && !triggerSplice) {
       updateAllParameters();
     }
   }, [

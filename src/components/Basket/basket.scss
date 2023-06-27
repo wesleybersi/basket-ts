@@ -1,25 +1,16 @@
-.basket-wrapper {
-  width: 100%;
+@import "../../mixins.scss";
 
+.basket-wrapper {
+  @include glass;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background-color: rgba(255, 255, 255, 0.35);
-  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
-    inset 0 0 128px #ffffff66, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
-    0 8px 40px 8px rgba(43, 161, 245, 0.25);
-
-  // border: 4px solid rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(4px);
-  //   border: 1px solid #22222222;
   padding: 1.5rem;
   border-radius: 1.5rem;
-
   position: relative;
   transition: all 250ms ease;
-  //   padding-top: 5rem;
   overflow: hidden;
-
   @media (max-width: 768px) {
     padding: 1rem;
     border-radius: 0.5rem;
@@ -52,10 +43,6 @@
     padding: 0 4rem;
     // border: 2px solid var(--light);
     background-color: white;
-    // box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.05);
-    // border: 1px solid #22222233;
-    // border-left: none;
-    // border-right: none;
     box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.025),
       0 4px 8px rgba(0, 0, 0, 0.005), 0 8px 16px rgba(0, 0, 0, 0.005),
       0 16px 32px rgba(0, 0, 0, 0.005);
@@ -145,7 +132,7 @@
           -1px -1px 0 var(--selectionColor), -1px 1px 0 var(--selectionColor),
           1px 1px 0 var(--selectionColor), 1px -1px 0 var(--selectionColor);
         scale: 1.45;
-        opacity: 0.4;
+        opacity: 0.35;
       }
 
       .basket-item-highlight {

@@ -20,6 +20,8 @@ const Basket: React.FC = () => {
     itemsToRemove,
     itemsToReplace,
     itemsToProcess,
+    spliceRemove,
+    spliceAdd,
     ascendAll,
     selectedIndexes,
     processedIndexes,
@@ -108,11 +110,25 @@ const Basket: React.FC = () => {
         count++;
         if (count === itemsToReplace.length) {
           //ANCHOR Items replaced
+
           setTimeout(() => {
-            set({
-              loading: false,
-              itemsToReplace: [],
-              processedIndexes: new Set(),
+            set((state) => {
+              const updatedBasket = [...state.basket];
+              if (spliceAdd) {
+                updatedBasket.splice(index + 1, 0, spliceAdd);
+              }
+
+              return {
+                basket: updatedBasket,
+                loading: spliceRemove.length > 0 || spliceAdd ? true : false,
+                itemsToReplace: [],
+                processedIndexes:
+                  spliceRemove.length > 0 ? processed : new Set(),
+                itemsToRemove: [...spliceRemove],
+                itemsToAdd: spliceAdd ? [index + 1] : [],
+                spliceRemove: [],
+                spliceAdd: null,
+              };
             });
           }, replaceDuration);
         }
@@ -213,6 +229,8 @@ const Basket: React.FC = () => {
 
     const noItems = itemsToAdd.length === basket.length;
 
+    console.log(itemsToAdd);
+
     // Normalize original items
     if ((!noItems && method.title === "splice") || method.title === "unshift") {
       let count = 0;
@@ -277,7 +295,6 @@ const Basket: React.FC = () => {
           set({
             loading: false,
             itemsToAdd: [],
-            triggerSplice: false,
             processedIndexes: processed,
           });
         }
@@ -318,18 +335,19 @@ const Basket: React.FC = () => {
               (_, index) => !state.itemsToRemove.includes(index)
             );
 
-            const spliceAdd = parameters.get(2)?.value ? true : false;
+            // const spliceAdd = parameters.get(2)?.value ? true : false;
 
             return {
               ...state,
               basket: updatedBasket,
               loading: false,
               itemsToRemove: [],
-              triggerSplice: spliceAdd,
-              selection: {
-                ...selection,
-                show: !spliceAdd,
-              },
+              // triggerSplice: spliceAdd,
+              // selection: {
+              //   ...selection,
+              //   show: !spliceAdd,
+              // },
+              processedIndexes: new Set(),
             };
           });
         }
@@ -363,13 +381,19 @@ const Basket: React.FC = () => {
           >
             {item.emoji}{" "}
             {selection.show &&
-              selectedIndexes.includes(index) &&
+              // selectedIndexes.includes(index) &&
               !processedIndexes.has(index) && (
                 <Selection
+                  index={index}
                   type={
+                    // method.title === "copyWithin" ||
+                    // method.title === "fill" ||
                     selection.amount !== undefined &&
                     selection.amount > 0 &&
                     method.title !== "lastIndexOf"
+                      ? "red"
+                      : method.title === "splice" &&
+                        selection.amount === undefined
                       ? "red"
                       : "blue"
                   }
@@ -377,10 +401,10 @@ const Basket: React.FC = () => {
                 />
               )}
             {selection.target !== undefined && selection.target === index && (
-              <Selection type="target" item={item.emoji} />
+              <Selection index={index} type="target" item={item.emoji} />
             )}
             {selection.highlight === index && (
-              <Selection type="highlight" item={item.emoji} />
+              <Selection index={index} type="highlight" item={item.emoji} />
             )}
           </li>
         ))}

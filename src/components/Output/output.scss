@@ -1,3 +1,5 @@
+@import "../../mixins.scss";
+
 .output-wrapper {
   // overflow: hidden;
   display: flex;
@@ -13,20 +15,15 @@
     transform: translateX(-50%);
   }
   .output-lens {
+    @include glass;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    background-color: rgba(255, 255, 255, 0.35);
-    box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.35),
-      inset 0 0 128px #ffffff66, inset 0 4px 0px 4px rgba(255, 255, 255, 0.15),
-      0 8px 40px 8px rgba(43, 161, 245, 0.25);
     border-radius: 4rem;
     position: relative;
     overflow: hidden;
     padding: 1.5rem;
-    backdrop-filter: blur(4px);
-    // border: 4px solid rgba(255, 255, 255, 0.25);
     @media (max-width: 768px) {
       padding: 1rem;
     }
@@ -65,11 +62,10 @@
         place-content: center;
         border-radius: 50%;
         height: 2.5rem;
-        box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.45),
-          inset 0 2px 0px 4px rgba(255, 255, 255, 0.35),
-          0 8px 40px 8px rgba(43, 161, 245, 0.25);
-        // border: 2px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 16px 2px rgba(43, 161, 245, 0.15);
         backdrop-filter: blur(4px);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+
         @media (max-width: 768px) {
           width: 1.75rem;
           height: 1.75rem;

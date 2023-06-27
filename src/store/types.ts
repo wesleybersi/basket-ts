@@ -20,6 +20,8 @@ export interface Store {
   ascendAll: boolean;
   processedIndexes: Set<number>;
   triggerSplice: boolean;
+  spliceRemove: number[];
+  spliceAdd: Emoji | null;
   hoverItem: Emoji | null;
   maxLimitMessage: boolean;
 

@@ -67,6 +67,9 @@ const About: React.FC = (): JSX.Element => {
               the user. With one parameter as a selector of arrays I think it
               gets the point across best.
             </li>
+            <li style={{ marginLeft: "2rem" }}>
+              RangeErrors are ignored. It simply won't trigger the method.
+            </li>
           </ul>
         </p>
         <p>
