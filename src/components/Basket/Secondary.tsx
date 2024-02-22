@@ -60,7 +60,7 @@ const Secondary = () => {
         style={showSecondary ? { marginTop: 0 } : { marginTop: "-20rem" }}
       >
         <div className="basket-header">
-          <p>const crate =</p>
+          <p style={{ fontSize: "1.25rem" }}>const crate =</p>
           <Picker
             type="Secondary"
             selection={secondaryIndex}

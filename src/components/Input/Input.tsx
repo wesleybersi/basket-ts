@@ -3,7 +3,7 @@ import Parameter from "./components/Parameters/Parameter";
 import { allMethods } from "../../store/methods";
 import { useStore } from "../../store/store";
 import Method from "./components/Method/Method";
-import ChangeMethod from "./components/ChangeMethod/ChangeMethod";
+import ChangeMethod from "./components/ChangeMethodUpDown/ChangeMethod";
 import { Emoji } from "../../utils/emoji/emojis";
 import { useNavigate } from "react-router-dom";
 import "./input.scss";
@@ -114,16 +114,26 @@ const Input: React.FC<Props> = () => {
 
   return (
     <section className="active-method">
-      <ChangeMethod direction="Left" index={index} />
+      <div className="up-down" style={{ opacity: 0 }}>
+        <ChangeMethod direction="Left" index={index} />
+        {/* <ChangeMethod direction="Center" index={index} /> */}
+        <ChangeMethod direction="Right" index={index} />
+      </div>
       <div className="input-wrapper">
         <section className="parameters">
           {Array.from({ length: 4 }).map((_, index) => (
             <Parameter index={index} />
           ))}
         </section>
+
         <Method />
       </div>
-      <ChangeMethod direction="Right" index={index} />
+      {/* <ChangeMethod direction="Right" index={index} /> */}
+      <div className="up-down">
+        <ChangeMethod direction="Left" index={index} />
+        {/* <ChangeMethod direction="Center" index={index} /> */}
+        <ChangeMethod direction="Right" index={index} />
+      </div>
     </section>
   );
 };

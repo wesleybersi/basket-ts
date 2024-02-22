@@ -1,0 +1,14 @@
+.name {
+  font-size: 1.25rem;
+  font-weight: 400;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  word-break: keep-all;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}

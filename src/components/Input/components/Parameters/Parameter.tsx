@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { randomEmoji } from "../../../../utils/emoji/random-emoji";
 import { Emoji } from "../../../../utils/emoji/emojis";
 import { useStore } from "../../../../store/store";
-import { ParameterState } from "../../../../store/methods";
 import { GrClose as IconClose } from "react-icons/gr";
 import themes from "../../../../utils/emoji/themes";
 import { RiAddFill as IconAdd } from "react-icons/ri";
@@ -12,10 +10,8 @@ import {
 } from "react-icons/fi";
 
 import "./parameter.scss";
-import { Parameters } from "../../../../store/types";
 import EmojiParameter from "./components/EmojiParameter";
 import NumberParameter from "./components/Number";
-import useCSSProperty from "../../../../hooks/useCSSProperty";
 interface Props {
   index: number;
 }

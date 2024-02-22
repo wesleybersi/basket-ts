@@ -1,89 +1,90 @@
-export class Emoji {
-  title;
-  emoji;
+export function isEmoji(obj: any): obj is Emoji {
+  return (
+    obj !== null && typeof obj === "object" && "title" in obj && "emoji" in obj
+  );
+}
 
-  constructor(title: string, emoji: string) {
-    this.title = title;
-    this.emoji = emoji;
-  }
+export interface Emoji {
+  title: string;
+  emoji: string;
 }
 
 export const fruit: Emoji[] = [
-  new Emoji("Red Apple", "🍎"),
-  new Emoji("Grapes", "🍇"),
-  new Emoji("Watermelon", "🍉"),
-  new Emoji("Melon", "🍈"),
-  new Emoji("Tangerine", "🍊"),
-  new Emoji("Lemon", "🍋"),
-  new Emoji("Banana", "🍌"),
-  new Emoji("Pineapple", "🍍"),
-  new Emoji("Mango", "🥭"),
-  new Emoji("Green Apple", "🍏"),
-  new Emoji("Pear", "🍐"),
-  new Emoji("Peach", "🍑"),
-  new Emoji("Cherries", "🍒"),
-  new Emoji("Strawberry", "🍓"),
-  new Emoji("Kiwi", "🥝"),
-  new Emoji("Avocado", "🥑"),
-  new Emoji("Coconut", "🥥"),
-  new Emoji("Blueberries", "🫐"),
+  { title: "Apple", emoji: "🍎" },
+  { title: "Grapes", emoji: "🍇" },
+  { title: "Watermelon", emoji: "🍉" },
+  { title: "Melon", emoji: "🍈" },
+  { title: "Tangerine", emoji: "🍊" },
+  { title: "Lemon", emoji: "🍋" },
+  { title: "Banana", emoji: "🍌" },
+  { title: "Pineapple", emoji: "🍍" },
+  { title: "Mango", emoji: "🥭" },
+  { title: "Apple", emoji: "🍏" },
+  { title: "Pear", emoji: "🍐" },
+  { title: "Peach", emoji: "🍑" },
+  { title: "Cherries", emoji: "🍒" },
+  { title: "Strawberry", emoji: "🍓" },
+  { title: "Kiwi", emoji: "🥝" },
+  { title: "Avocado", emoji: "🥑" },
+  { title: "Coconut", emoji: "🥥" },
+  { title: "Blueberries", emoji: "🫐" },
 ];
 
 export const veggies: Emoji[] = [
-  new Emoji("Broccoli", "🥦"),
-  new Emoji("Eggplant", "🍆"),
-  new Emoji("Carrot", "🥕"),
-  new Emoji("Corn", "🌽"),
-  new Emoji("Hot Pepper", "🌶"),
-  new Emoji("Corn", "🌽"),
-  new Emoji("Cucumber", "🥒"),
-  new Emoji("Leafy Green", "🥬"),
-  new Emoji("Mushroom", "🍄"),
-  new Emoji("Potato", "🥔"),
-  new Emoji("Bell Pepper", "🫑"),
-  new Emoji("Roasted Sweet Potato", "🍠"),
-  new Emoji("Tomato", "🍅"),
-  new Emoji("Green Salad", "🥗"),
-  new Emoji("Green Olive", "🫒"),
-  new Emoji("Pea Pod", "🫛"),
-  new Emoji("Garlic", "🧄"),
-  new Emoji("Onion", "🧅"),
-  new Emoji("Ginger", "🫚"),
+  { title: "Broccoli", emoji: "🥦" },
+  { title: "Eggplant", emoji: "🍆" },
+  { title: "Carrot", emoji: "🥕" },
+  { title: "Corn", emoji: "🌽" },
+  { title: "Hot Pepper", emoji: "🌶" },
+  { title: "Corn", emoji: "🌽" },
+  { title: "Cucumber", emoji: "🥒" },
+  { title: "Leafy Green", emoji: "🥬" },
+  { title: "Mushroom", emoji: "🍄" },
+  { title: "Potato", emoji: "🥔" },
+  { title: "Bell Pepper", emoji: "🫑" },
+  { title: "Roasted Sweet Potato", emoji: "🍠" },
+  { title: "Tomato", emoji: "🍅" },
+  { title: "Green Salad", emoji: "🥗" },
+  { title: "Green Olive", emoji: "🫒" },
+  { title: "Pea Pod", emoji: "🫛" },
+  { title: "Garlic", emoji: "🧄" },
+  { title: "Onion", emoji: "🧅" },
+  { title: "Ginger", emoji: "🫚" },
 ];
 
 const extra = [
-  new Emoji("Baguette Bread", "🥖"),
-  new Emoji("Cheese Wedge", "🧀"),
-  new Emoji("Hamburger", "🍔"),
-  new Emoji("Hot Dog", "🌭"),
-  new Emoji("Taco", "🌮"),
-  new Emoji("Sandwich", "🥪"),
-  new Emoji("Pizza", "🍕"),
-  new Emoji("Marshmallow", "🍡"),
-  new Emoji("Green Salad", "🥗"),
-  new Emoji("Bottle of Champagne", "🍾"),
-  new Emoji("Grill", "🍖"),
-  new Emoji("Sun Umbrella", "⛱️"),
-  new Emoji("Barbecue", "🍗"),
-  new Emoji("Wine Glass", "🍷"),
-  new Emoji("Cupcake", "🧁"),
-  new Emoji("Cookie", "🍪"),
-  new Emoji("Ice Cream", "🍨"),
-  new Emoji("Croissant", "🥐"),
-  new Emoji("French Fries", "🍟"),
-  new Emoji("Fork and Knife", "🍽️"),
-  new Emoji("Tropical Drink", "🍹"),
-  new Emoji("Cup with Straw", "🥤"),
-  new Emoji("Salt Shaker", "🧂"),
+  { title: "Baguette Bread", emoji: "🥖" },
+  { title: "Cheese Wedge", emoji: "🧀" },
+  { title: "Hamburger", emoji: "🍔" },
+  { title: "Hot Dog", emoji: "🌭" },
+  { title: "Taco", emoji: "🌮" },
+  { title: "Sandwich", emoji: "🥪" },
+  { title: "Pizza", emoji: "🍕" },
+  { title: "Marshmallow", emoji: "🍡" },
+  { title: "Green Salad", emoji: "🥗" },
+  { title: "Bottle of Champagne", emoji: "🍾" },
+  { title: "Grill", emoji: "🍖" },
+  { title: "Sun Umbrella", emoji: "⛱️" },
+  { title: "Barbecue", emoji: "🍗" },
+  { title: "Wine Glass", emoji: "🍷" },
+  { title: "Cupcake", emoji: "🧁" },
+  { title: "Cookie", emoji: "🍪" },
+  { title: "Ice Cream", emoji: "🍨" },
+  { title: "Croissant", emoji: "🥐" },
+  { title: "French Fries", emoji: "🍟" },
+  { title: "Fork and Knife", emoji: "🍽️" },
+  { title: "Tropical Drink", emoji: "🍹" },
+  { title: "Cup with Straw", emoji: "🥤" },
+  { title: "Salt Shaker", emoji: "🧂" },
 ];
 
 export const fastFood: Emoji[] = [
-  new Emoji("Hamburger", "🍔"),
-  new Emoji("French Fries", "🍟"),
-  new Emoji("Hot Dog", "🌭"),
-  new Emoji("Pizza", "🍕"),
-  new Emoji("Taco", "🌮"),
-  new Emoji("Cheeseburger", "🍔"),
+  { title: "Hamburger", emoji: "🍔" },
+  { title: "French Fries", emoji: "🍟" },
+  { title: "Hot Dog", emoji: "🌭" },
+  { title: "Pizza", emoji: "🍕" },
+  { title: "Taco", emoji: "🌮" },
+  { title: "Cheeseburger", emoji: "🍔" },
 ];
 
 export const allThemes: Emoji[] = [...fruit, ...veggies, ...extra];

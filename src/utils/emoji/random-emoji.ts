@@ -10,7 +10,7 @@ export const randomEmojis = (
     const chosenTheme = themes.get(theme);
     if (!chosenTheme) return [];
     let r = Math.floor(Math.random() * chosenTheme.length);
-    emojis.push(new Emoji(chosenTheme[r].title, chosenTheme[r].emoji));
+    emojis.push({ title: chosenTheme[r].title, emoji: chosenTheme[r].emoji });
   }
 
   return emojis;
@@ -23,6 +23,6 @@ export const randomEmoji = (
   const chosenTheme = themes.get(theme);
   if (!chosenTheme) return emoji;
   let r = Math.floor(Math.random() * chosenTheme.length);
-  emoji = new Emoji(chosenTheme[r].title, chosenTheme[r].emoji);
+  emoji = { title: chosenTheme[r].title, emoji: chosenTheme[r].emoji };
   return emoji;
 };

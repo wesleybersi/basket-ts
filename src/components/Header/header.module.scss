@@ -1,0 +1,12 @@
+@import "../../mixins.scss";
+.header {
+  @include glass;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4rem;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  display: none;
+}

@@ -1,10 +1,24 @@
 import { allMethods } from "./methods";
 import { create } from "zustand";
 
-import { Parameters, Store } from "./types";
+import { Store } from "./types";
 import { ParameterState } from "./methods";
 import { Emoji } from "../utils/emoji/emojis";
-import { randomEmoji, randomEmojis } from "../utils/emoji/random-emoji";
+import { randomEmojis } from "../utils/emoji/random-emoji";
+import { pop } from "./methods/pop";
+import { shift } from "./methods/shift";
+import { push } from "./methods/push";
+import { unshift } from "./methods/unshift";
+import { reverse } from "./methods/reverse";
+import { fill } from "./methods/fill";
+import { copyWithin } from "./methods/copy-within";
+import { splice } from "./methods/splice";
+import { concat } from "./methods/concat";
+import { slice } from "./methods/slice";
+import { includes } from "./methods/includes";
+import { indexOf } from "./methods/index-of";
+import { lastIndexOf } from "./methods/last-index-of";
+import { changeBasket } from "./utilities/change-basket";
 
 export const useStore = create<Store>((set, get) => ({
   loading: false,
@@ -28,38 +42,8 @@ export const useStore = create<Store>((set, get) => ({
   triggerSplice: false,
   hoverItem: null,
   maxLimitMessage: false,
-  changeBasket: (type: "Primary" | "Secondary", index: number) =>
-    set((state) => {
-      const updatedBaskets = [...state.allBaskets];
-
-      if (state.basketIndex === state.secondaryIndex) {
-        state.secondary = [...state.basket];
-      } else {
-        state.secondary = updatedBaskets[state.secondaryIndex];
-      }
-
-      if (type === "Secondary") {
-        updatedBaskets[state.secondaryIndex] = [...state.secondary];
-        const returnBasket = updatedBaskets[index];
-        return {
-          basket: updatedBaskets[state.basketIndex],
-          secondary: returnBasket,
-          allBaskets: updatedBaskets,
-          secondaryIndex: index,
-        };
-      }
-
-      //Save current basket
-
-      updatedBaskets[state.basketIndex] = [...state.basket];
-      const returnBasket = updatedBaskets[index];
-      return {
-        basket: returnBasket,
-        secondary: updatedBaskets[state.secondaryIndex],
-        allBaskets: updatedBaskets,
-        basketIndex: index,
-      };
-    }),
+  changeBasket: (type: "Secondary" | "Primary", index: number) =>
+    changeBasket(set, type, index),
   addEmptyBasket: (type: "Secondary" | "Primary") =>
     set((state) => {
       if (state.allBaskets.length === 5) return {};
@@ -123,404 +107,21 @@ export const useStore = create<Store>((set, get) => ({
       };
     }),
   methods: {
-    //ANCHOR Methods
-    pop: () =>
-      set((state) => {
-        const output = [...state.basket].pop() ?? new Emoji("undefined", "❓");
-        return {
-          loading: true,
-          itemsToRemove:
-            output.title !== "undefined" ? [state.basket.length - 1] : [],
-          output,
-        };
-      }),
-    shift: () =>
-      set((state) => {
-        const output =
-          [...state.basket].shift() ?? new Emoji("undefined", "❓");
-        return {
-          loading: true,
-          itemsToRemove: output.title !== "undefined" ? [0] : [],
-          output,
-        };
-      }),
-    push: () =>
-      set((state) => {
-        const items = [];
-        for (const [index, parameter] of state.parameters) {
-          if (parameter?.value instanceof Emoji) items.push(parameter.value);
-        }
-        if (items.length + state.basket.length > 20)
-          return { maxLimitMessage: true };
-        return {
-          loading: true,
-          basket: [...state.basket, ...items],
-          itemsToAdd: items.map((_, index) => state.basket.length + index),
-          output: [...state.basket].push(...items),
-        };
-      }),
-    unshift: () =>
-      set((state) => {
-        const items = [];
-        for (const [index, parameter] of state.parameters) {
-          if (parameter?.value instanceof Emoji) items.push(parameter.value);
-        }
-
-        if (items.length + state.basket.length > 20)
-          return { maxLimitMessage: true };
-        return {
-          loading: true,
-          basket: [...items, ...state.basket],
-          itemsToAdd: items
-            .map((item, index) => {
-              return index;
-            })
-            .reverse(),
-          output: [...state.basket].unshift(...items),
-        };
-      }),
-    reverse: () =>
-      set((state) => {
-        if (state.basket.length === 0) return {};
-        const reversed = [...state.basket].reverse();
-        return {
-          loading: true,
-          itemsToReplace: reversed.map((item, index) => {
-            return { index, replacement: item };
-          }),
-          output: reversed,
-        };
-      }),
-    fill: () =>
-      set((state) => {
-        const item = state.parameters.get(0)?.value;
-        if (!item || !(item instanceof Emoji)) return {};
-
-        let itemsToReplace: { index: number; replacement: Emoji }[] = [];
-        if (state.selection.start !== undefined) {
-          itemsToReplace = state.selectedIndexes.map((index) => {
-            return { index, replacement: item };
-          });
-        } else {
-          itemsToReplace = Array.from({ length: state.basket.length }).map(
-            (_, index) => {
-              return { index, replacement: item };
-            }
-          );
-        }
-
-        return {
-          loading: itemsToReplace.length > 0 ? true : false,
-          itemsToReplace,
-          output: [...state.basket].fill(
-            item,
-            state.selectedIndexes[0] ?? undefined,
-            state.selectedIndexes[state.selectedIndexes.length - 1] ?? undefined
-          ),
-        };
-      }),
-    copyWithin: () =>
-      set((state) => {
-        if (state.basket.length === 0) return {};
-        const pasteTarget = state.selection.target ?? 0;
-
-        let copiedItems: Emoji[] = [];
-
-        if (state.selection.start !== undefined) {
-          copiedItems = state.basket.filter(
-            (_, index) =>
-              state.selectedIndexes.includes(index) &&
-              index < state.basket.length + pasteTarget
-          );
-        } else {
-          copiedItems = [...state.basket];
-        }
-
-        let replacements = copiedItems
-          .map((item, index) => {
-            return { index: index + pasteTarget, replacement: item };
-          })
-          .slice(0, state.basket.length - (state.selection.target ?? 0));
-
-        return {
-          itemsToReplace: replacements,
-          loading: replacements.length > 0,
-        };
-      }),
-    // splice: () =>
-    //   set((state) => {
-    //     let itemsToRemove: number[] = [];
-    //     if (state.selectedIndexes.length > 0) {
-    //       if (
-    //         state.selection.amount !== undefined &&
-    //         state.selection.amount > 0
-    //       ) {
-    //         itemsToRemove = [...state.selectedIndexes];
-    //       } else if (
-    //         state.selection.amount !== undefined &&
-    //         state.selection.amount === 0
-    //       ) {
-    //         itemsToRemove = [];
-    //       } else if (state.selection.amount === undefined) {
-    //         itemsToRemove = [...state.basket].map((_, index) => index);
-    //       }
-    //     }
-
-    //     if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
-    //       return { triggerSplice: true, loading: true, output: [] };
-    //     }
-
-    //     let output = [...state.basket].filter((_, index) =>
-    //       itemsToRemove.includes(index)
-    //     );
-
-    //     itemsToRemove = itemsToRemove.filter(
-    //       (index) => index < state.basket.length
-    //     );
-
-    //     return {
-    //       loading: itemsToRemove.length > 0 ? true : false,
-    //       itemsToRemove,
-    //       output,
-    //     };
-    //   }),
-
-    splice: () =>
-      set((state) => {
-        // let itemsToRemove: number[] = [];
-        // if (state.selectedIndexes.length > 0) {
-        //   if (
-        //     state.selection.amount !== undefined &&
-        //     state.selection.amount > 0
-        //   ) {
-        //     itemsToRemove = [...state.selectedIndexes];
-        //   } else if (
-        //     state.selection.amount !== undefined &&
-        //     state.selection.amount === 0
-        //   ) {
-        //     itemsToRemove = [];
-        //   } else if (state.selection.amount === undefined) {
-        //     itemsToRemove = [...state.basket].map((_, index) => index);
-        //   }
-        // }
-
-        // if (itemsToRemove.length === 0 && state.parameters.get(2)?.value) {
-        //   return { triggerSplice: true, loading: true, output: [] };
-        // }
-
-        // let output = [...state.basket].filter((_, index) =>
-        //   itemsToRemove.includes(index)
-        // );
-
-        // itemsToRemove = itemsToRemove.filter(
-        //   (index) => index < state.basket.length
-        // );
-        if (state.basket.length === 0) return {};
-
-        const updatedBasket = [...state.basket];
-        let output: Emoji[] = [];
-
-        const item1 = state.parameters.get(2)?.value as Emoji;
-        const item2 = state.parameters.get(3)?.value as Emoji;
-        const items: Emoji[] = [];
-        if (item1) items.push(item1);
-        if (item2) items.push(item2);
-
-        const itemsToReplace: { index: number; replacement: Emoji }[] = [];
-        let itemsToRemove: number[] = [];
-        const itemsToAdd: number[] = [];
-        let spliceAdd: Emoji | null = null;
-
-        if (state.selection.amount !== undefined) {
-          // if (state.selectedIndexes[0] + state.selection.amount >= state.basket.length){
-
-          // }
-
-          if (state.selection.amount >= items.length) {
-            items.forEach((item, index) =>
-              itemsToReplace.push({
-                index: state.selectedIndexes[index],
-                replacement: item,
-              })
-            );
-            if (state.selection.amount > 0 && items.length === 0) {
-              itemsToRemove = [...state.selectedIndexes];
-            }
-          } else if (state.selection.amount <= 0) {
-            if (items.length > 0) {
-              itemsToAdd.push(state.selectedIndexes[0]);
-              itemsToAdd.push(state.selectedIndexes[0] + 1);
-              // itemsToAdd.reverse();
-              updatedBasket.splice(state.selectedIndexes[0], 0, ...items);
-            }
-          } else if (state.selection.amount === 1 && items.length === 2) {
-            itemsToReplace.push({
-              index: state.selectedIndexes[0],
-              replacement: items[0],
-            });
-            spliceAdd = items[1];
-          }
-
-          output = [...updatedBasket].splice(
-            state.selectedIndexes[0],
-            state.selection.amount,
-            ...items
-          );
-        } else {
-          output = [...updatedBasket].splice(state.selectedIndexes[0]);
-          itemsToRemove = [...state.selectedIndexes];
-        }
-
-        return {
-          loading: true,
-          basket: updatedBasket,
-          itemsToReplace,
-          itemsToAdd,
-          itemsToRemove,
-          spliceRemove: state.selectedIndexes.slice(itemsToReplace.length),
-          spliceAdd,
-          output,
-        };
-      }),
-
-    concat: () =>
-      set((state) => {
-        const primary = [...state.basket];
-        const secondary = [...state.secondary];
-        const output = primary.concat(secondary);
-
-        if (output.length === 0) {
-          return {};
-        } else if (output.length > 20) {
-          return { maxLimitMessage: true };
-        } else return { output, loading: true };
-      }),
-    slice: () =>
-      set((state) => {
-        if (state.basket.length === 0) {
-          return {
-            output: [],
-          };
-        }
-        const output = [...state.basket].slice(
-          state.selection.start ?? undefined,
-          state.selection.end ?? undefined
-        );
-
-        return {
-          loading: output.length > 0,
-          output,
-          itemsToProcess: state.selectedIndexes.slice(
-            0,
-            state.selectedIndexes.length
-          ),
-        };
-      }),
-    includes: () =>
-      set((state) => {
-        const item = state.parameters.get(0)?.value;
-        if (!item || !(item instanceof Emoji)) return {};
-
-        let filtered = [];
-        let index = -1;
-        if (state.selection.start !== undefined) {
-          filtered = state.basket.filter(
-            ({ title, emoji }, index) =>
-              emoji === item.emoji && state.selectedIndexes.includes(index)
-          );
-        } else {
-          filtered = state.basket.filter(({ title, emoji }, i) => {
-            if (emoji === item.emoji) {
-              if (index < 0) index = i;
-              return emoji;
-            }
-          });
-        }
-
-        let isIncluded = filtered.length > 0;
-        let includesOutput: Emoji = isIncluded
-          ? new Emoji("True", "✅")
-          : new Emoji("False", "❌");
-
-        return {
-          loading: true,
-          output: includesOutput,
-          selection: {
-            ...state.selection,
-            highlight: index,
-          },
-        };
-      }),
-    indexOf: () =>
-      set((state) => {
-        const item = state.parameters.get(0)?.value;
-        if (!item || !(item instanceof Emoji)) return {};
-        const emojis = state.basket.map((item) => item.emoji);
-        const from = state.selection.start ?? 0;
-        return {
-          loading: true,
-          output: emojis.indexOf(item.emoji, from),
-          selection: {
-            ...state.selection,
-            highlight: emojis.indexOf(item.emoji, from),
-          },
-        };
-      }),
-    lastIndexOf: () =>
-      set((state) => {
-        const item = state.parameters.get(0)?.value;
-        if (!item || !(item instanceof Emoji)) return {};
-        const emojis = state.basket.map((item) => item.emoji);
-        const fromIndex = state.selection.amount ?? state.basket.length;
-
-        return {
-          loading: true,
-          output: emojis.lastIndexOf(item.emoji, fromIndex - 1),
-          selection: {
-            ...state.selection,
-            highlight: emojis.lastIndexOf(item.emoji, fromIndex - 1),
-          },
-        };
-      }),
-    at: () =>
-      set((state) => {
-        return {};
-      }),
-    join: () =>
-      set((state) => {
-        const value = state.parameters.get(0)?.value;
-        const emojis = state.basket.map((item) => item.emoji);
-
-        if (value && typeof value === "string") {
-          return {
-            output: emojis.join(value),
-          };
-        }
-        return {
-          output: emojis.join(),
-        };
-      }),
-    with: () =>
-      set((state) => {
-        if (state.basket.length === 0) return {};
-        const outputWith = [...state.basket];
-        const item = state.parameters.get(1)?.value as Emoji;
-        if (
-          state.selection.index &&
-          state.selection.index > state.basket.length - 1
-        )
-          return {};
-        outputWith[state.selection.index ?? 0] = item;
-        return {
-          ...state,
-          loading: true,
-          output: outputWith,
-        };
-      }),
-    filter: () => {},
+    pop: () => pop(set),
+    shift: () => shift(set),
+    push: () => push(set),
+    unshift: () => unshift(set),
+    reverse: () => reverse(set),
+    fill: () => fill(set),
+    copyWithin: () => copyWithin(set),
+    splice: () => splice(set),
+    concat: () => concat(set),
+    slice: () => slice(set),
+    includes: () => includes(set),
+    indexOf: () => indexOf(set),
+    lastIndexOf: () => lastIndexOf(set),
   },
   parameters: allMethods[0].parameters,
-
   updateAllParameters: () =>
     set((state) => {
       state.parameters.forEach((param, index) => {
@@ -639,7 +240,7 @@ export const useStore = create<Store>((set, get) => ({
             state.method.title === "indexOf"
           ) {
             selection.start = param.value;
-            selection.end = Infinity;
+            selection.end = state.basket.length;
           } else if (state.method.title === "lastIndexOf") {
             selection.start = 0;
             selection.amount = param.value + 1;
@@ -674,9 +275,21 @@ export const useStore = create<Store>((set, get) => ({
           if (state.method.title === "splice") {
             if (selection.amount > 0) {
               selectedIndexes = selectedIndexes.slice(0, selection.amount);
-            } else selectedIndexes = [selectedIndexes[0]];
+            } else {
+              if (
+                state.parameters.get(2)?.active &&
+                !state.parameters.get(3)?.active
+              ) {
+                selectedIndexes = [selectedIndexes[0]];
+              } else if (
+                state.parameters.get(2)?.active &&
+                state.parameters.get(3)?.active
+              ) {
+                selectedIndexes = [selectedIndexes[0], selectedIndexes[1]];
+              }
+            }
           } else {
-            selectedIndexes = selectedIndexes.slice(0, selection.amount);
+            selectedIndexes = selectedIndexes.slice(0, selection.amount ?? 1);
           }
         }
 
@@ -691,7 +304,7 @@ export const useStore = create<Store>((set, get) => ({
         selection,
       };
     }),
-
+  processSuccesIndex: -1,
   selectedIndexes: [],
   targetedIndexes: [],
   selection: {

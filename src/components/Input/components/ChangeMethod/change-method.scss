@@ -1,3 +1,5 @@
+@import "../../../../mixins.scss";
+
 .change-method-left {
   left: 0rem;
 }
@@ -9,17 +11,21 @@
 .change-method-right {
   // position: absolute;
   // top: 50%;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.5);
   color: var(--grey);
 
   border: none;
+
   // transform: translate(-50%);
   width: 3rem;
+  height: 3rem;
   aspect-ratio: 1;
   display: grid;
   place-content: center;
+  justify-content: center;
   border-radius: 50%;
   // display: none;
+  @include glass;
   @media (max-width: 768px) {
     display: none;
   }

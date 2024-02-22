@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-import { Emoji } from "../../utils/emoji/emojis";
+import { Emoji, isEmoji } from "../../utils/emoji/emojis";
 import useCSSProperty from "../../hooks/useCSSProperty";
 import "./output.scss";
 import { useStore } from "../../store/store";
@@ -17,7 +17,6 @@ const Output: React.FC = () => {
     output,
     method,
     itemsToAdd,
-    parameters,
     allBaskets,
     addOutputBasket,
   } = useStore();
@@ -82,20 +81,13 @@ const Output: React.FC = () => {
         setOffset("10rem");
         setCloneOffset("-10rem");
         break;
-      case "at":
-        setType("Item");
-        break;
       case "splice":
       case "concat":
       case "slice":
-      case "with":
         setType("Array");
         setOffset("0");
         setCloneOffset("0");
         break;
-      // case "join":
-      //   setType("String");
-      //   break;
     }
   }, [method]);
 
@@ -124,7 +116,8 @@ const Output: React.FC = () => {
       }
 
       function childEnd() {
-        if (output instanceof Emoji && method.title !== "at") {
+        console.log("OUTPUT", output);
+        if (isEmoji(output)) {
           setClone(output);
         }
         child.style.animation = "";
@@ -136,7 +129,7 @@ const Output: React.FC = () => {
         }
         cloneChild.style.animation = "";
         cloneChild.removeEventListener("animationend", cloneEnd);
-        if (output instanceof Emoji && output.title === "undefined") {
+        if (isEmoji(output) && output.title === "undefined") {
           set({ loading: false });
         }
       }
@@ -144,27 +137,6 @@ const Output: React.FC = () => {
       let accumulator = 0;
       let count = 0;
       setLength(0);
-
-      // let intervalDuration =
-      //   method.title === "slice" ||
-      //   method.title === "with" ||
-      //   method.title === "concat"
-      //     ? duration / 2
-      //     : duration;
-      // const interval = setInterval(() => {
-      //   if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
-      //     return;
-      //   pickRef.current.addEventListener("animationend", end);
-      //   pickRef.current.style.animation = `newItem ${
-      //     intervalDuration - 30
-      //   }ms ease`;
-      //   function end() {
-      //     if (!pickRef.current || !(pickRef.current instanceof HTMLElement))
-      //       return;
-      //     pickRef.current.style.animation = "";
-      //     pickRef.current?.removeEventListener("animationend", end);
-      //   }
-      // }, intervalDuration);
 
       for (const child of outputRef.current.children) {
         if (!(child instanceof HTMLElement)) continue;
@@ -174,11 +146,7 @@ const Output: React.FC = () => {
 
         child.style.animation = `addItem ${duration}ms ease ${accumulator}ms`;
 
-        if (
-          method.title === "slice" ||
-          method.title === "with" ||
-          method.title === "concat"
-        ) {
+        if (method.title === "slice" || method.title === "concat") {
           accumulator += duration / 2;
         } else {
           accumulator += duration;
@@ -189,11 +157,7 @@ const Output: React.FC = () => {
         function end() {
           if (!outputRef.current) return;
 
-          if (
-            method.title === "slice" ||
-            method.title === "with" ||
-            method.title === "concat"
-          ) {
+          if (method.title === "slice" || method.title === "concat") {
             if (settings.soundEnabled) playPopSound();
             if (child === outputRef.current.lastChild) {
               setTimeout(() => {
@@ -201,7 +165,6 @@ const Output: React.FC = () => {
               }, duration);
             }
           }
-          // if (child === outputRef.current.lastChild) clearInterval(interval);
 
           count++;
           itemStyling(child as HTMLElement, "Normalize");
@@ -242,8 +205,6 @@ const Output: React.FC = () => {
     }
   }, [ascendItems]);
 
-  useEffect(() => {}, [length]);
-
   useEffect(() => {
     setLength(0);
   }, [method.title, output]);
@@ -265,8 +226,8 @@ const Output: React.FC = () => {
           transform: hide ? "translateY(calc(-100% - 2rem)" : "",
           width: type === "Array" || type === "String" ? "100%" : "14rem",
           paddingTop: type === "Array" ? "1rem" : "",
-          borderTopLeftRadius: type === "Array" ? "1.5rem" : "",
-          borderTopRightRadius: type === "Array" ? "1.5rem" : "",
+          borderTopLeftRadius: type === "Array" ? "2rem" : "",
+          borderTopRightRadius: type === "Array" ? "2rem" : "",
         }}
       >
         <div
@@ -282,7 +243,8 @@ const Output: React.FC = () => {
             ref={pickRef}
             className="output-basket-length"
             style={{
-              background: "var(--blue)",
+              background: "#ffffff",
+              outline: "3px solid rgba(0, 0, 0, 0.025)",
               marginRight: "0.75rem",
               color: "var(--black)",
               fontWeight: 600,
@@ -338,18 +300,18 @@ const Output: React.FC = () => {
               <>
                 <li
                   className={`output-item output-emoji ${
-                    output instanceof Emoji && output.title === "undefined"
+                    isEmoji(output) && output.title === "undefined"
                       ? "output-undefined"
                       : ""
                   }`}
                   onMouseEnter={() => set({ hoverItem: output as Emoji })}
                   onMouseLeave={() => set({ hoverItem: null })}
                 >
-                  {output instanceof Emoji && output.emoji}
+                  {isEmoji(output) && output.emoji}
                 </li>
                 <li
                   className={`output-item output-clone ${
-                    output instanceof Emoji && output.title === "undefined"
+                    isEmoji(output) && output.title === "undefined"
                       ? "output-undefined"
                       : ""
                   }`}

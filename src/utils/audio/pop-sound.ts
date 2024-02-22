@@ -17,10 +17,10 @@ const audioPops = [
 ];
 
 export function playPopSound(volume = 0.05) {
-  const audioContext = new AudioContext();
-
+  return;
   const randomPop = audioPops[Math.floor(Math.random() * audioPops.length)];
 
+  const audioContext = new AudioContext();
   fetch(randomPop)
     .then((response) => response.arrayBuffer())
     .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
@@ -41,6 +41,7 @@ export function playPopSound(volume = 0.05) {
 }
 
 export function playWhoosh(volume = 0.25) {
+  return;
   const audioContext = new AudioContext();
 
   fetch(whoosh)

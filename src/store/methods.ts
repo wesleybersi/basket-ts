@@ -39,15 +39,9 @@ export type MethodName =
   | "splice"
   | "concat"
   | "slice"
-  // | "toSpliced"
   | "includes"
   | "indexOf"
-  | "lastIndexOf"
-  | "at"
-  | "with";
-// | "toReversed";
-// | "join"
-// | "filter";
+  | "lastIndexOf";
 
 export interface ParameterState {
   name: string;
@@ -365,49 +359,50 @@ export const allMethods: IMethod[] = [
     ]),
   },
 
-  {
-    title: "with",
-    icon: IconWith,
-    hasSelection: true,
-    parameters: new Map([
-      [
-        0,
-        {
-          name: "index",
-          required: true,
-          type: "Number",
-          active: false,
-          color: "var(--selectionOpaque)",
-        },
-      ],
-      [
-        1,
-        {
-          name: "value",
-          required: true,
-          type: "Emoji",
-          active: false,
-        },
-      ],
-      [2, null],
-      [3, null],
-    ]),
-  },
+  // {
+  //   title: "with",
+  //   icon: IconWith,
+  //   hasSelection: true,
+  //   parameters: new Map([
+  //     [
+  //       0,
+  //       {
+  //         name: "index",
+  //         required: true,
+  //         type: "Number",
+  //         active: false,
+  //         color: "var(--selectionOpaque)",
+  //       },
+  //     ],
+  //     [
+  //       1,
+  //       {
+  //         name: "value",
+  //         required: true,
+  //         type: "Emoji",
+  //         active: false,
+  //       },
+  //     ],
+  //     [2, null],
+  //     [3, null],
+  //   ]),
+  // },
 
   {
     title: "concat",
     icon: IconConcat,
     hasSelection: true,
     parameters: new Map([
-      [
-        0,
-        {
-          name: "value",
-          type: "Array",
-          hide: false,
-          active: false,
-        },
-      ],
+      // [
+      //   0,
+      //   {
+      //     name: "value",
+      //     type: "Array",
+      //     hide: false,
+      //     active: false,
+      //   },
+      // ],
+      [0, null],
       [1, null],
       [2, null],
       [3, null],
@@ -494,82 +489,4 @@ export const allMethods: IMethod[] = [
       [3, null],
     ]),
   },
-  // {
-  //   title: "filter",
-  //   icon: IconWith,
-  //   hasSelection: true,
-  //   parameters: new Map([
-  //     [
-  //       0,
-  //       {
-  //         name: "callbackFn",
-  //         required: true,
-  //         type: "Callback",
-  //         active: false,
-  //       },
-  //     ],
-  //     [1, null],
-  //     [2, null],
-  //     [3, null],
-  //   ]),
-  // },
-
-  // {
-  //   title: "join",
-  //   icon: IconConcat,
-  //   hasSelection: true,
-  //   parameters: new Map([
-  //     [
-  //       0,
-  //       {
-  //         name: "seperator",
-  //         type: "String",
-  //         hide: false,
-  //         active: false,
-  //       },
-  //     ],
-  //     [1, null],
-  //     [2, null],
-  //     [3, null],
-  //   ]),
-  // },
-
-  // {
-  //   title: "join",
-  //   icon: IconConcat,
-  //   hasSelection: true,
-  //   parameters: new Map([
-  //     [
-  //       0,
-  //       {
-  //         name: "seperator",
-  //         type: "String",
-  //         hide: false,
-  //         active: false,
-  //       },
-  //     ],
-  //     [1, null],
-  //     [2, null],
-  //     [3, null],
-  //   ]),
-  // },
-
-  // {
-  //   title: "at",
-  //   icon: IconIndexOf,
-  //   parameters: new Map([
-  //     [
-  //       0,
-  //       {
-  //         name: "index",
-  //         required: true,
-  //         type: "Number",
-  //         active: false,
-  //       },
-  //     ],
-  //     [1, null],
-  //     [2, null],
-  //     [3, null],
-  //   ]),
-  // },
 ];

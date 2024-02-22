@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./circles.scss";
 
 interface Props {
@@ -14,4 +15,4 @@ const Circles: React.FC<Props> = ({ amount }) => {
   );
 };
 
-export default Circles;
+export default memo(Circles);

@@ -5,49 +5,79 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  // gap: 1.5rem;
   gap: 2rem;
   padding: 1.5rem;
   border-radius: 1.5rem;
+  border-radius: 2rem;
   position: relative;
   transition: all 250ms ease;
-  overflow: hidden;
+  // overflow: hidden;
   @media (max-width: 768px) {
     padding: 1rem;
     border-radius: 0.5rem;
   }
 
-  &:before {
-    content: "";
-    display: grid;
-    place-content: center;
-    color: white;
-    font-size: 1rem;
-    font-weight: 500;
+  .basket-menu {
     position: absolute;
-    top: 0;
-    left: 0;
-    background: var(--blue);
-    width: 100%;
-    height: 3rem;
-    display: none;
+    top: -6.5rem;
+    height: 5rem;
+    border-radius: 2rem;
+    background: white;
+    @include glass;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .basket-circle {
+    position: absolute;
+    top: -10rem;
+    height: 10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    .basket-half-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 100%;
+      @include glass;
+      border-radius: 50%;
+
+      padding-bottom: 25%;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+    }
   }
   .basket-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 1.25rem;
+    align-items: flex-end;
+    .basket-header-title {
+      font-size: 1.25rem;
+    }
   }
 
   .basket {
     --animation-offset: 0;
     padding: 0 4rem;
     // border: 2px solid var(--light);
-    background-color: white;
+    background-color: rgba(255, 255, 255, 1);
     box-shadow: 0 2px 16px 4px rgba(0, 0, 0, 0.025),
       0 4px 8px rgba(0, 0, 0, 0.005), 0 8px 16px rgba(0, 0, 0, 0.005),
       0 16px 32px rgba(0, 0, 0, 0.005);
+    // box-shadow: 0 0 16px 2px rgba(43, 161, 245, 0.15);
+    // box-shadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.125);
     align-items: center;
-    height: 80px;
+    height: 5rem;
     border-radius: 0.5rem;
     border-radius: 100vw;
     justify-content: center;
@@ -59,7 +89,7 @@
       margin-top: -1rem;
     }
     @media (max-width: 768px) {
-      max-height: 5rem;
+      height: 4rem;
     }
 
     &:before,

@@ -19,7 +19,7 @@ const Aside: React.FC = () => {
       // onMouseEnter={() => setType("Full")}
       // onMouseLeave={() => setType("Compact")}
       style={{
-        width: type === "Full" ? "17rem" : "4.5rem",
+        width: type === "Full" ? "10rem" : "0rem",
       }}
     >
       <div
@@ -29,7 +29,7 @@ const Aside: React.FC = () => {
           set({ settings: { ...settings, aboutIsOpen: !settings.aboutIsOpen } })
         }
       >
-        <IconFruit size="40px" />
+        <IconFruit size="32px" />
         {type !== "Compact" && (
           <h2 style={{ display: "flex", gap: "0.5rem" }}>
             basketJS
@@ -50,25 +50,25 @@ const Aside: React.FC = () => {
           <div
             className="method-aside-selector"
             style={{
-              padding: type === "Compact" ? 0 : "0 3rem",
+              // padding: type === "Compact" ? 0 : "0 3rem",
               // transform: title === method.title ? "translateX(1.5rem)" : "",
               justifyContent: type === "Compact" ? "center" : "flex-start",
             }}
             onClick={() => navigate(title.toLowerCase())}
           >
-            {Icon && (
+            {/* {Icon && (
               <Icon
                 size="32px"
                 color={title === method.title ? "var(--blue)" : ""}
               />
-            )}
+            )} */}
 
             {type === "Full" && (
               <p
                 style={
                   title === method.title
                     ? {
-                        color: "var(--blue)",
+                        color: "var(--black)",
                         fontWeight: 800,
                       }
                     : { fontWeight: 500 }

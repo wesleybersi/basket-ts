@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
-
-import { randomEmoji } from "../../../../../utils/emoji/random-emoji";
-import { allThemes } from "../../../../../utils/emoji/emojis";
+import { useEffect } from "react";
+import { isEmoji } from "../../../../../utils/emoji/emojis";
 import { Emoji } from "../../../../../utils/emoji/emojis";
 import { RiAddFill as IconAdd } from "react-icons/ri";
 import { useStore } from "../../../../../store/store";
 import themes from "../../../../../utils/emoji/themes";
-// import {
-//   GoChevronRight as IconRight,
-//   GoChevronLeft as IconLeft,
-// } from "react-icons/go";
 
 import {
   FiChevronRight as IconRight,
@@ -111,7 +105,7 @@ const EmojiParameter: React.FC<Props> = ({
           onMouseOver={() => set({ hoverItem: value as Emoji })}
           onMouseLeave={() => set({ hoverItem: null })}
         >
-          {value && value instanceof Emoji && value.emoji.toString()}
+          {value && isEmoji(value) && value.emoji.toString()}
         </div>
         <div
           style={{ opacity: animating ? 0 : undefined }}

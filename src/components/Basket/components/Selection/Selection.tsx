@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import useCSSProperty from "../../../../hooks/useCSSProperty";
 import { useStore } from "../../../../store/store";
-import { Emoji } from "../../../../utils/emoji/emojis";
+import { Emoji, isEmoji } from "../../../../utils/emoji/emojis";
 
 interface Props {
   index: number;
@@ -34,19 +34,10 @@ const Selection: React.FC<Props> = ({ index, type, item }) => {
   }, [type]);
 
   useEffect(() => {
-    if (method.title !== "with") return;
-    const param = parameters.get(1);
-    const value = param?.value;
-    if (value && value instanceof Emoji) {
-      setEmoji(value.emoji);
-    }
-  }, [parameters.get(1)?.value, method.title]);
-
-  useEffect(() => {
     if (method.title !== "fill") return;
     const param = parameters.get(0);
     const value = param?.value;
-    if (value && value instanceof Emoji) {
+    if (isEmoji(value)) {
       if (selectedIndexes.includes(index)) {
         setEmoji(value.emoji);
       } else {
@@ -70,19 +61,51 @@ const Selection: React.FC<Props> = ({ index, type, item }) => {
     const item1 = parameters.get(2)?.value as Emoji;
     const item2 = parameters.get(3)?.value as Emoji;
 
+    if (item2 && index === selectedIndexes[0] + 1) {
+      setEmoji(item2.emoji);
+      if (
+        selection.amount === 0 ||
+        (selection.amount && selection.amount < 0)
+      ) {
+        setColor("var(--selection)");
+      } else if (selection.amount === 1) {
+        setColor("var(--selection)");
+      } else {
+        setColor("var(--red)");
+      }
+      return;
+    }
+
     if (selectedIndexes.includes(index)) {
       if (selection.amount) {
+        if (index === selectedIndexes[0] && item1) {
+          if (selection.amount === 1) {
+            setColor("var(--red)");
+          }
+          setEmoji(item1.emoji);
+        } else if (index === selectedIndexes[0] + 1 && item2) {
+          if (selection.amount === 1) {
+            setColor("var(--selection)");
+          } else {
+            setColor("var(--red)");
+          }
+          setEmoji(item2.emoji);
+        } else {
+          setEmoji("❌");
+          setColor("var(--red)");
+        }
+      } else if (selection.amount === 0) {
+        setColor("var(--selection)");
         if (index === selectedIndexes[0] && item1) {
           setEmoji(item1.emoji);
         } else if (index === selectedIndexes[0] + 1 && item2) {
           setEmoji(item2.emoji);
         } else {
-          setEmoji("❌");
+          setEmoji("");
         }
-      } else if (selection.amount === 0) {
-        setEmoji(item);
       } else {
         setEmoji("❌");
+        setColor("var(--red)");
       }
     } else {
       setEmoji("");
@@ -92,11 +115,12 @@ const Selection: React.FC<Props> = ({ index, type, item }) => {
     selectedIndexes,
     parameters.get(2)?.value,
     parameters.get(3)?.value,
+    selection.amount,
   ]);
 
   useEffect(() => {
     if (method.title === "copyWithin") {
-      if (selection.target && index < selection.target) {
+      if (selection.target !== undefined && index < selection.target) {
         setEmoji("");
       } else {
         if (selection.start !== undefined && selection.target !== undefined) {
@@ -110,6 +134,11 @@ const Selection: React.FC<Props> = ({ index, type, item }) => {
             }
           }
           setEmoji(basket[index + selection.start - selection.target]?.emoji);
+        } else if (
+          selection.start === undefined &&
+          selection.target !== undefined
+        ) {
+          setEmoji(basket[index].emoji);
         }
       }
     }
@@ -118,9 +147,7 @@ const Selection: React.FC<Props> = ({ index, type, item }) => {
   }, [method.title, selection.target, selection.start, selection.end]);
 
   useEffect(() => {
-    console.log("A");
     if (
-      method.title !== "with" &&
       method.title !== "fill" &&
       method.title !== "copyWithin" &&
       method.title !== "slice" &&

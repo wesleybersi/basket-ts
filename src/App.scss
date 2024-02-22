@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 .App {
   width: 100%;
   height: 100vh;
@@ -5,41 +7,28 @@
   align-items: flex-start;
   justify-content: center;
   font-family: "Poppins";
+
   transition: all 125ms ease;
 
   main {
-    // background: rgba(255, 255, 255, 0.35);
-    // box-shadow: inset 0 0 32px rgba(255, 255, 255, 0.5),
-    //   inset 0 0 265px rgba(255, 255, 255, 0.2),
-    //   inset 0 6px 0px 6px rgba(255, 255, 255, 0.35),
-    //   0 2px 16px 4px rgba(0, 0, 0, 0.035);
-    // backdrop-filter: blur(8px);
-    // -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
     border-radius: 3rem;
-    // padding: 3rem;
     pointer-events: all;
     max-width: 1184px;
     width: min(100% - 4rem);
-    // border: 4px solid rgba(255, 255, 255, 0.15);
-    // border-top-color: rgba(255, 255, 255, 0.25);
-    // border-left-color: rgba(255, 255, 255, 0.35);
-    // border-right-color: rgba(0, 0, 0, 0.035);
-    // border-bottom-color: rgba(255, 255, 255, 0.05);
     width: 100%;
     align-self: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+
     gap: 3rem;
     transition: all 125ms ease;
-
     position: relative;
-
+    padding: 1.5rem;
     .side-buttons {
       position: absolute;
       right: -2rem;
-      // top: 50%;
-      // transform: translateY(-50%);
       transition: all 250ms ease;
       bottom: 3rem;
       min-height: 9rem;
@@ -102,7 +91,7 @@
     // );
 
     // background: linear-gradient(-45deg, #79c6ffcc, #86a1ffcc, #b0d0f5cc);
-    background: linear-gradient(135deg, #a2d2f2, #e1abe2cc, #fe98a7aa, #ffffff);
+    // background: linear-gradient(135deg, #a2d2f2, #e1abe2cc, #fe98a7aa, #ffffff);
     // background: #1e90ff44;
     // background: linear-gradient(
     //   135deg,
@@ -112,9 +101,14 @@
     //   #e92ea055,
     //   #ad3dd355
     // );
-    background: linear-gradient(135deg, #d9efff, #8cd6fe, #8bcdfd);
-    // background: linear-gradient(135deg, #beb9fc 10%, #bdfbff, #fdaeb7);
+    // background-color: #e4e9ef;
+    // background: linear-gradient(135deg, #d9efff, #8cd6fe, #8bcdfd);
+    // background: linear-gradient(135deg, #beb9fc -25%, #bdfbff, #fdaeb7 135%);
     background: linear-gradient(135deg, #beb9fc 0%, #bdfbff);
+    // background: linear-gradient(135deg, #9eb1ff 0%, #b3dcfe);
+    // background: linear-gradient(135deg, #eab8b8 0%, #d8dcf4);
+    // background: #bcc3eb;
+    // background: #e1dcf9;
 
     content: "";
     position: fixed;

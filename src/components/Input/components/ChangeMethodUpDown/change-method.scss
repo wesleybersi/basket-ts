@@ -1,0 +1,48 @@
+@import "../../../../mixins.scss";
+
+.change-method-left {
+  all: unset;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  left: 0rem;
+}
+.change-method-right {
+  all: unset;
+  right: 0rem;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+.change-method-center {
+  all: unset;
+}
+
+.change-method-left,
+.change-method-center,
+.change-method-right {
+  // position: absolute;
+  // top: 50%;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: var(--grey);
+
+  border: none;
+  // border-radius: 50%;
+  // transform: translate(-50%);
+  display: grid;
+  place-content: center;
+  justify-content: center;
+  transition: opacity 250ms ease;
+  // border-radius: 50%;
+  // display: none;
+  @include glass;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+  &:hover {
+    color: #242651;
+  }
+}

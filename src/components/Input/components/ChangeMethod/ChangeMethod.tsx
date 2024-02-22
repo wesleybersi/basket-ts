@@ -2,10 +2,15 @@
 //   GoChevronRight as IconRight,
 //   GoChevronLeft as IconLeft,
 // } from "react-icons/go";
-import {
-  FiChevronRight as IconRight,
-  FiChevronLeft as IconLeft,
-} from "react-icons/fi";
+// import {
+//   FiChevronRight as IconRight,
+//   FiChevronLeft as IconLeft,
+// } from "react-icons/fi";
+
+import { BiChevronRight as IconRight } from "react-icons/bi";
+import { BiChevronLeft as IconLeft } from "react-icons/bi";
+import { BiChevronUp as IconUp } from "react-icons/bi";
+import { BiChevronDown as IconDown } from "react-icons/bi";
 
 import { allMethods } from "../../../../store/methods";
 import { useStore } from "../../../../store/store";
@@ -41,7 +46,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
             !loading && navigate(allMethods[index - 1].title.toLowerCase())
           }
         >
-          <IconLeft size="48px" />
+          <IconLeft size="40px" />
         </button>
       </div>
     );
@@ -59,7 +64,7 @@ const ChangeMethod: React.FC<Props> = ({ direction, index }) => {
             !loading && navigate(allMethods[index + 1].title.toLowerCase())
           }
         >
-          <IconRight size="48px" />
+          <IconRight size="40px" />
         </button>
       </div>
     );

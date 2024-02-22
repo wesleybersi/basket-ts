@@ -46,10 +46,11 @@ const Picker: React.FC<Props> = ({ type, length, selection }) => {
           style={
             selection === index
               ? {
-                  background: length < 20 ? "var(--blue)" : "var(--red)",
+                  background: length < 20 ? "#ffffff" : "var(--red)",
                   color: length < 20 ? "var(--black)" : "white",
                   fontWeight: 600,
                   transform: "scale(1)",
+                  outline: "3px solid rgba(0, 0, 0, 0.025)",
                 }
               : {
                   background: "transparent",

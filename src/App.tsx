@@ -1,6 +1,6 @@
 import "./App.scss";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Aside from "./components/Aside/Aside";
 import Basket from "./components/Basket/Basket";
@@ -19,11 +19,24 @@ import { BsArrowDown as IconDown } from "react-icons/bs";
 import { allMethods } from "./store/methods";
 import { useStore } from "./store/store";
 import { useLocation } from "react-router-dom";
+import Header from "./components/Header/Header";
 
 function App() {
   const appRef = useRef<HTMLDivElement | null>(null);
-  const { set, settings, maxLimitMessage, disableInput } = useStore();
+  const {
+    set,
+    settings,
+    maxLimitMessage,
+    disableInput,
+    itemsToRemove,
+    itemsToAdd,
+    itemsToReplace,
+    processSuccesIndex,
+    itemsToProcess,
+  } = useStore();
   const location = useLocation();
+
+  const [audioContext] = useState<AudioContext>(new AudioContext());
 
   useEffect(() => {
     for (const method of allMethods) {
@@ -58,17 +71,61 @@ function App() {
       }}
       ref={appRef}
     >
-      {/* <h3
+      <div
         style={{
-          color: "#22222215",
+          color: "#22222288",
           position: "fixed",
           zIndex: "5000",
           top: "2rem",
           right: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
         }}
       >
-        DEV BRANCH
-      </h3> */}
+        {/* <div
+          style={{
+            width: 250,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <span>Add:</span>
+          <span>{itemsToAdd.map((item) => item + ", ")}</span>
+        </div>
+        <div
+          style={{
+            width: 250,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <span>Remove:</span>
+          <span>{itemsToRemove.map((item) => item + ", ")}</span>
+        </div>
+        <div
+          style={{
+            width: 250,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <span>Replace:</span>
+          <span>{itemsToReplace.map((item) => item.index + ", ")}</span>
+        </div> */}
+        <div
+          style={{
+            width: 250,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <span>Process:</span>
+          <span>{itemsToProcess.map((item) => item + ", ")}</span>
+        </div>
+        <h1>{processSuccesIndex}</h1>
+      </div>
+      {/* <Header /> */}
       <Aside />
 
       <main>

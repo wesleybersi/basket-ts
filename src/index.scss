@@ -14,7 +14,7 @@ body {
   --pageWidth: 1140px;
   --bg: #f9f5f2;
   --black: #1d202b;
-  --black: #5b7588;
+  --black: #3a4f5e;
   --grey: #647c8d;
   --light: #d9e1f5;
   --medium: #83b6b1;
@@ -26,7 +26,8 @@ body {
   --blue: #f8d44b;
 
   --selection: #ffa93b;
-  --selection: #15a8e285;
+
+  // --red: #fc6a6a;
   --selectionOpaque: #15a8e220;
   --deleteCount: #e5363685;
   --deleteCountOpaque: #e5363620;
@@ -34,13 +35,14 @@ body {
   --highlight: #f8d44b;
   --match: #85f84b;
   //   --blue: #e062a2;
-  --red: #fc6a6a;
 
   --yellow: #f8d44b;
   --lightblue: #82dfdf;
 
   --selection: white;
   --selection: #33c5ff;
+  --selection: #33c5ff;
+  --red: #33c5ff;
   --deleteCount: #ffffff00;
   --deleteCountOpaque: #ffa0a0f3;
   --target: #ff8e01;
@@ -52,7 +54,10 @@ body {
   --colorD: #00b8f4;
   --blue: #f8d44b;
 
-  font-family: "Poppins", Inter, Avenir, Helvetica, Arial, sans-serif;
+  --blue: #5353e6;
+  // --blue: #155eff;
+
+  font-family: "Quicksand", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -86,4 +91,26 @@ body {
 
 .b {
   font-weight: 600;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(125%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-125%);
+  }
 }

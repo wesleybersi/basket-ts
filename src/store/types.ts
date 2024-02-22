@@ -17,6 +17,7 @@ export interface Store {
   itemsToAdd: number[];
   itemsToProcess: number[];
   itemsToReplace: { index: number; replacement: Emoji }[];
+  processSuccesIndex: number;
   ascendAll: boolean;
   processedIndexes: Set<number>;
   triggerSplice: boolean;
@@ -24,7 +25,6 @@ export interface Store {
   spliceAdd: Emoji | null;
   hoverItem: Emoji | null;
   maxLimitMessage: boolean;
-
   changeBasket: (type: "Primary" | "Secondary", index: number) => void;
   addEmptyBasket: (type: "Primary" | "Secondary") => void;
   removeBasket: (index: number) => void;
@@ -43,8 +43,6 @@ export interface Store {
     includes: () => void;
     indexOf: () => void;
     lastIndexOf: () => void;
-    at: () => void;
-    with: () => void;
   };
   parameters: Map<number, ParameterState | null>;
   updateAllParameters: () => void;
@@ -71,14 +69,13 @@ export interface Store {
     animationDuration: number;
     soundEnabled: boolean;
   };
-  set: (
-    partial:
-      | Store
-      | Partial<Store>
-      | ((state: Store) => Store | Partial<Store>),
-    replace?: boolean | undefined
-  ) => void;
+  set: Setter;
 }
+
+export type Setter = (
+  partial: Store | Partial<Store> | ((state: Store) => Store | Partial<Store>),
+  replace?: boolean | undefined
+) => void;
 
 export type Parameters = [
   ParameterState | null,

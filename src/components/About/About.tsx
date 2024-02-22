@@ -73,7 +73,7 @@ const About: React.FC = (): JSX.Element => {
           </ul>
         </p>
         <p>
-          <span className="b">Future plans:</span>
+          <span className="b">Coming soon:</span>
           <ul
             style={{
               listStyleType: "disc",
@@ -82,8 +82,8 @@ const About: React.FC = (): JSX.Element => {
             }}
           >
             <li style={{ marginLeft: "2rem" }}>
-              Include most methods that require callback functions like every,
-              some, filter and map.
+              Include methods that require callback functions like every, some,
+              filter and map.
             </li>
           </ul>
         </p>

@@ -6,12 +6,21 @@
   align-items: flex-end;
   position: relative;
   margin: auto;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
+
   @media (max-width: 768px) {
     padding: 0 1rem;
   }
 
+  .up-down {
+    max-height: 6rem;
+    min-height: 6rem;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+  }
   .input-wrapper {
     display: flex;
     flex-direction: column;
@@ -20,79 +29,36 @@
     height: auto;
 
     justify-content: center;
-
+    // @include glass;
+    // padding: 1.5rem;
+    // border-radius: 2rem;
     .method {
       @include glass($blur: 28px);
       flex: 1;
-      max-height: 96px;
-      min-height: 96px;
-      transition: all 250ms ease;
+      max-height: 6rem;
+      min-height: 6rem;
+      // max-height: 128px;
+      // min-height: 128px;
+
+      // transition: all 250ms ease;
+      cursor: pointer;
       z-index: 2;
       display: flex;
       color: var(--black);
       padding: 1rem;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      // flex-direction: column;
       overflow: hidden;
       position: relative;
       border-radius: 1.5rem;
+
+      &:active {
+        cursor: auto;
+      }
       @media (max-width: 768px) {
-        max-height: 5rem;
-      }
-      .method-name {
-        font-size: 1.25rem;
-        font-weight: 400;
-
-        @media (max-width: 768px) {
-          font-size: 1rem;
-        }
-      }
-      .method-icon {
-        height: 100%;
-        aspect-ratio: 1;
-        border-radius: 0.5rem;
-        display: none;
-        @media (max-width: 768px) {
-          font-size: 1rem;
-        }
-      }
-
-      .method-btn {
-        position: absolute;
-        right: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        border: none;
-        height: calc(100% - 1.5rem);
-
-        aspect-ratio: 1;
-        background: var(--blue);
-        // background: linear-gradient(135deg, #6952ff, #82cfff);
-
-        // color: var(--black);
-        // background-color: transparent;
-        // color: white !important;
-        font-weight: 500;
-        display: grid;
-        place-content: center;
-        border-radius: 1rem;
-
-        width: 6rem;
-        box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.025);
-        border: 4px solid rgba(255, 255, 255, 0.4);
-
-        backdrop-filter: blur(4px);
-        &:hover {
-          color: white;
-        }
-        svg {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          transition: all 50ms ease;
-        }
+        max-height: 4.5rem;
+        min-height: 4.5rem;
       }
     }
   }
@@ -100,5 +66,14 @@
     display: flex;
     gap: calc(0.75rem);
     // overflow: hidden;
+  }
+  .method-active {
+    border: 4px solid rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25) !important;
+    border-right: 2px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.1) !important;
+    svg {
+      scale: 0.975;
+    }
   }
 }
