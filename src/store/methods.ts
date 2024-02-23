@@ -16,7 +16,6 @@ import {
   TbNumbers as IconIndexOf,
 } from "react-icons/tb";
 import { IoIosSwap as IconReverse } from "react-icons/io";
-import { TbZoomReplace as IconWith } from "react-icons/tb";
 import { TbSlice as IconSlice } from "react-icons/tb";
 
 export interface IMethod {

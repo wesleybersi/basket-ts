@@ -14,12 +14,12 @@ import Circles from "./components/Circles/Circles";
 import Tooltip from "./components/Tooltip/Tooltip";
 import Settings from "./components/Settings/Settings";
 
-import { FcSettings as IconSettings } from "react-icons/fc";
-import { BsArrowDown as IconDown } from "react-icons/bs";
+// import { FcSettings as IconSettings } from "react-icons/fc";
+// import { BsArrowDown as IconDown } from "react-icons/bs";
 import { allMethods } from "./store/methods";
 import { useStore } from "./store/store";
 import { useLocation } from "react-router-dom";
-import Header from "./components/Header/Header";
+// import Header from "./components/Header/Header";
 
 function App() {
   const appRef = useRef<HTMLDivElement | null>(null);
