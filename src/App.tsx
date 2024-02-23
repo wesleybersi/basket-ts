@@ -113,7 +113,7 @@ function App() {
           <span>Replace:</span>
           <span>{itemsToReplace.map((item) => item.index + ", ")}</span>
         </div> */}
-        <div
+        {/* <div
           style={{
             width: 250,
             display: "flex",
@@ -123,7 +123,7 @@ function App() {
           <span>Process:</span>
           <span>{itemsToProcess.map((item) => item + ", ")}</span>
         </div>
-        <h1>{processSuccesIndex}</h1>
+        <h1>{processSuccesIndex}</h1> */}
       </div>
       {/* <Header /> */}
       <Aside />
